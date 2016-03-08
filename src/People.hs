@@ -1,8 +1,21 @@
+{-# LANGUAGE NamedFieldPuns #-}
+
 module People where
 
-data Person = Person { name :: String
-                     , maxBooks :: Int
+type Name = String
+type MaxBooks = Int
+
+data Person = Person { name :: Name
+                     , maxBooks :: MaxBooks
                      } deriving Show
 
-addPerson :: [Person] -> Person -> [Person]
-addPerson people person = people ++ [person]
+type People = [Person]
+
+addPerson :: People -> Person -> People
+addPerson xs x = xs ++ [x]
+
+getPerson :: Name -> People -> Maybe Person
+getPerson key xs = foldr (\Person {name, maxBooks} acc -> if key == name
+  then Just Person {name, maxBooks}
+  else acc)
+  Nothing xs
