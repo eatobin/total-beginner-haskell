@@ -23,6 +23,12 @@ getPerson key xs = foldr (\Person {name, maxBooks} acc -> if key == name
   Nothing xs
 
 
+getPerson' :: Name -> People -> Maybe Person
+getPerson' _ [] = Nothing
+getPerson' key (Person {name == key, maxBooks}:_) = Just Person {name, maxBooks}
+getPerson' key (_:xs) = getPerson' key xs
+
+
 -- Notes:
 
 x = fromMaybe "Whoops" (Just "Okay")
