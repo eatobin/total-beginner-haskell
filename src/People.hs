@@ -24,10 +24,10 @@ getPerson key xs = foldr (\Person {name, maxBooks} acc -> if key == name
 
 
 getPerson' :: Name -> People -> Maybe Person
-getPerson' _ [] = Nothing
-getPerson' key (Person {name == key, maxBooks}:_) = Just Person {name, maxBooks}
-getPerson' key (_:xs) = getPerson' key xs
-
+--getPerson' _ [] = Nothing
+getPerson' ket ((Person {name = ket, maxBooks}):_) = Person {name = ket, maxBooks}
+--isClientMaleR IndividualR {person = PersonR {genderR = Male}} = True
+--getPerson' key (_:xs) = getPerson' key xs
 
 -- Notes:
 
@@ -51,3 +51,5 @@ test = isJust (Just 3)
 test2 = if isJust (Just 6) then "Good" else "Bad"
 test3 = if isJust choice then "Good" else "Bad"
 test4 = if isJust noOne then "Good" else "Bad"
+
+--choice' = getPerson' "Brenda" fam
