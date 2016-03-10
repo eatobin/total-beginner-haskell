@@ -23,11 +23,11 @@ getPerson key xs = foldr (\Person {name, maxBooks} acc -> if key == name
   Nothing xs
 
 
-getPerson' :: Name -> People -> Maybe Person
---getPerson' _ [] = Nothing
-getPerson' ket ((Person {name = ket, maxBooks}):_) = Person {name = ket, maxBooks}
+getPerson' :: People -> Maybe Person
+getPerson' [] = Nothing
+getPerson' (Person {name = "Eric", maxBooks}:_) = Just Person {name = "Eric", maxBooks}
 --isClientMaleR IndividualR {person = PersonR {genderR = Male}} = True
---getPerson' key (_:xs) = getPerson' key xs
+getPerson' (_:xs) = getPerson' xs
 
 -- Notes:
 
