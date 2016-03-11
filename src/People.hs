@@ -1,4 +1,5 @@
 {-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE ViewPatterns #-}
 
 module People where
 
@@ -23,11 +24,19 @@ getPerson key xs = foldr (\Person {name, maxBooks} acc -> if key == name
   Nothing xs
 
 
-getPerson' :: People -> Maybe Person
-getPerson' [] = Nothing
-getPerson' (Person {name = "Eric", maxBooks}:_) = Just Person {name = "Eric", maxBooks}
+-- getPerson' :: People -> Maybe Person
+-- getPerson' [] = Nothing
+-- getPerson' (Person {name = "Brenda", maxBooks}:_) = Just Person {name = "Eric", maxBooks}
+-- --isClientMaleR IndividualR {person = PersonR {genderR = Male}} = True
+-- getPerson' (_:xs) = getPerson' xs
+
+getPerson' :: Name -> People -> Maybe Person
+getPerson' _ [] = Nothing
+getPerson' v (Person {name = "Brenda", maxBooks}:_) = Just Person {name = v, maxBooks}
 --isClientMaleR IndividualR {person = PersonR {genderR = Male}} = True
-getPerson' (_:xs) = getPerson' xs
+getPerson' v (_:xs) = getPerson' v xs
+
+-- tester v (name -> v) = True
 
 -- Notes:
 
