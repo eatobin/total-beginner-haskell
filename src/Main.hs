@@ -2,7 +2,8 @@ module Main where
 
 --import People
 import Person
---import Testing
+import FindIdentifier_Test
+import Testing
 
 main :: IO ()
 main = do
