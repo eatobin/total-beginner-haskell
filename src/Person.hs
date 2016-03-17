@@ -24,4 +24,4 @@ setMaxBooks m p@(Person {maxBooks}) =
   p {maxBooks = m}
 
 personToString :: Person -> String
-personToString p = getName p ++ " (" ++ show (getMaxBooks p) ++ " books)" 
+personToString p = getName p ++ " (" ++ show (getMaxBooks p) ++ " books)"
