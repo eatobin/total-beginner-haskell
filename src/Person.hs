@@ -13,14 +13,14 @@ getName :: Person -> Name
 getName Person {name} = name
 
 setName :: Name -> Person -> Person
-setName n p@(Person {name}) =
+setName n p@Person {name} =
   p {name = n}
 
 getMaxBooks :: Person -> MaxBooks
 getMaxBooks Person {maxBooks} = maxBooks
 
 setMaxBooks :: MaxBooks -> Person -> Person
-setMaxBooks m p@(Person {maxBooks}) =
+setMaxBooks m p@Person {maxBooks} =
   p {maxBooks = m}
 
 personToString :: Person -> String
