@@ -7,7 +7,7 @@ type MaxBooks = Int
 
 data Person = Person { name :: Name
                      , maxBooks :: MaxBooks
-                     } deriving Show
+                     } deriving (Show, Eq)
 
 getName :: Person -> Name
 getName Person {name} = name
