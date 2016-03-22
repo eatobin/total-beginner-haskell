@@ -19,5 +19,10 @@ testGetMaxBooks = (~=?)
   77
   (getMaxBooks (Person "Me" 77))
 
+testSetMaxBooks = (~=?)
+  Person {name = "Sam", maxBooks = 7}
+  (setMaxBooks 7 (Person "Sam" 77))
+
 runTests = runTestTT $ TestList [ testMakePerson, testGetName
-                                , testSetName, testGetMaxBooks ]
+                                , testSetName, testGetMaxBooks
+                                , testSetMaxBooks ]
