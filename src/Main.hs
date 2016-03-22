@@ -1,7 +1,8 @@
---module Main where
+module Main where
 
---import Person
---import Person_Test
+import Person
+import Person_Test
+import Library
 
 --main :: IO ()
 --main = do
@@ -9,12 +10,13 @@
 
 
 
-module Main where
+--module Main where
 import Control.Monad
 import Control.Concurrent
 import Control.Concurrent.STM
 import Person
 
+main :: IO ()
 main = do shared <- atomically (newTVar (makePerson "Wowzer" 5))
           --before <- atomRead shared
           before <- atomically (readTVar shared)
