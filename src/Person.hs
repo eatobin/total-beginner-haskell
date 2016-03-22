@@ -9,19 +9,20 @@ data Person = Person { name :: Name
                      , maxBooks :: MaxBooks
                      } deriving (Show, Eq)
 
+makePerson :: Name -> MaxBooks -> Person
+makePerson n mb = Person n mb
+
 getName :: Person -> Name
 getName Person {name} = name
 
 setName :: Name -> Person -> Person
-setName n p@Person {name} =
-  p {name = n}
+setName n p@Person {name} = p {name = n}
 
 getMaxBooks :: Person -> MaxBooks
 getMaxBooks Person {maxBooks} = maxBooks
 
 setMaxBooks :: MaxBooks -> Person -> Person
-setMaxBooks m p@Person {maxBooks} =
-  p {maxBooks = m}
+setMaxBooks m p@Person {maxBooks} = p {maxBooks = m}
 
 personToString :: Person -> String
 personToString p = getName p ++ " (" ++ show (getMaxBooks p) ++ " books)"
