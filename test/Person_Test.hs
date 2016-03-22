@@ -23,6 +23,10 @@ testSetMaxBooks = (~=?)
   Person {name = "Sam", maxBooks = 7}
   (setMaxBooks 7 (Person "Sam" 77))
 
+testPersonToString = (~=?)
+  "Tester (99 books)"
+  (personToString (Person "Tester" 99))
+
 runTests = runTestTT $ TestList [ testMakePerson, testGetName
                                 , testSetName, testGetMaxBooks
-                                , testSetMaxBooks ]
+                                , testSetMaxBooks, testPersonToString ]
