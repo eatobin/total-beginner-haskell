@@ -16,13 +16,14 @@ import Control.Concurrent.STM
 import Person
 
 main = do shared <- atomically (newTVar (makePerson "Wowzer" 5))
-          before <- atomRead shared
+          --before <- atomRead shared
+          before <- atomically (readTVar shared)
           putStrLn $ "Before: " ++ show before
           --putStrLn (show (setName "Newish" before))
           --putStrLn $ "Next: " ++ show next
           --appV (+ 22) shared
-          appV (setName "Changed") shared
-          appV (setMaxBooks 88) shared
+          --appV (setName "Changed") shared
+          --appV (setMaxBooks 88) shared
           --dispVar shared
           --appV (* 3) shared
           --after <- atomRead shared
@@ -33,7 +34,8 @@ main = do shared <- atomically (newTVar (makePerson "Wowzer" 5))
           --atomically (writeTVar shared 59)
           --appV (+22) shared
           --atomically (readTVar shared >>= \j -> writeTVar shared (j + 100))
-          --atomically (readTVar shared >>= \p -> writeTVar shared (setName "Newish" p))
+          atomically (readTVar shared >>= \p -> writeTVar shared (setName "Changed" p))
+          atomically (readTVar shared >>= \p -> writeTVar shared (setMaxBooks 88 p))
           atomically (readTVar shared) >>= print
           putStrLn "Bye!"
 
