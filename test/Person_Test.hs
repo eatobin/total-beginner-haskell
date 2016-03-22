@@ -15,4 +15,9 @@ testSetName = (~=?)
   Person {name = "Sam", maxBooks = 7}
   (setName "Sam" (Person "Jack" 7))
 
-runTests = runTestTT $ TestList [testMakePerson, testGetName, testSetName]
+testGetMaxBooks = (~=?)
+  77
+  (getMaxBooks (Person "Me" 77))
+
+runTests = runTestTT $ TestList [ testMakePerson, testGetName
+                                , testSetName, testGetMaxBooks ]

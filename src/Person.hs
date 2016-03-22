@@ -10,7 +10,7 @@ data Person = Person { name :: Name
                      } deriving (Show, Eq)
 
 makePerson :: Name -> MaxBooks -> Person
-makePerson n mb = Person n mb
+makePerson = Person
 
 getName :: Person -> Name
 getName Person {name} = name
