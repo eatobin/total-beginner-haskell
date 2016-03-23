@@ -15,7 +15,7 @@ addBorrower :: Person -> Borrowers -> Borrowers
 addBorrower p b = b ++ [p]
 
 getBorrower :: Name -> Borrowers -> Borrowers
-getBorrower n b = [p | p <- b, getName p == n]
+getBorrower n b = [ p | p <- b, getName p == n ]
 --getBorrower n b = filter (\p -> getName p == n) b
 
 
