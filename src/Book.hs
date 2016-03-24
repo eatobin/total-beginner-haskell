@@ -9,7 +9,7 @@ type Author = String
 
 data Book = Book { title :: Title
                  , author :: Author
-                 , borrower :: Person
+                 , borrower :: Maybe Person
                  } deriving (Show, Eq)
 
 bk = Book {title = "Title", author = "Author", borrower = Person {name = "Three", maxBooks = 3}}
