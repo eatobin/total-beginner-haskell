@@ -1,52 +1,59 @@
-package totalbeginner;
+{-# LANGUAGE NamedFieldPuns #-}
 
-/**
- * Created by IntelliJ IDEA.
- * User: Eric
- * Date: Jun 9, 2010
- * Time: 3:34:49 PM
- */
-public class Book {
-    String title;
-    String author;
-    Person person;
+module Book where
 
-    public Book(String string) {
-        this.title = string;
-        this.author = "unknown author";
-    }
+import Person
 
-    public String getAuthor() {
-        return author;
-    }
+type Title = String
+type Author = String
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+data Book = Book { title :: Title
+                 , author :: Author
+                 , borrower :: Person
+                 } deriving (Show, Eq)
 
-    public String getTitle() {
-        return title;
-    }
+bk = Book {title = "Title", author = "Author", borrower = Person {name = "Three", maxBooks = 3}}
+bks = [Book {title = "Title2", author = "Author2", borrower = Person {name = "ThreeX", maxBooks = 33}}
+      ,Book {title = "Title3", author = "Author3", borrower = Person {name = "ThreeY", maxBooks = 39}}]
 
-    public void setPerson(Person p2) {
-        this.person = p2;
-    }
+makeBook :: Title -> Author -> Person -> Book
+makeBook = Book
 
-    public Person getPerson() {
-        return this.person;
-    }
+getTitle :: Book -> Title
+getTitle Book {title} = title
 
-    public String toString() {
-        String available;
+-- setTitle :: Title -> Book -> Book
+-- setTitle t b@Book {title} = b {title = t}
+--
+-- getAuthor :: Book -> Author
+-- getAuthor Book {author} = author
+--
+-- setAuthor :: Author -> Book -> Book
+-- setAuthor a b@Book {author} = b {author = a}
+--
+-- getBorrower :: Book -> Person
+-- getBorrower Book {borrower} = borrower
 
-        if (this.getPerson() == null) {
-            available = "Available";
-        } else {
-            available = "Checked out to " +
-                    this.getPerson().getName();
-        }
 
-        return this.getTitle() + " by " + this.getAuthor() +
-                "; " + available;
-    }
-}
+--     public void setPerson(Person p2) {
+--         this.person = p2;
+--     }
+--
+--     public Person getPerson() {
+--         return this.person;
+--     }
+--
+--     public String toString() {
+--         String available;
+--
+--         if (this.getPerson() == null) {
+--             available = "Available";
+--         } else {
+--             available = "Checked out to " +
+--                     this.getPerson().getName();
+--         }
+--
+--         return this.getTitle() + " by " + this.getAuthor() +
+--                 "; " + available;
+--     }
+-- }
