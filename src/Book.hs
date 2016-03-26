@@ -2,6 +2,7 @@
 
 module Book where
 
+import Data.Maybe
 import Person
 
 type Title = String
@@ -12,48 +13,41 @@ data Book = Book { title :: Title
                  , borrower :: Maybe Person
                  } deriving (Show, Eq)
 
-bk = Book {title = "Title", author = "Author", borrower = Person {name = "Three", maxBooks = 3}}
-bks = [Book {title = "Title2", author = "Author2", borrower = Person {name = "ThreeX", maxBooks = 33}}
-      ,Book {title = "Title3", author = "Author3", borrower = Person {name = "ThreeY", maxBooks = 39}}]
+bk1 = makeBook "Title" "Author" (Just (Person "Borrower" 66))
+bk2 = makeBook "Title22" "Author22" (Just (Person "Borrower22" 666))
+bk = Book {title = "Title9", author = "Author8", borrower = Nothing}
+bks = [Book {title = "Title2", author = "Author2", borrower = Just Person {name = "ThreeX", maxBooks = 33}}
+      ,Book {title = "Title3", author = "Author3", borrower = Just Person {name = "ThreeY", maxBooks = 39}}]
 
-makeBook :: Title -> Author -> Person -> Book
+makeBook :: Title -> Author -> Maybe Person -> Book
 makeBook = Book
 
 getTitle :: Book -> Title
 getTitle Book {title} = title
 
--- setTitle :: Title -> Book -> Book
--- setTitle t b@Book {title} = b {title = t}
---
--- getAuthor :: Book -> Author
--- getAuthor Book {author} = author
---
--- setAuthor :: Author -> Book -> Book
--- setAuthor a b@Book {author} = b {author = a}
---
--- getBorrower :: Book -> Person
--- getBorrower Book {borrower} = borrower
+setTitle :: Title -> Book -> Book
+setTitle t bk@Book {title} = bk {title = t}
 
+getAuthor :: Book -> Author
+getAuthor Book {author} = author
 
---     public void setPerson(Person p2) {
---         this.person = p2;
---     }
---
---     public Person getPerson() {
---         return this.person;
---     }
---
---     public String toString() {
---         String available;
---
---         if (this.getPerson() == null) {
---             available = "Available";
---         } else {
---             available = "Checked out to " +
---                     this.getPerson().getName();
---         }
---
---         return this.getTitle() + " by " + this.getAuthor() +
---                 "; " + available;
---     }
--- }
+setAuthor :: Author -> Book -> Book
+setAuthor a bk@Book {author} = bk {author = a}
+
+getBorrower :: Book -> Maybe Person
+getBorrower Book {borrower} = borrower
+
+setBorrower :: Maybe Person -> Book -> Book
+setBorrower br bk@Book {borrower} = bk {borrower = br}
+
+availableString :: Book -> String
+availableString bk
+  | isNothing br = "Available"
+  | otherwise = "Checked out to " ++ getName (fromJust br)
+  where
+    br = getBorrower bk
+
+bookToString :: Book -> String
+bookToString bk = getTitle bk ++
+  " by " ++ getAuthor bk ++
+  "; " ++ availableString bk

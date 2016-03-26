@@ -15,17 +15,17 @@ b = [Person "One" 1, Person "Two" 2]
 p = Person "Three" 3
 
 addBorrower :: Person -> Borrowers -> Borrowers
-addBorrower p b = b ++ [p]
+addBorrower p brs = brs ++ [p]
 
-getBorrower :: Name -> Borrowers -> Person
-getBorrower n b = head $ [ p | p <- b, getName p == n ]
--- getBorrower n b = head $ filter (\p -> getName p == n) b
+findBorrower :: Name -> Borrowers -> Person
+findBorrower n brs = head [ b | b <- brs, getName b == n ]
+-- getBorrower n brs = head $ filter (\b -> getName b == n) brs
 
 addBook :: Book -> Books -> Books
-addBook b bs = bs ++ [b]
+addBook bk bks = bks ++ [bk]
 
-getBook :: Title -> Books -> Book
-getBook t bs = head $ [ b | b <- bs, getTitle b == t ]
+findBook :: Title -> Books -> Book
+findBook t bks = head [ bk | bk <- bks, getTitle bk == t ]
 
 library :: IO ()
 library = do shared <- atomically (newTVar (addBorrower (Person "First" 1) [Person "Zero" 0]))
@@ -33,7 +33,7 @@ library = do shared <- atomically (newTVar (addBorrower (Person "First" 1) [Pers
              putStrLn $ "Before: " ++ show before
              --atomically (readTVar shared >>= \p -> writeTVar shared (getBorrower "First" p))
              --me <- atomically (readTVar shared >>= return \p -> (getBorrower "First" p))
-             atomically (readTVar shared) >>= \p -> print (getBorrower "First" p)
+             atomically (readTVar shared) >>= \p -> print (findBorrower "First" p)
              --boss2 <- getBorrower "First" boss
              --atomically (readTVar shared) >>= print
              --putStrLn (show boss)
