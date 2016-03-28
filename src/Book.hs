@@ -15,9 +15,13 @@ data Book = Book { title :: Title
 
 bk1 = makeBook "Title" "Author" (Just (Person "Borrower" 66))
 bk2 = makeBook "Title22" "Author22" (Just (Person "Borrower22" 666))
-bk = Book {title = "Title9", author = "Author8", borrower = Nothing}
-bks = [Book {title = "Title2", author = "Author2", borrower = Just Person {name = "ThreeX", maxBooks = 33}}
-      ,Book {title = "Title3", author = "Author3", borrower = Just Person {name = "ThreeY", maxBooks = 39}}]
+bk = Book { title = "Title9", author = "Author8", borrower = Nothing }
+bks = [ Book { title = "Title2"
+             , author = "Author2"
+             , borrower = Just Person { name = "ThreeX", maxBooks = 33 } }
+      , Book { title = "Title3"
+             , author = "Author3"
+             , borrower = Just Person { name = "ThreeY", maxBooks = 39 } } ]
 
 makeBook :: Title -> Author -> Maybe Person -> Book
 makeBook = Book
