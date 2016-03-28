@@ -8,24 +8,21 @@ import Control.Concurrent.STM
 import Person
 import Book
 
-type Borrowers = [Person]
-type Books = [Book]
-
-b = [Person "One" 1, Person "Two" 2]
+ps= [Person "One" 1, Person "Two" 2]
 p = Person "Three" 3
 
-addBorrower :: Person -> Borrowers -> Borrowers
-addBorrower p brs = brs ++ [p]
+addBorrower :: Person -> [Person] -> [Person]
+addBorrower p ps = ps ++ [p]
 
-findBorrower :: Name -> Borrowers -> Person
-findBorrower n brs = head [ b | b <- brs, getName b == n ]
--- getBorrower n brs = head $ filter (\b -> getName b == n) brs
+findBorrower :: Name -> [Person] -> Person
+findBorrower n ps = head [ p | p <- ps, getName p == n ]
+-- getBorrower n ps = head $ filter (\p -> getName p == n) ps
 
-addBook :: Book -> Books -> Books
-addBook bk bks = bks ++ [bk]
+addBook :: Book -> [Book] -> [Book]
+addBook b bs = bs ++ [b]
 
-findBook :: Title -> Books -> Book
-findBook t bks = head [ bk | bk <- bks, getTitle bk == t ]
+findBook :: Title -> [Book] -> Book
+findBook t bs = head [ b | b <- bs, getTitle b == t ]
 
 library :: IO ()
 library = do shared <- atomically (newTVar (addBorrower (Person "First" 1) [Person "Zero" 0]))
