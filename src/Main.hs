@@ -6,6 +6,7 @@ import Book
 import Book_Test
 import Library
 import Library_Test
+import All_Tests
 
 --main :: IO ()
 --main = do

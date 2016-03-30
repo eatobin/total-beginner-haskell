@@ -36,6 +36,15 @@ testGetBorrowerSomeone = (~=?)
   (Just Person { name = "Borrower1", maxBooks = 1 })
   (getBorrower bkb1)
 
+testSetBorrowerSomeone = (~=?)
+  (Book {title = "Title2", author = "Author2",
+         borrower = Just (Person {name = "BorrowerNew", maxBooks = 111})})
+  (setBorrower (Just Person { name = "BorrowerNew", maxBooks = 111 }) bkb2)
+
+testSetBorrowerNothing = (~=?)
+  (Book {title = "Title2", author = "Author2", borrower = Nothing})
+  (setBorrower Nothing bkb2)
+
 --testSetAuthor = (~=?)
 --  Book { title = "Great Expectations"
 --             , author = "unknown author"
@@ -59,7 +68,10 @@ testGetBorrowerSomeone = (~=?)
 --  "Tester (99 books)"
 --  (personToString (Person "Tester" 99))
 --
-runBookTests = runTestTT $ TestList [ testMakeBookNothing, testMakeBookSomeone
-                                    , testGetTitle, testGetAuthor
-                                    , testGetBorrowerNothing
-                                    , testGetBorrowerSomeone ]
+bookTests = TestList [ testMakeBookNothing, testMakeBookSomeone
+                     , testGetTitle, testGetAuthor
+                     , testGetBorrowerNothing
+                     , testGetBorrowerSomeone, testSetBorrowerSomeone
+                     , testSetBorrowerNothing ]
+
+runBookTests = runTestTT $ TestList [ bookTests ]
