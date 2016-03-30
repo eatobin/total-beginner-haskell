@@ -29,9 +29,6 @@ makeBook = Book
 getTitle :: Book -> Title
 getTitle Book {title} = title
 
-setTitle :: Title -> Book -> Book
-setTitle t bk@Book {title} = bk {title = t}
-
 getAuthor :: Book -> Author
 getAuthor Book {author} = author
 
