@@ -4,17 +4,37 @@ import Book
 import Person
 import Test.HUnit
 
-testMakeBook1 = (~=?)
-  Book { title = "Great Expectations", author = "unknown author", borrower = Nothing }
-  (makeBook "Great Expectations" "unknown author" Nothing)
+bk1 = Book { title = "Title1"
+             , author = "Author1"
+             , borrower = Just Person { name = "Borrower1", maxBooks = 1 } }
 
-testMakeBook2 = (~=?)
-  Book { title = "Great Expectations", author = "unknown author", borrower = Just Person { name = "Elvis", maxBooks = 22 } }
-  (makeBook "Great Expectations" "unknown author" (Just(Person "Elvis" 22)))
---testGetName = (~=?)
---  "Jack"
---  (getName (Person "Jack" 7))
---
+bk2 = Book { title = "Title2"
+             , author = "Author2"
+             , borrower = Nothing }
+
+testMakeBookNothing = (~=?)
+  bk2
+  (makeBook "Title2" "Author2" Nothing)
+
+testMakeBookSomeone = (~=?)
+  bk1
+  (makeBook "Title1" "Author1" (Just(Person "Borrower1" 1)))
+
+testGetTitle = (~=?)
+  "Title1"
+  (getTitle bk1)
+
+testGetAuthor = (~=?)
+  "Author2"
+  (getAuthor bk2)
+
+--testSetAuthor = (~=?)
+--  Book { title = "Great Expectations"
+--             , author = "unknown author"
+--             , borrower = Just Person { name = "Elvis", maxBooks = 22 } }
+--  (setAuthor Book { title = "Great Expectations"
+--             , author = "unknown author"
+--             , borrower = Just Person { name = "Elvis", maxBooks = 22 } })
 --testSetName = (~=?)
 --  Person {name = "Sam", maxBooks = 7}
 --  (setName "Sam" (Person "Jack" 7))
@@ -31,4 +51,5 @@ testMakeBook2 = (~=?)
 --  "Tester (99 books)"
 --  (personToString (Person "Tester" 99))
 --
-runBookTests = runTestTT $ TestList [ testMakeBook1, testMakeBook2 ]
+runBookTests = runTestTT $ TestList [ testMakeBookNothing, testMakeBookSomeone
+                                    , testGetTitle, testGetAuthor ]
