@@ -4,29 +4,38 @@ import Book
 import Person
 import Test.HUnit
 
-bk1 = Book { title = "Title1"
+bkb1 = Book { title = "Title1"
              , author = "Author1"
              , borrower = Just Person { name = "Borrower1", maxBooks = 1 } }
 
-bk2 = Book { title = "Title2"
+bkb2 = Book { title = "Title2"
              , author = "Author2"
              , borrower = Nothing }
 
 testMakeBookNothing = (~=?)
-  bk2
+  bkb2
   (makeBook "Title2" "Author2" Nothing)
 
 testMakeBookSomeone = (~=?)
-  bk1
+  bkb1
   (makeBook "Title1" "Author1" (Just(Person "Borrower1" 1)))
 
 testGetTitle = (~=?)
   "Title1"
-  (getTitle bk1)
+  (getTitle bkb1)
 
 testGetAuthor = (~=?)
   "Author2"
-  (getAuthor bk2)
+  (getAuthor bkb2)
+
+testGetBorrowerNothing = (~=?)
+  --(Just Person { name = "Borrower1", maxBooks = 1 })
+  Nothing
+  (getBorrower bkb2)
+
+testGetBorrowerSomeone = (~=?)
+  (Just Person { name = "Borrower1", maxBooks = 1 })
+  (getBorrower bkb1)
 
 --testSetAuthor = (~=?)
 --  Book { title = "Great Expectations"
@@ -52,4 +61,6 @@ testGetAuthor = (~=?)
 --  (personToString (Person "Tester" 99))
 --
 runBookTests = runTestTT $ TestList [ testMakeBookNothing, testMakeBookSomeone
-                                    , testGetTitle, testGetAuthor ]
+                                    , testGetTitle, testGetAuthor
+                                    , testGetBorrowerNothing
+                                    , testGetBorrowerSomeone ]
