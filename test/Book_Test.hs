@@ -45,33 +45,19 @@ testSetBorrowerNothing = (~=?)
   (Book {title = "Title2", author = "Author2", borrower = Nothing})
   (setBorrower Nothing bkb2)
 
---testSetAuthor = (~=?)
---  Book { title = "Great Expectations"
---             , author = "unknown author"
---             , borrower = Just Person { name = "Elvis", maxBooks = 22 } }
---  (setAuthor Book { title = "Great Expectations"
---             , author = "unknown author"
---             , borrower = Just Person { name = "Elvis", maxBooks = 22 } })
---testSetName = (~=?)
---  Person {name = "Sam", maxBooks = 7}
---  (setName "Sam" (Person "Jack" 7))
---
---testGetMaxBooks = (~=?)
---  77
---  (getMaxBooks (Person "Me" 77))
---
---testSetMaxBooks = (~=?)
---  Person {name = "Sam", maxBooks = 7}
---  (setMaxBooks 7 (Person "Sam" 77))
---
---testPersonToString = (~=?)
---  "Tester (99 books)"
---  (personToString (Person "Tester" 99))
---
+testBookToStringSomeone = (~=?)
+  "Title1 by Author1; Checked out to Borrower1"
+  (bookToString bkb1)
+
+testBookToStringNothing = (~=?)
+  "Title2 by Author2; Available"
+  (bookToString bkb2)
+
 bookTests = TestList [ testMakeBookNothing, testMakeBookSomeone
                      , testGetTitle, testGetAuthor
                      , testGetBorrowerNothing
                      , testGetBorrowerSomeone, testSetBorrowerSomeone
-                     , testSetBorrowerNothing ]
+                     , testSetBorrowerNothing, testBookToStringSomeone
+                     , testBookToStringNothing ]
 
 runBookTests = runTestTT $ TestList [ bookTests ]
