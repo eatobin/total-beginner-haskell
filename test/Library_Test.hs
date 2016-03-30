@@ -6,19 +6,27 @@ import Control.Monad
 import Control.Concurrent
 import Control.Concurrent.STM
 import Person
+import Person_Test
 import Book
+import Book_Test
+import Library
 import Test.HUnit
 
-bkl1 = Book { title = "Title1"
-             , author = "Author1"
-             , borrower = Just Person { name = "Borrower1", maxBooks = 1 } }
+p2 = Person {name = "Person2", maxBooks = 2}
+p3 = Person {name = "Person3", maxBooks = 3}
+ps1 = [p1, p2 ]
+ps2 = [p1, p2, p3 ]
 
-bkl2 = Book { title = "Title2"
-             , author = "Author2"
-             , borrower = Nothing }
-
-bkl3 = Book { title = "Title3"
+bk3 = Book { title = "Title3"
              , author = "Author3"
              , borrower = Just Person { name = "Borrower3", maxBooks = 3 } }
+bks1 = [ bk1, bk2 ]
+bks2 = [ bk1, bk2, bk3 ]
 
-bks = [ bkl1, bkl2 ]
+testaddBorrower = (~=?)
+  ps2
+  (addBorrower p3 ps1)
+
+libraryTests = TestList [ testaddBorrower ]
+
+runLibraryTests = runTestTT $ TestList [ libraryTests ]

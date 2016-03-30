@@ -8,9 +8,6 @@ import Control.Concurrent.STM
 import Person
 import Book
 
-ps= [Person "One" 1, Person "Two" 2]
-p = Person "Three" 3
-
 addBorrower :: Person -> [Person] -> [Person]
 addBorrower p ps = ps ++ [p]
 

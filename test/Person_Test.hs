@@ -3,31 +3,31 @@ module Person_Test where
 import Person
 import Test.HUnit
 
-p = Person {name = "Sam", maxBooks = 7}
+p1 = Person {name = "Person1", maxBooks = 1}
 
 testMakePerson = (~=?)
-  p
-  (makePerson "Sam" 7)
+  p1
+  (makePerson "Person1" 1)
 
 testGetName = (~=?)
-  "Sam"
-  (getName p)
+  "Person1"
+  (getName p1)
 
 testSetName = (~=?)
-  Person {name = "Sam", maxBooks = 7}
-  (setName "Sam" (Person "Jack" 7))
+  Person {name = "Person1", maxBooks = 1}
+  (setName "Person1" (Person "Jack" 1))
 
 testGetMaxBooks = (~=?)
-  7
-  (getMaxBooks p)
+  1
+  (getMaxBooks p1)
 
 testSetMaxBooks = (~=?)
-  Person {name = "Sam", maxBooks = 77}
-  (setMaxBooks 77 p)
+  Person {name = "Person1", maxBooks = 11}
+  (setMaxBooks 11 p1)
 
 testPersonToString = (~=?)
-  "Sam (7 books)"
-  (personToString p)
+  "Person1 (1 books)"
+  (personToString p1)
 
 personTests = TestList [ testMakePerson, testGetName
                        , testSetName, testGetMaxBooks

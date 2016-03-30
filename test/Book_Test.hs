@@ -4,54 +4,54 @@ import Book
 import Person
 import Test.HUnit
 
-bkb1 = Book { title = "Title1"
+bk1 = Book { title = "Title1"
              , author = "Author1"
              , borrower = Just Person { name = "Borrower1", maxBooks = 1 } }
 
-bkb2 = Book { title = "Title2"
+bk2 = Book { title = "Title2"
              , author = "Author2"
              , borrower = Nothing }
 
 testMakeBookNothing = (~=?)
-  bkb2
+  bk2
   (makeBook "Title2" "Author2" Nothing)
 
 testMakeBookSomeone = (~=?)
-  bkb1
+  bk1
   (makeBook "Title1" "Author1" (Just(Person "Borrower1" 1)))
 
 testGetTitle = (~=?)
   "Title1"
-  (getTitle bkb1)
+  (getTitle bk1)
 
 testGetAuthor = (~=?)
   "Author2"
-  (getAuthor bkb2)
+  (getAuthor bk2)
 
 testGetBorrowerNothing = (~=?)
   Nothing
-  (getBorrower bkb2)
+  (getBorrower bk2)
 
 testGetBorrowerSomeone = (~=?)
   (Just Person { name = "Borrower1", maxBooks = 1 })
-  (getBorrower bkb1)
+  (getBorrower bk1)
 
 testSetBorrowerSomeone = (~=?)
   (Book {title = "Title2", author = "Author2",
          borrower = Just (Person {name = "BorrowerNew", maxBooks = 111})})
-  (setBorrower (Just Person { name = "BorrowerNew", maxBooks = 111 }) bkb2)
+  (setBorrower (Just Person { name = "BorrowerNew", maxBooks = 111 }) bk2)
 
 testSetBorrowerNothing = (~=?)
   (Book {title = "Title2", author = "Author2", borrower = Nothing})
-  (setBorrower Nothing bkb2)
+  (setBorrower Nothing bk2)
 
 testBookToStringSomeone = (~=?)
   "Title1 by Author1; Checked out to Borrower1"
-  (bookToString bkb1)
+  (bookToString bk1)
 
 testBookToStringNothing = (~=?)
   "Title2 by Author2; Available"
-  (bookToString bkb2)
+  (bookToString bk2)
 
 bookTests = TestList [ testMakeBookNothing, testMakeBookSomeone
                      , testGetTitle, testGetAuthor
