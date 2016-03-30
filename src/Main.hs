@@ -3,6 +3,7 @@ module Main where
 import Person
 import Person_Test
 import Book
+import Book_Test
 import Library
 
 --main :: IO ()
