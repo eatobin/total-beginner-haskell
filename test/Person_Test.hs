@@ -27,6 +27,6 @@ testPersonToString = (~=?)
   "Tester (99 books)"
   (personToString (Person "Tester" 99))
 
-runTests = runTestTT $ TestList [ testMakePerson, testGetName
-                                , testSetName, testGetMaxBooks
-                                , testSetMaxBooks, testPersonToString ]
+runPersonTests = runTestTT $ TestList [ testMakePerson, testGetName
+                                      , testSetName, testGetMaxBooks
+                                      , testSetMaxBooks, testPersonToString ]

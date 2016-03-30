@@ -29,7 +29,6 @@ testGetAuthor = (~=?)
   (getAuthor bkb2)
 
 testGetBorrowerNothing = (~=?)
-  --(Just Person { name = "Borrower1", maxBooks = 1 })
   Nothing
   (getBorrower bkb2)
 
