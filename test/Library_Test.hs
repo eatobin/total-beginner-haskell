@@ -47,10 +47,18 @@ testGetLibName = (~=?)
   "Test Library"
   (getLibName lib2)
 
+--testAddBorrower = (~=?)
+--  ps2
+--  (addBorrower p3 ps1)
+
 testAddBorrower = (~=?)
   lib2
   (addBorrower p3 lib1)
-
+ 
+--testAddBook = (~=?)
+--  bks2
+--  (addBook bk3 bks1)
+  
 testAddBook = (~=?)
   lib3
   (addBook bk3 lib1)
