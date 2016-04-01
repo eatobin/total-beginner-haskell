@@ -27,23 +27,33 @@ bks1 = [ bk1, bk2 ]
 bks2 = [ bk1, bk2, bk3 ]
 bks3 = [ bk1, bk2, bk3, bk4 ]
 
-lib = Library {libName = "Test Library"}
+lib1 = Library { libName = "Test Library"
+                , libBorrowers = ps1
+                , libBooks = bks1 }
+
+lib2 = Library { libName = "Test Library"
+                , libBorrowers = ps2
+                , libBooks = bks1 }
+
+lib3 = Library { libName = "Test Library"
+                , libBorrowers = ps1
+                , libBooks = bks2 }
 
 testMakeLibrary = (~=?)
-  lib
-  (makeLibrary "Test Library")
+  lib1
+  (makeLibrary "Test Library" ps1 bks1)
 
 testGetLibName = (~=?)
   "Test Library"
-  (getLibName lib)
+  (getLibName lib2)
 
 testAddBorrower = (~=?)
-  ps2
-  (addBorrower p3 ps1)
+  lib2
+  (addBorrower p3 lib1)
 
 testAddBook = (~=?)
-  bks2
-  (addBook bk3 bks1)
+  lib3
+  (addBook bk3 lib1)
 
 testGetBooksForPerson0books = (~=?)
   []
