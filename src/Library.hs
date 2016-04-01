@@ -31,6 +31,9 @@ addBook b bs = bs ++ [b]
 findBook :: Title -> [Book] -> Book
 findBook t bs = head [ b | b <- bs, getTitle b == t ]
 
+getBooksForPerson :: Person -> [Book] -> [Book]
+getBooksForPerson p bs = [b | b <- bs, getBorrower b == (Just p)]
+
 library :: IO ()
 library = do shared <- atomically (newTVar (addBorrower (Person "First" 1) [Person "Zero" 0]))
              before <- atomically (readTVar shared)

@@ -2,11 +2,12 @@ module Book_Test where
 
 import Book
 import Person
+import Person_Test
 import Test.HUnit
 
 bk1 = Book { title = "Title1"
              , author = "Author1"
-             , borrower = Just Person { name = "Borrower1", maxBooks = 1 } }
+             , borrower = Just p1 }
 
 bk2 = Book { title = "Title2"
              , author = "Author2"
@@ -18,7 +19,7 @@ testMakeBookNothing = (~=?)
 
 testMakeBookSomeone = (~=?)
   bk1
-  (makeBook "Title1" "Author1" (Just(Person "Borrower1" 1)))
+  (makeBook "Title1" "Author1" (Just(Person "Person1" 1)))
 
 testGetTitle = (~=?)
   "Title1"
@@ -33,20 +34,20 @@ testGetBorrowerNothing = (~=?)
   (getBorrower bk2)
 
 testGetBorrowerSomeone = (~=?)
-  (Just Person { name = "Borrower1", maxBooks = 1 })
+  (Just Person { name = "Person1", maxBooks = 1 })
   (getBorrower bk1)
 
 testSetBorrowerSomeone = (~=?)
   (Book {title = "Title2", author = "Author2",
-         borrower = Just (Person {name = "BorrowerNew", maxBooks = 111})})
-  (setBorrower (Just Person { name = "BorrowerNew", maxBooks = 111 }) bk2)
+         borrower = Just (Person {name = "PersonNew", maxBooks = 111})})
+  (setBorrower (Just Person { name = "PersonNew", maxBooks = 111 }) bk2)
 
 testSetBorrowerNothing = (~=?)
   (Book {title = "Title2", author = "Author2", borrower = Nothing})
   (setBorrower Nothing bk2)
 
 testBookToStringSomeone = (~=?)
-  "Title1 by Author1; Checked out to Borrower1"
+  "Title1 by Author1; Checked out to Person1"
   (bookToString bk1)
 
 testBookToStringNothing = (~=?)
