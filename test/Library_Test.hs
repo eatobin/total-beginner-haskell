@@ -23,10 +23,20 @@ bk3 = Book { title = "Title3"
 bks1 = [ bk1, bk2 ]
 bks2 = [ bk1, bk2, bk3 ]
 
-testaddBorrower = (~=?)
+lib = Library {libName = "Test Library"}
+
+testMakeLibrary = (~=?)
+  lib
+  (makeLibrary "Test Library")
+
+testGetLibName = (~=?)
+  "Test Library"
+  (getLibName lib)
+
+testAddBorrower = (~=?)
   ps2
   (addBorrower p3 ps1)
 
-libraryTests = TestList [ testaddBorrower ]
+libraryTests = TestList [ testMakeLibrary, testGetLibName, testAddBorrower ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]

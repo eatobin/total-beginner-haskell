@@ -8,6 +8,16 @@ import Control.Concurrent.STM
 import Person
 import Book
 
+type LibraryName = String
+
+data Library = Library { libName :: LibraryName } deriving (Show, Eq)
+
+makeLibrary :: LibraryName -> Library
+makeLibrary = Library
+
+getLibName :: Library -> LibraryName
+getLibName Library {libName} = libName
+
 addBorrower :: Person -> [Person] -> [Person]
 addBorrower p ps = ps ++ [p]
 
