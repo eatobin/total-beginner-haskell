@@ -67,9 +67,13 @@ testGetBooksForPerson2books = (~=?)
   [bk3, bk4]
   (getBooksForPerson p3 bks3)
 
+testLibraryToString = (~=?)
+  "Test Library: 2 books; 3 people."
+  (libraryToString lib2)
+
 libraryTests = TestList [ testMakeLibrary, testGetLibName, testAddBorrower
                         , testAddBook, testGetBooksForPerson0books
                         , testGetBooksForPerson1book
-                        , testGetBooksForPerson2books ]
+                        , testGetBooksForPerson2books, testLibraryToString ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]

@@ -26,6 +26,9 @@ getLibBorrowers Library {libBorrowers} = libBorrowers
 getLibBooks :: Library -> [Book]
 getLibBooks Library {libBooks} = libBooks
 
+--addBorrower :: Person -> [Person] -> [Person]
+--addBorrower p ps = ps ++ [p]
+
 addBorrower :: Person -> Library -> Library
 addBorrower p l = l {libBorrowers = nbrs}
   where nbrs = (getLibBorrowers l) ++ [p]
@@ -33,6 +36,9 @@ addBorrower p l = l {libBorrowers = nbrs}
 findBorrower :: Name -> [Person] -> Person
 findBorrower n ps = head [ p | p <- ps, getName p == n ]
 -- getBorrower n ps = head $ filter (\p -> getName p == n) ps
+
+--addBook :: Book -> [Book] -> [Book]
+--addBook b bs = bs ++ [b]
 
 addBook :: Book -> Library -> Library
 addBook b l = l {libBooks = nbks}
