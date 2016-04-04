@@ -8,56 +8,71 @@ import Control.Concurrent.STM
 import Person
 import Book
 
-type LibraryName = String
+--type LibraryName = String
 
-data Library = Library { libName :: LibraryName
-                       , libBorrowers :: [Person]
-                       , libBooks :: [Book] } deriving (Show, Eq)
+--data Library = Library { libName :: LibraryName
+--                       , libBorrowers :: [Person]
+--                       , libBooks :: [Book] } deriving (Show, Eq)
 
-makeLibrary :: LibraryName -> [Person] -> [Book] -> Library
-makeLibrary = Library
+--makeLibrary :: LibraryName -> [Person] -> [Book] -> Library
+--makeLibrary = Library
 
-getLibName :: Library -> LibraryName
-getLibName Library {libName} = libName
+--getLibName :: Library -> LibraryName
+--getLibName Library {libName} = libName
 
-getLibBorrowers :: Library -> [Person]
-getLibBorrowers Library {libBorrowers} = libBorrowers
+--getLibBorrowers :: Library -> [Person]
+--getLibBorrowers Library {libBorrowers} = libBorrowers
 
-getLibBooks :: Library -> [Book]
-getLibBooks Library {libBooks} = libBooks
+--getLibBooks :: Library -> [Book]
+--getLibBooks Library {libBooks} = libBooks
 
---addBorrower :: Person -> [Person] -> [Person]
---addBorrower p ps = ps ++ [p]
+addBorrower :: Person -> [Person] -> [Person]
+addBorrower p ps = ps ++ [p]
 
-addBorrower :: Person -> Library -> Library
-addBorrower p l = l {libBorrowers = nbrs}
-  where nbrs = (getLibBorrowers l) ++ [p]
+--addBorrower :: Person -> Library -> Library
+--addBorrower p l = l {libBorrowers = nbrs}
+--  where nbrs = (getLibBorrowers l) ++ [p]
 
-findBorrower :: Name -> [Person] -> Person
-findBorrower n ps = head [ p | p <- ps, getName p == n ]
--- getBorrower n ps = head $ filter (\p -> getName p == n) ps
+--findBorrower :: Name -> [Person] -> Person
+--findBorrower n ps = head [ p | p <- ps, getName p == n ]
+---- getBorrower n ps = head $ filter (\p -> getName p == n) ps
 
---addBook :: Book -> [Book] -> [Book]
---addBook b bs = bs ++ [b]
+addBook :: Book -> [Book] -> [Book]
+addBook b bs = bs ++ [b]
 
-addBook :: Book -> Library -> Library
-addBook b l = l {libBooks = nbks}
-  where nbks = (getLibBooks l) ++ [b]
+--addBook :: Book -> Library -> Library
+--addBook b l = l {libBooks = nbks}
+--  where nbks = (getLibBooks l) ++ [b]
 
-findBook :: Title -> [Book] -> Book
-findBook t bs = head [ b | b <- bs, getTitle b == t ]
+--findBook :: Title -> [Book] -> Book
+--findBook t bs = head [ b | b <- bs, getTitle b == t ]
 
---getBooksForPerson :: Person -> [Book] -> [Book]
---getBooksForPerson p bs = [b | b <- bs, getBorrower b == (Just p)]
+getBooksForPerson :: Person -> [Book] -> [Book]
+getBooksForPerson p bs = [b | b <- bs, getBorrower b == (Just p)]
 
-getBooksForPerson :: Person -> Library -> [Book]
-getBooksForPerson p l = [b | b <- bs, getBorrower b == (Just p)]
-  where bs = (getLibBooks l)
+--getBooksForPerson :: Person -> Library -> [Book]
+--getBooksForPerson p l = [b | b <- bs, getBorrower b == (Just p)]
+--  where bs = (getLibBooks l)
 
-libraryToString :: Library -> String
-libraryToString l = getLibName l ++ ": " ++ 
-  show (length (getLibBooks l)) ++ " books; " ++
-  show (length (getLibBorrowers l)) ++ " people."
+--setLibBorrower :: Maybe Person -> Book -> Library -> Library
+--setLibBorrower mp b l =
+--  where nb = (setBorrower mp b)
+
+ 
+--checkOut :: Book -> Person -> Library -> Library
+--checkOut b p l =
+--    if notMaxedOut && bookNotOut
+--        then "Lower case"
+--        else if c >= 'A' && c <= 'Z'
+--where booksOut = length (getBooksForPerson p l)
+--      maxBooksAllowed = (getMaxBooks p)
+--      notMaxedOut = booksOut < maxBooksAllowed
+--      bookNotOut = (getBorrower b) == Nothing
+
+libraryToString :: [Book] -> [Person] -> String
+libraryToString bs ps = "Test Library: " ++ 
+  show (length bs) ++ " books; " ++
+  show (length ps) ++ " people."
 
 --library :: IO ()
 --library = do shared <- atomically (newTVar (addBorrower (Person "First" 1) [Person "Zero" 0]))
