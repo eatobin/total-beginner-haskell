@@ -40,6 +40,9 @@ addBorrower p ps = ps ++ [p]
 addBook :: Book -> [Book] -> [Book]
 addBook b bs = bs ++ [b]
 
+removeBook :: Book -> [Book] -> [Book]
+removeBook tb bs = [ b | b <- bs, b /= tb]
+
 --addBook :: Book -> Library -> Library
 --addBook b l = l {libBooks = nbks}
 --  where nbks = (getLibBooks l) ++ [b]
@@ -58,16 +61,18 @@ getBooksForPerson p bs = [b | b <- bs, getBorrower b == (Just p)]
 --setLibBorrower mp b l =
 --  where nb = (setBorrower mp b)
 
- 
---checkOut :: Book -> Person -> Library -> Library
---checkOut b p l =
---    if notMaxedOut && bookNotOut
---        then "Lower case"
---        else if c >= 'A' && c <= 'Z'
---where booksOut = length (getBooksForPerson p l)
---      maxBooksAllowed = (getMaxBooks p)
---      notMaxedOut = booksOut < maxBooksAllowed
---      bookNotOut = (getBorrower b) == Nothing
+
+checkOut :: Book -> Person -> [Book] -> [Book]
+checkOut b p bs =
+  if notMaxedOut && bookNotOut
+    then addBook newBook fewerBooks
+    else bs
+      where booksOut = length (getBooksForPerson p bs)
+            maxBooksAllowed = (getMaxBooks p)
+            notMaxedOut = booksOut < maxBooksAllowed
+            bookNotOut = (getBorrower b) == Nothing
+            newBook = setBorrower (Just p) b
+            fewerBooks = removeBook b bs
 
 libraryToString :: [Book] -> [Person] -> String
 libraryToString bs ps = "Test Library: " ++ 

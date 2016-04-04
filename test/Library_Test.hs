@@ -71,7 +71,11 @@ testAddBorrower = (~=?)
 testAddBook = (~=?)
   bks2
   (addBook bk3 bks1)
-  
+
+testRemoveBook = (~=?)
+  bks1
+  (removeBook bk3 bks2)
+
 --testAddBook = (~=?)
 --  lib3
 --  (addBook bk3 lib1)
@@ -101,16 +105,31 @@ testGetBooksForPerson2books = (~=?)
   [bk3, bk4]
   (getBooksForPerson p3 bks3)
 
+testCheckOutFailCheckedOut = (~=?)
+  [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
+  , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+  (checkOut bk1 p3 bks1)
 
+testCheckOutFailOverLimit = (~=?)
+  [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
+  , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+  (checkOut bk2 p1 bks1)
 
+testCheckOutPass = (~=?)
+  [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
+  , Book {title = "Title3", author = "Author3", borrower = Just (Person {name = "Person3", maxBooks = 3})}
+  , Book {title = "Title4", author = "Author4", borrower = Just (Person {name = "Person3", maxBooks = 3})}
+  , Book {title = "Title2", author = "Author2", borrower = Just (Person {name = "Person3", maxBooks = 3})} ]
+  (checkOut bk2 p3 bks3)
 
 testLibraryToString = (~=?)
   "Test Library: 2 books; 3 people."
   (libraryToString bks1 ps2)
 
-libraryTests = TestList [ testAddBorrower
+libraryTests = TestList [ testAddBorrower, testRemoveBook
+                        , testCheckOutFailCheckedOut, testCheckOutFailOverLimit
                         , testAddBook, testGetBooksForPerson0books
-                        , testGetBooksForPerson1book
+                        , testGetBooksForPerson1book, testCheckOutPass
                         , testGetBooksForPerson2books, testLibraryToString ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]
