@@ -122,6 +122,16 @@ testCheckOutPass = (~=?)
   , Book {title = "Title2", author = "Author2", borrower = Just (Person {name = "Person3", maxBooks = 3})} ]
   (checkOut bk2 p3 bks3)
 
+testCheckInPass = (~=?)
+  [ Book {title = "Title2", author = "Author2", borrower = Nothing}
+  , Book {title = "Title1", author = "Author1", borrower = Nothing} ]
+  (checkIn bk1 bks1)
+
+testCheckInFailCheckedIn = (~=?)
+  [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
+  , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+  (checkIn bk2 bks1)
+
 testLibraryToString = (~=?)
   "Test Library: 2 books; 3 people."
   (libraryToString bks1 ps2)
@@ -130,6 +140,7 @@ libraryTests = TestList [ testAddBorrower, testRemoveBook
                         , testCheckOutFailCheckedOut, testCheckOutFailOverLimit
                         , testAddBook, testGetBooksForPerson0books
                         , testGetBooksForPerson1book, testCheckOutPass
-                        , testGetBooksForPerson2books, testLibraryToString ]
+                        , testGetBooksForPerson2books, testLibraryToString
+                        , testCheckInPass, testCheckInFailCheckedIn ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]

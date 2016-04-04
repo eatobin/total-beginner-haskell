@@ -61,7 +61,6 @@ getBooksForPerson p bs = [b | b <- bs, getBorrower b == (Just p)]
 --setLibBorrower mp b l =
 --  where nb = (setBorrower mp b)
 
-
 checkOut :: Book -> Person -> [Book] -> [Book]
 checkOut b p bs =
   if notMaxedOut && bookNotOut
@@ -72,6 +71,15 @@ checkOut b p bs =
             notMaxedOut = booksOut < maxBooksAllowed
             bookNotOut = (getBorrower b) == Nothing
             newBook = setBorrower (Just p) b
+            fewerBooks = removeBook b bs
+
+checkIn :: Book -> [Book] -> [Book]
+checkIn b bs =
+  if bookOut
+    then addBook newBook fewerBooks
+    else bs
+      where bookOut = (getBorrower b) /= Nothing
+            newBook = setBorrower Nothing b
             fewerBooks = removeBook b bs
 
 libraryToString :: [Book] -> [Person] -> String
