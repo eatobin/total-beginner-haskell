@@ -12,17 +12,26 @@ import Book_Test
 import Library
 import Test.HUnit
 
+-- p1 = Person {name = "Person1", maxBooks = 1}
 p2 = Person {name = "Person2", maxBooks = 2}
 p3 = Person {name = "Person3", maxBooks = 3}
+
 ps1 = [ p1, p2 ]
 ps2 = [ p1, p2, p3 ]
 
+-- bk1 = Book { title = "Title1"
+--              , author = "Author1"
+--              , borrower = Just p1 }
+-- bk2 = Book { title = "Title2"
+--              , author = "Author2"
+--              , borrower = Nothing }
 bk3 = Book { title = "Title3"
              , author = "Author3"
              , borrower = Just p3 }
 bk4 = Book { title = "Title4"
              , author = "Author4"
              , borrower = Just p3 }
+
 bks1 = [ bk1, bk2 ]
 bks2 = [ bk1, bk2, bk3 ]
 bks3 = [ bk1, bk2, bk3, bk4 ]
@@ -38,6 +47,10 @@ lib2 = Library { libName = "Test Library"
 lib3 = Library { libName = "Test Library"
                 , libBorrowers = ps1
                 , libBooks = bks2 }
+
+lib4 = Library { libName = "Test Library"
+                , libBorrowers = ps1
+                , libBooks = bks3 }
 
 testMakeLibrary = (~=?)
   lib1
@@ -65,15 +78,15 @@ testAddBook = (~=?)
 
 testGetBooksForPerson0books = (~=?)
   []
-  (getBooksForPerson p2 bks2)
+  (getBooksForPerson p2 lib2)
 
 testGetBooksForPerson1book = (~=?)
   [bk1]
-  (getBooksForPerson p1 bks2)
+  (getBooksForPerson p1 lib2)
 
 testGetBooksForPerson2books = (~=?)
   [bk3, bk4]
-  (getBooksForPerson p3 bks3)
+  (getBooksForPerson p3 lib4)
 
 testLibraryToString = (~=?)
   "Test Library: 2 books; 3 people."

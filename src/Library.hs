@@ -47,8 +47,12 @@ addBook b l = l {libBooks = nbks}
 findBook :: Title -> [Book] -> Book
 findBook t bs = head [ b | b <- bs, getTitle b == t ]
 
-getBooksForPerson :: Person -> [Book] -> [Book]
-getBooksForPerson p bs = [b | b <- bs, getBorrower b == (Just p)]
+--getBooksForPerson :: Person -> [Book] -> [Book]
+--getBooksForPerson p bs = [b | b <- bs, getBorrower b == (Just p)]
+
+getBooksForPerson :: Person -> Library -> [Book]
+getBooksForPerson p l = [b | b <- bs, getBorrower b == (Just p)]
+  where bs = (getLibBooks l)
 
 libraryToString :: Library -> String
 libraryToString l = getLibName l ++ ": " ++ 
