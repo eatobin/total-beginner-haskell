@@ -87,14 +87,9 @@ libraryToString bs ps = "Test Library: " ++
   show (length bs) ++ " books; " ++
   show (length ps) ++ " people."
 
---library :: IO ()
---library = do shared <- atomically (newTVar (addBorrower (Person "First" 1) [Person "Zero" 0]))
---             before <- atomically (readTVar shared)
---             putStrLn $ "Before: " ++ show before
---             --atomically (readTVar shared >>= \p -> writeTVar shared (getBorrower "First" p))
---             --me <- atomically (readTVar shared >>= return \p -> (getBorrower "First" p))
---             atomically (readTVar shared) >>= \p -> print (findBorrower "First" p)
---             --boss2 <- getBorrower "First" boss
---             --atomically (readTVar shared) >>= print
---             --putStrLn (show boss)
---             --putStrLn "Bye!"
+statusToString :: [Book] -> [Person] -> String
+statusToString bs ps = "\n" ++
+  "--- Status Report of Test Library ---\n" ++
+  "\n" ++
+  libraryToString bs ps ++
+  "\n"

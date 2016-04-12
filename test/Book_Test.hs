@@ -19,7 +19,7 @@ testMakeBookNothing = (~=?)
 
 testMakeBookSomeone = (~=?)
   bk1
-  (makeBook "Title1" "Author1" (Just(Person "Person1" 1)))
+  (makeBook "Title1" "Author1" (Just (Person "Person1" 1)))
 
 testGetTitle = (~=?)
   "Title1"

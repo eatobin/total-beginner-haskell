@@ -19,8 +19,14 @@ import           Control.Monad
 main :: IO ()
 main = do
   borrowers <- atomically (newTVar [])
-  appV (addBorrower (makePerson "Eric" 59)) borrowers
+  books <- atomically (newTVar [])
+  appV (addBook (makeBook "War And Peace" "Tolstoy" Nothing)) books
+  appV (addBook (makeBook "Great Expectations" "Dickens" Nothing)) books
+  appV (addBorrower (makePerson "Jim" 3)) borrowers
+  appV (addBorrower (makePerson "Sue" 3)) borrowers
+  dispVar books
   dispVar borrowers
+  putStrLn "Just created new library"
 
 --module Main where
 
