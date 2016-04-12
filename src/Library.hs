@@ -2,11 +2,11 @@
 
 module Library where
 
-import Control.Monad
-import Control.Concurrent
-import Control.Concurrent.STM
-import Person
-import Book
+import           Book
+import           Control.Concurrent
+import           Control.Concurrent.STM
+import           Control.Monad
+import           Person
 
 --type LibraryName = String
 

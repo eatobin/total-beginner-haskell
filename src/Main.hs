@@ -1,12 +1,12 @@
 module Main where
 
-import Person
-import Person_Test
-import Book
-import Book_Test
-import Library
-import Library_Test
-import All_Tests
+import           All_Tests
+import           Book
+import           Book_Test
+import           Library
+import           Library_Test
+import           Person
+import           Person_Test
 
 --main :: IO ()
 --main = do
@@ -15,16 +15,17 @@ import All_Tests
 
 
 --module Main where
-import Control.Monad
-import Control.Concurrent
-import Control.Concurrent.STM
-import Person
+import           Control.Concurrent
+import           Control.Concurrent.STM
+import           Control.Monad
+import           Person
 
 main :: IO ()
-main = do shared <- atomically (newTVar (makePerson "Wowzer" 5))
-          --before <- atomRead shared
-          before <- atomically (readTVar shared)
-          putStrLn $ "Before: " ++ show before
+main = do shared <- atomically (newTVar (addBorrower (makePerson "Wowzer" 5) []))
+          -- shared <- atomically (newTVar (makePerson "Wowzer" 5))
+          -- before <- atomRead shared
+          -- before <- atomically (readTVar shared)
+          -- putStrLn $ "Before: " ++ show before
           --putStrLn (show (setName "Newish" before))
           --putStrLn $ "Next: " ++ show next
           --appV (+ 22) shared
@@ -38,12 +39,13 @@ main = do shared <- atomically (newTVar (makePerson "Wowzer" 5))
           --atomically (writeTVar shared 59)
           --appV (+22) shared
           --atomically (readTVar shared >>= \j -> writeTVar shared (j + 100))
-          --appV (setName "Changed") shared
-          --appV (setMaxBooks 88) shared
-          atomically (readTVar shared >>= \p -> writeTVar shared (setName "Changed" p))
-          atomically (readTVar shared >>= \p -> writeTVar shared (setMaxBooks 88 p))
+          -- atomically (readTVar shared >>= \p -> writeTVar shared (setName "Changed" p))
+          -- appV (setName "Changed2") shared
+          --atomically (readTVar shared >>= \p -> writeTVar shared (setMaxBooks 88 p))
+          -- appV (setMaxBooks 89) shared
+          appV (addBorrower (makePerson "Eric" 59)) shared
           atomically (readTVar shared) >>= print
-          putStrLn "Bye!"
+          -- putStrLn "Bye!"
 
 atomRead = atomically . readTVar
 dispVar x = atomRead x >>= print

@@ -2,14 +2,14 @@
 
 module Book where
 
-import Data.Maybe
-import Person
+import           Data.Maybe
+import           Person
 
 type Title = String
 type Author = String
 
-data Book = Book { title :: Title
-                 , author :: Author
+data Book = Book { title    :: Title
+                 , author   :: Author
                  , borrower :: Maybe Person
                  } deriving (Show, Eq)
 

@@ -5,7 +5,7 @@ module Person where
 type Name = String
 type MaxBooks = Int
 
-data Person = Person { name :: Name
+data Person = Person { name     :: Name
                      , maxBooks :: MaxBooks
                      } deriving (Show, Eq)
 
