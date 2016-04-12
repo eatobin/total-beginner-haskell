@@ -18,15 +18,17 @@ import           Control.Monad
 
 main :: IO ()
 main = do
-  borrowers <- atomically (newTVar [])
-  books <- atomically (newTVar [])
-  appV (addBook (makeBook "War And Peace" "Tolstoy" Nothing)) books
-  appV (addBook (makeBook "Great Expectations" "Dickens" Nothing)) books
-  appV (addBorrower (makePerson "Jim" 3)) borrowers
-  appV (addBorrower (makePerson "Sue" 3)) borrowers
-  dispVar books
-  dispVar borrowers
+  tvBorrowers <- atomically (newTVar [])
+  tvBooks <- atomically (newTVar [])
+  appV (addBook (makeBook "War And Peace" "Tolstoy" Nothing)) tvBooks
+  appV (addBook (makeBook "Great Expectations" "Dickens" Nothing)) tvBooks
+  appV (addBorrower (makePerson "Jim" 3)) tvBorrowers
+  appV (addBorrower (makePerson "Sue" 3)) tvBorrowers
+  books <- atomRead tvBooks
+  borrowers <- atomRead tvBorrowers
+  putStrLn ""
   putStrLn "Just created new library"
+  putStrLn (statusToString books borrowers)
 
 --module Main where
 
@@ -52,8 +54,8 @@ main = do
           --atomically (readTVar shared >>= \j -> writeTVar shared (j + 100))
           -- atomically (readTVar shared >>= \p -> writeTVar shared (setName "Changed" p))
           -- appV (setName "Changed2") shared
-          --atomically (readTVar shared >>= \p -> writeTVar shared (setMaxBooks 88 p))
-          -- appV (setMaxBooks 89) shared
+          --atomically (readTVar shared >>= \p -> writeTVar shared (setMaxtvBooks 88 p))
+          -- appV (setMaxtvBooks 89) shared
           ---appV (addBorrower (makePerson "Eric" 59)) shared
           -- atomically (readTVar shared) >>= print
           ---dispVar shared

@@ -93,4 +93,7 @@ statusToString bs ps = "\n" ++
   "\n" ++
   libraryToString bs ps ++
   "\n" ++
-  unlines (map bookToString bs)
+  unlines (map bookToString bs) ++ "\n" ++
+  unlines (map personToString ps) ++ "\n" ++
+  "--- End of Status Report ---" ++
+  "\n"
