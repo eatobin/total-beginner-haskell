@@ -92,4 +92,5 @@ statusToString bs ps = "\n" ++
   "--- Status Report of Test Library ---\n" ++
   "\n" ++
   libraryToString bs ps ++
-  "\n"
+  "\n" ++
+  unlines (map bookToString bs)
