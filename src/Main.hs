@@ -8,20 +8,25 @@ import           Library_Test
 import           Person
 import           Person_Test
 
---main :: IO ()
---main = do
---  putStrLn "hello eric"
-
-
-
---module Main where
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
-import           Person
+
+-- main :: IO ()
+-- main = do
+--  putStrLn "hello eric"
 
 main :: IO ()
-main = do shared <- atomically (newTVar (addBorrower (makePerson "Wowzer" 5) []))
+main = do
+  borrowers <- atomically (newTVar [])
+  appV (addBorrower (makePerson "Eric" 59)) borrowers
+  dispVar borrowers
+
+--module Main where
+
+
+--- main :: IO ()
+--- main = do shared <- atomically (newTVar (addBorrower (makePerson "Wowzer" 5) []))
           -- shared <- atomically (newTVar (makePerson "Wowzer" 5))
           -- before <- atomRead shared
           -- before <- atomically (readTVar shared)
@@ -43,8 +48,9 @@ main = do shared <- atomically (newTVar (addBorrower (makePerson "Wowzer" 5) [])
           -- appV (setName "Changed2") shared
           --atomically (readTVar shared >>= \p -> writeTVar shared (setMaxBooks 88 p))
           -- appV (setMaxBooks 89) shared
-          appV (addBorrower (makePerson "Eric" 59)) shared
-          atomically (readTVar shared) >>= print
+          ---appV (addBorrower (makePerson "Eric" 59)) shared
+          -- atomically (readTVar shared) >>= print
+          ---dispVar shared
           -- putStrLn "Bye!"
 
 atomRead = atomically . readTVar
