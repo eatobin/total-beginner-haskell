@@ -83,7 +83,7 @@ checkIn b bs =
             fewerBooks = removeBook b bs
 
 libraryToString :: [Book] -> [Person] -> String
-libraryToString bs ps = "Test Library: " ++ 
+libraryToString bs ps = "Test Library: " ++
   show (length bs) ++ " books; " ++
   show (length ps) ++ " people."
 
