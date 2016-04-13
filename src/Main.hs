@@ -29,6 +29,9 @@ main = do
   putStrLn ""
   putStrLn "Just created new library"
   putStrLn (statusToString books borrowers)
+  appV (addBook (makeBook "Great Expectations2" "Dickens" Nothing)) tvBooks
+  books <- atomRead tvBooks
+  putStrLn (statusToString books borrowers)
 
 --module Main where
 
