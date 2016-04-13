@@ -100,6 +100,14 @@ testFindBookFail = (~=?)
   Nothing
   (findBook "Title4" bks2)
 
+testFindPersonPass = (~=?)
+  (Just p3)
+  (findPerson "Person3" ps2)
+
+testFindPersonFail = (~=?)
+  Nothing
+  (findPerson "Person3" ps1)
+
 testGetBooksForPerson0books = (~=?)
   []
   (getBooksForPerson p2 bks2)
@@ -115,19 +123,19 @@ testGetBooksForPerson2books = (~=?)
 testCheckOutFailCheckedOut = (~=?)
   [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
   , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
-  (checkOut bk1 p3 bks1)
+  (checkOut "Title1" p3 bks1)
 
 testCheckOutFailOverLimit = (~=?)
   [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
   , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
-  (checkOut bk2 p1 bks1)
+  (checkOut "Title2" p1 bks1)
 
 testCheckOutPass = (~=?)
   [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
   , Book {title = "Title3", author = "Author3", borrower = Just (Person {name = "Person3", maxBooks = 3})}
   , Book {title = "Title4", author = "Author4", borrower = Just (Person {name = "Person3", maxBooks = 3})}
   , Book {title = "Title2", author = "Author2", borrower = Just (Person {name = "Person3", maxBooks = 3})} ]
-  (checkOut bk2 p3 bks3)
+  (checkOut "Title2" p3 bks3)
 
 testCheckInPass = (~=?)
   [ Book {title = "Title2", author = "Author2", borrower = Nothing}
@@ -149,6 +157,7 @@ libraryTests = TestList [ testAddBorrower, testRemoveBook
                         , testGetBooksForPerson1book, testCheckOutPass
                         , testGetBooksForPerson2books, testLibraryToString
                         , testCheckInPass, testCheckInFailCheckedIn
-                        , testFindBookPass, testFindBookFail ]
+                        , testFindBookPass, testFindBookFail
+                        , testFindPersonPass, testFindPersonFail ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]

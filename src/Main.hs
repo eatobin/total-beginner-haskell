@@ -30,7 +30,7 @@ main = do
   putStrLn "Just created new library"
   putStrLn (statusToString books borrowers)
   putStrLn "Check out War And Peace to Sue"
-  appV (checkOut (Book "War And Peace" "Tolstoy" Nothing) (Person "Sue" 3)) tvBooks
+  appV (checkOut "War And Peace" (Person "Sue" 3)) tvBooks
   books <- atomRead tvBooks
   putStrLn (statusToString books borrowers)
 

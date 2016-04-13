@@ -55,6 +55,10 @@ findBook :: Title -> [Book] -> Maybe Book
 findBook t bs = if null coll then Nothing else Just (head coll)
   where coll = [ b | b <- bs, getTitle b == t ]
 
+findPerson :: Name -> [Person] -> Maybe Person
+findPerson t ps = if null coll then Nothing else Just (head coll)
+  where coll = [ p | p <- ps, getName p == t ]
+
 getBooksForPerson :: Person -> [Book] -> [Book]
 getBooksForPerson p bs = [b | b <- bs, getBorrower b == Just p]
 
@@ -66,12 +70,25 @@ getBooksForPerson p bs = [b | b <- bs, getBorrower b == Just p]
 --setLibBorrower mp b l =
 --  where nb = (setBorrower mp b)
 
-checkOut :: Book -> Person -> [Book] -> [Book]
-checkOut b p bs =
+-- checkOut :: Book -> Person -> [Book] -> [Book]
+-- checkOut b p bs =
+--   if notMaxedOut && bookNotOut
+--     then addBook newBook fewerBooks
+--     else bs
+--       where booksOut = length (getBooksForPerson p bs)
+--             maxBooksAllowed = getMaxBooks p
+--             notMaxedOut = booksOut < maxBooksAllowed
+--             bookNotOut = isNothing (getBorrower b)
+--             newBook = setBorrower (Just p) b
+--             fewerBooks = removeBook b bs
+
+checkOut :: Title -> Person -> [Book] -> [Book]
+checkOut t p bs =
   if notMaxedOut && bookNotOut
     then addBook newBook fewerBooks
     else bs
-      where booksOut = length (getBooksForPerson p bs)
+      where b = fromJust (findBook t bs)
+            booksOut = length (getBooksForPerson p bs)
             maxBooksAllowed = getMaxBooks p
             notMaxedOut = booksOut < maxBooksAllowed
             bookNotOut = isNothing (getBorrower b)
