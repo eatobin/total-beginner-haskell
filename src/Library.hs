@@ -6,6 +6,7 @@ import           Book
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
+import           Data.Maybe
 import           Person
 
 --type LibraryName = String
@@ -47,11 +48,15 @@ removeBook tb bs = [ b | b <- bs, b /= tb]
 --addBook b l = l {libBooks = nbks}
 --  where nbks = (getLibBooks l) ++ [b]
 
---findBook :: Title -> [Book] -> Book
---findBook t bs = head [ b | b <- bs, getTitle b == t ]
+-- findBook :: Title -> [Book] -> Book
+-- findBook t bs = head [ b | b <- bs, getTitle b == t ]
+
+findBook :: Title -> [Book] -> Maybe Book
+findBook t bs = if null coll then Nothing else Just (head coll)
+  where coll = [ b | b <- bs, getTitle b == t ]
 
 getBooksForPerson :: Person -> [Book] -> [Book]
-getBooksForPerson p bs = [b | b <- bs, getBorrower b == (Just p)]
+getBooksForPerson p bs = [b | b <- bs, getBorrower b == Just p]
 
 --getBooksForPerson :: Person -> Library -> [Book]
 --getBooksForPerson p l = [b | b <- bs, getBorrower b == (Just p)]
@@ -67,9 +72,9 @@ checkOut b p bs =
     then addBook newBook fewerBooks
     else bs
       where booksOut = length (getBooksForPerson p bs)
-            maxBooksAllowed = (getMaxBooks p)
+            maxBooksAllowed = getMaxBooks p
             notMaxedOut = booksOut < maxBooksAllowed
-            bookNotOut = (getBorrower b) == Nothing
+            bookNotOut = isNothing (getBorrower b)
             newBook = setBorrower (Just p) b
             fewerBooks = removeBook b bs
 
@@ -78,7 +83,7 @@ checkIn b bs =
   if bookOut
     then addBook newBook fewerBooks
     else bs
-      where bookOut = (getBorrower b) /= Nothing
+      where bookOut = isJust (getBorrower b)
             newBook = setBorrower Nothing b
             fewerBooks = removeBook b bs
 
