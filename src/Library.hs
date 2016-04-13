@@ -82,12 +82,13 @@ getBooksForPerson p bs = [b | b <- bs, getBorrower b == Just p]
 --             newBook = setBorrower (Just p) b
 --             fewerBooks = removeBook b bs
 
-checkOut :: Title -> Person -> [Book] -> [Book]
-checkOut t p bs =
+checkOut :: Name -> Title -> [Person] -> [Book] -> [Book]
+checkOut n t ps bs =
   if notMaxedOut && bookNotOut
     then addBook newBook fewerBooks
     else bs
       where b = fromJust (findBook t bs)
+            p = fromJust (findPerson n ps)
             booksOut = length (getBooksForPerson p bs)
             maxBooksAllowed = getMaxBooks p
             notMaxedOut = booksOut < maxBooksAllowed

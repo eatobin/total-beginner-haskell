@@ -2,15 +2,15 @@
 
 module Library_Test where
 
-import Control.Monad
-import Control.Concurrent
-import Control.Concurrent.STM
-import Person
-import Person_Test
-import Book
-import Book_Test
-import Library
-import Test.HUnit
+import           Book
+import           Book_Test
+import           Control.Concurrent
+import           Control.Concurrent.STM
+import           Control.Monad
+import           Library
+import           Person
+import           Person_Test
+import           Test.HUnit
 
 -- p1 = Person {name = "Person1", maxBooks = 1}
 p2 = Person {name = "Person2", maxBooks = 2}
@@ -121,21 +121,21 @@ testGetBooksForPerson2books = (~=?)
   (getBooksForPerson p3 bks3)
 
 testCheckOutFailCheckedOut = (~=?)
-  [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
+  [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
   , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
-  (checkOut "Title1" p3 bks1)
+  (checkOut "Person3" "Title1" ps2 bks1)
 
 testCheckOutFailOverLimit = (~=?)
-  [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
+  [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
   , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
-  (checkOut "Title2" p1 bks1)
+  (checkOut "Person1" "Title2" ps2 bks1)
 
 testCheckOutPass = (~=?)
-  [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
-  , Book {title = "Title3", author = "Author3", borrower = Just (Person {name = "Person3", maxBooks = 3})}
-  , Book {title = "Title4", author = "Author4", borrower = Just (Person {name = "Person3", maxBooks = 3})}
-  , Book {title = "Title2", author = "Author2", borrower = Just (Person {name = "Person3", maxBooks = 3})} ]
-  (checkOut "Title2" p3 bks3)
+  [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
+  , Book {title = "Title3", author = "Author3", borrower = Just Person {name = "Person3", maxBooks = 3}}
+  , Book {title = "Title4", author = "Author4", borrower = Just Person {name = "Person3", maxBooks = 3}}
+  , Book {title = "Title2", author = "Author2", borrower = Just Person {name = "Person3", maxBooks = 3}} ]
+  (checkOut "Person3" "Title2" ps2 bks3)
 
 testCheckInPass = (~=?)
   [ Book {title = "Title2", author = "Author2", borrower = Nothing}
@@ -143,7 +143,7 @@ testCheckInPass = (~=?)
   (checkIn bk1 bks1)
 
 testCheckInFailCheckedIn = (~=?)
-  [ Book {title = "Title1", author = "Author1", borrower = Just (Person {name = "Person1", maxBooks = 1})}
+  [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
   , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
   (checkIn bk2 bks1)
 
