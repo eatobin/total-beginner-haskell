@@ -92,9 +92,13 @@ testRemoveBook = (~=?)
 --  [bk3, bk4]
 --  (getBooksForPerson p3 lib4)
 
-testFindBook = (~=?)
+testFindBookPass = (~=?)
   (Just bk4)
   (findBook "Title4" bks3)
+
+testFindBookFail = (~=?)
+  Nothing
+  (findBook "Title4" bks2)
 
 testGetBooksForPerson0books = (~=?)
   []
@@ -145,6 +149,6 @@ libraryTests = TestList [ testAddBorrower, testRemoveBook
                         , testGetBooksForPerson1book, testCheckOutPass
                         , testGetBooksForPerson2books, testLibraryToString
                         , testCheckInPass, testCheckInFailCheckedIn
-                        , testFindBook ]
+                        , testFindBookPass, testFindBookFail ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]
