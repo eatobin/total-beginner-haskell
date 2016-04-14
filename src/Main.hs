@@ -33,6 +33,12 @@ main = do
   appV (checkOut "Sue" "War And Peace" borrowers) tvBooks
   books <- atomRead tvBooks
   putStrLn (statusToString books borrowers)
+  putStrLn "Now check in War And Peace from Sue..."
+  appV (checkIn "War And Peace") tvBooks
+  putStrLn "...and check out Great Expectations to Jim"
+  appV (checkOut "Jim" "Great Expectations" borrowers) tvBooks
+  books <- atomRead tvBooks
+  putStrLn (statusToString books borrowers)
 
 
 
