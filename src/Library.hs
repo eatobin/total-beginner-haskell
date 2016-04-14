@@ -96,12 +96,13 @@ checkOut n t ps bs =
             newBook = setBorrower (Just p) b
             fewerBooks = removeBook b bs
 
-checkIn :: Book -> [Book] -> [Book]
-checkIn b bs =
+checkIn :: Title -> [Book] -> [Book]
+checkIn t bs =
   if bookOut
     then addBook newBook fewerBooks
     else bs
-      where bookOut = isJust (getBorrower b)
+      where b = fromJust (findBook t bs)
+            bookOut = isJust (getBorrower b)
             newBook = setBorrower Nothing b
             fewerBooks = removeBook b bs
 

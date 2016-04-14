@@ -140,12 +140,12 @@ testCheckOutPass = (~=?)
 testCheckInPass = (~=?)
   [ Book {title = "Title2", author = "Author2", borrower = Nothing}
   , Book {title = "Title1", author = "Author1", borrower = Nothing} ]
-  (checkIn bk1 bks1)
+  (checkIn "Title1" bks1)
 
 testCheckInFailCheckedIn = (~=?)
   [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
   , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
-  (checkIn bk2 bks1)
+  (checkIn "Title2" bks1)
 
 testLibraryToString = (~=?)
   "Test Library: 2 books; 3 people."
