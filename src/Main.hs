@@ -35,8 +35,18 @@ main = do
   putStrLn (statusToString books borrowers)
   putStrLn "Now check in War And Peace from Sue..."
   appV (checkIn "War And Peace") tvBooks
+  books <- atomRead tvBooks
   putStrLn "...and check out Great Expectations to Jim"
   appV (checkOut "Jim" "Great Expectations" borrowers) tvBooks
+  books <- atomRead tvBooks
+  putStrLn (statusToString books borrowers)
+  putStrLn "Add Eric and The Cat In The Hat"
+  appV (addBorrower (makePerson "Eric" 1)) tvBorrowers
+  appV (addBook (makeBook "The Cat In The Hat" "Dr. Seuss" Nothing)) tvBooks
+  books <- atomRead tvBooks
+  borrowers <- atomRead tvBorrowers
+  putStrLn "Check Out Dr. Seuss to Eric"
+  appV (checkOut "Eric" "The Cat In The Hat" borrowers) tvBooks
   books <- atomRead tvBooks
   putStrLn (statusToString books borrowers)
 
