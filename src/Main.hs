@@ -49,6 +49,7 @@ main = do
   appV (checkOut "Eric" "The Cat In The Hat" borrowers) tvBooks
   books <- atomRead tvBooks
   putStrLn (statusToString books borrowers)
+  putStrLn "Now let's do some BAD stuff..\nCheck out a valid book to an invalid person:"
 
 
 
