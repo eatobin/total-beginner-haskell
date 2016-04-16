@@ -20,33 +20,38 @@ main :: IO ()
 main = do
   tvBorrowers <- atomically (newTVar [])
   tvBooks <- atomically (newTVar [])
-  appV (addBook (makeBook "War And Peace" "Tolstoy" Nothing)) tvBooks
-  appV (addBook (makeBook "Great Expectations" "Dickens" Nothing)) tvBooks
-  appV (addBorrower (makePerson "Jim" 3)) tvBorrowers
-  appV (addBorrower (makePerson "Sue" 3)) tvBorrowers
+  tvBooksBool <- atomically (newTVar ([], True))
+  atomically $ modifyTVar tvBooks (addBook (makeBook "War And Peace" "Tolstoy" Nothing))
+  atomically $ modifyTVar tvBooks (addBook (makeBook "Great Expectations" "Dickens" Nothing))
+  atomically $ modifyTVar tvBorrowers (addBorrower (makePerson "Jim" 3))
+  atomically $ modifyTVar tvBorrowers (addBorrower (makePerson "Sue" 3))
   books <- atomRead tvBooks
   borrowers <- atomRead tvBorrowers
   putStrLn ""
   putStrLn "Just created new library"
   putStrLn (statusToString books borrowers)
   putStrLn "Check out War And Peace to Sue"
-  appV (checkOut "Sue" "War And Peace" borrowers) tvBooks
+  atomically (readTVar tvBooks >>= \bs -> writeTVar tvBooksBool (bs, True))
+  atomically $ modifyTVar tvBooksBool (checkOut "Sue" "War And Peace" borrowers)
+  atomically (readTVar tvBooksBool >>= \bsb -> writeTVar tvBooks (fst bsb))
   books <- atomRead tvBooks
   putStrLn (statusToString books borrowers)
   putStrLn "Now check in War And Peace from Sue..."
-  appV (checkIn "War And Peace") tvBooks
-  books <- atomRead tvBooks
+  atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   putStrLn "...and check out Great Expectations to Jim"
-  appV (checkOut "Jim" "Great Expectations" borrowers) tvBooks
+  atomically (readTVar tvBooks >>= \bs -> writeTVar tvBooksBool (bs, True))
+  atomically $ modifyTVar tvBooksBool (checkOut "Jim" "Great Expectations" borrowers)
+  atomically (readTVar tvBooksBool >>= \bsb -> writeTVar tvBooks (fst bsb))
   books <- atomRead tvBooks
   putStrLn (statusToString books borrowers)
   putStrLn "Add Eric and The Cat In The Hat"
-  appV (addBorrower (makePerson "Eric" 1)) tvBorrowers
-  appV (addBook (makeBook "The Cat In The Hat" "Dr. Seuss" Nothing)) tvBooks
-  books <- atomRead tvBooks
+  atomically $ modifyTVar tvBorrowers (addBorrower (makePerson "Eric" 1))
+  atomically $ modifyTVar tvBooks (addBook (makeBook "The Cat In The Hat" "Dr. Seuss" Nothing))
   borrowers <- atomRead tvBorrowers
   putStrLn "Check Out Dr. Seuss to Eric"
-  appV (checkOut "Eric" "The Cat In The Hat" borrowers) tvBooks
+  atomically (readTVar tvBooks >>= \bs -> writeTVar tvBooksBool (bs, True))
+  atomically $ modifyTVar tvBooksBool (checkOut "Eric" "The Cat In The Hat" borrowers)
+  atomically (readTVar tvBooksBool >>= \bsb -> writeTVar tvBooks (fst bsb))
   books <- atomRead tvBooks
   putStrLn (statusToString books borrowers)
   putStrLn "Now let's do some BAD stuff..\nCheck out a valid book to an invalid person:"
@@ -90,7 +95,9 @@ main = do
 atomRead = atomically . readTVar
 dispVar x = atomRead x >>= print
 appV fn x = atomically $ readTVar x >>= writeTVar x . fn
+--appV (addBook (makeBook "Great Expectations" "Dickens" Nothing)) tvBooks
 --appV fn x = atomically (readTVar x >>= writeTVar x . fn)
 --appV x = atomically (readTVar x >>= writeTVar x . (+ 1))
 --appV x = atomically (readTVar x >>= \j -> writeTVar x (j + 20))
 --appV x = atomically (readTVar x >>= \j -> writeTVar x (j + 20))
+-- writeToTvBooksBool = atomically (readTVar tvBooks >>= \bs -> writeTVar tvBooksBool (bs, True))

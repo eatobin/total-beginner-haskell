@@ -121,21 +121,21 @@ testGetBooksForPerson2books = (~=?)
   (getBooksForPerson p3 bks3)
 
 testCheckOutFailCheckedOut = (~=?)
-  [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
-  , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
-  (checkOut "Person3" "Title1" ps2 bks1)
+  ( [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
+    , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
+  (checkOut "Person3" "Title1" ps2 (bks1, False))
 
 testCheckOutFailOverLimit = (~=?)
-  [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
-  , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
-  (checkOut "Person1" "Title2" ps2 bks1)
+  ( [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
+    , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
+  (checkOut "Person1" "Title2" ps2 (bks1, True))
 
 testCheckOutPass = (~=?)
-  [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
-  , Book {title = "Title3", author = "Author3", borrower = Just Person {name = "Person3", maxBooks = 3}}
-  , Book {title = "Title4", author = "Author4", borrower = Just Person {name = "Person3", maxBooks = 3}}
-  , Book {title = "Title2", author = "Author2", borrower = Just Person {name = "Person3", maxBooks = 3}} ]
-  (checkOut "Person3" "Title2" ps2 bks3)
+  ( [ Book {title = "Title1", author = "Author1", borrower = Just Person {name = "Person1", maxBooks = 1}}
+    , Book {title = "Title3", author = "Author3", borrower = Just Person {name = "Person3", maxBooks = 3}}
+    , Book {title = "Title4", author = "Author4", borrower = Just Person {name = "Person3", maxBooks = 3}}
+    , Book {title = "Title2", author = "Author2", borrower = Just Person {name = "Person3", maxBooks = 3}} ], True )
+  (checkOut "Person3" "Title2" ps2 (bks3, True))
 
 testCheckInPass = (~=?)
   [ Book {title = "Title2", author = "Author2", borrower = Nothing}
