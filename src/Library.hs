@@ -9,7 +9,7 @@ import           Control.Monad
 import           Data.Maybe
 import           Person
 
---type LibraryName = String
+type Books = ([Book], Bool)
 
 --data Library = Library { libName :: LibraryName
 --                       , libBorrowers :: [Person]
@@ -82,7 +82,7 @@ getBooksForPerson p bs = [b | b <- bs, getBorrower b == Just p]
 --             newBook = setBorrower (Just p) b
 --             fewerBooks = removeBook b bs
 
-checkOut :: Name -> Title -> [Person] -> ([Book], Bool) -> ([Book], Bool)
+checkOut :: Name -> Title -> [Person] -> Books -> Books
 checkOut n t ps bsb =
   if notMaxedOut && bookNotOut
     then (addBook newBook fewerBooks, True)
