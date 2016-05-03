@@ -2,18 +2,22 @@
 
 module Book where
 
+-- br = Borrower
+-- bk = Book
+
 import           Data.Maybe
-import           Person
+import           Borrower
 
 type Title = String
 type Author = String
 
-data Book = Book { title    :: Title
-                 , author   :: Author
-                 , borrower :: Maybe Person
-                 } deriving (Show, Eq)
+data Book = Book
+  { title :: Title
+  , author :: Author
+  , borrower :: Maybe Borrower
+  } deriving (Show, Eq)
 
-makeBook :: Title -> Author -> Maybe Person -> Book
+makeBook :: Title -> Author -> Maybe Borrower -> Book
 makeBook = Book
 
 getTitle :: Book -> Title
@@ -25,10 +29,10 @@ getAuthor Book {author} = author
 setAuthor :: Author -> Book -> Book
 setAuthor a bk@Book {author} = bk {author = a}
 
-getBorrower :: Book -> Maybe Person
+getBorrower :: Book -> Maybe Borrower
 getBorrower Book {borrower} = borrower
 
-setBorrower :: Maybe Person -> Book -> Book
+setBorrower :: Maybe Borrower -> Book -> Book
 setBorrower br bk@Book {borrower} = bk {borrower = br}
 
 availableString :: Book -> String

@@ -2,123 +2,142 @@
 
 module Library where
 
+-- br = Borrower
+-- brs = [br]
+-- brsb = (brs, Bool)
+-- bk = Book
+-- bks = [bk]
+-- bksb = (bks, Bool)
+
+import           Borrower
 import           Book
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
 import           Data.Maybe
-import           Person
 
+type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
 
 --data Library = Library { libName :: LibraryName
---                       , libBorrowers :: [Person]
---                       , libBooks :: [Book] } deriving (Show, Eq)
+--                       , libBorrowers :: Borrowers
+--                       , libBooks :: Books } deriving (Show, Eq)
 
---makeLibrary :: LibraryName -> [Person] -> [Book] -> Library
+--makeLibrary :: LibraryName -> Borrowers -> Books -> Library
 --makeLibrary = Library
 
 --getLibName :: Library -> LibraryName
 --getLibName Library {libName} = libName
 
---getLibBorrowers :: Library -> [Person]
+--getLibBorrowers :: Library -> Borrowers
 --getLibBorrowers Library {libBorrowers} = libBorrowers
 
---getLibBooks :: Library -> [Book]
+--getLibBooks :: Library -> Books
 --getLibBooks Library {libBooks} = libBooks
 
-addBorrower :: Person -> [Person] -> [Person]
-addBorrower p ps = ps ++ [p]
+addBorrower :: Borrower -> Borrowers -> Borrowers
+addBorrower br brsb = (brs ++ [br], True)
+  where brs = fst brsb
 
---addBorrower :: Person -> Library -> Library
---addBorrower p l = l {libBorrowers = nbrs}
---  where nbrs = (getLibBorrowers l) ++ [p]
+--addBorrower :: Borrower -> Library -> Library
+--addBorrower br l = l {libBorrowers = nbrs}
+--  where nbrs = (getLibBorrowers l) ++ [br]
 
---findBorrower :: Name -> [Person] -> Person
---findBorrower n ps = head [ p | p <- ps, getName p == n ]
----- getBorrower n ps = head $ filter (\p -> getName p == n) ps
+--findBorrower :: Name -> Borrowers -> Borrower
+--findBorrower n brs = head [ br | br <- brs, getName br == n ]
+---- getBorrower n brs = head $ filter (\br -> getName br == n) brs
 
-addBook :: Book -> [Book] -> [Book]
-addBook b bs = bs ++ [b]
+addBook :: Book -> Books -> Books
+addBook bk bksb = (bks ++ [bk], True)
+  where bks = fst bksb
 
-removeBook :: Book -> [Book] -> [Book]
-removeBook tb bs = [ b | b <- bs, b /= tb]
+removeBook :: Book -> Books -> Books
+removeBook tbk bksb = ([ bk | bk <- bks, bk /= tbk], True)
+  where bks = fst bksb
 
 --addBook :: Book -> Library -> Library
 --addBook b l = l {libBooks = nbks}
 --  where nbks = (getLibBooks l) ++ [b]
 
--- findBook :: Title -> [Book] -> Book
+-- findBook :: Title -> Books -> Book
 -- findBook t bs = head [ b | b <- bs, getTitle b == t ]
 
-findBook :: Title -> [Book] -> Maybe Book
-findBook t bs = if null coll then Nothing else Just (head coll)
-  where coll = [ b | b <- bs, getTitle b == t ]
+findBook :: Title -> Books -> Maybe Book
+findBook t bksb = if null coll then Nothing else Just (head coll)
+  where coll = [ bk | bk <- bks, getTitle bk == t ]
+        bks = fst bksb
 
-findPerson :: Name -> [Person] -> Maybe Person
-findPerson t ps = if null coll then Nothing else Just (head coll)
-  where coll = [ p | p <- ps, getName p == t ]
+findBorrower :: Name -> Borrowers -> Maybe Borrower
+findBorrower n brsb = if null coll then Nothing else Just (head coll)
+  where coll = [ br | br <- brs, getName br == n ]
+        brs = fst brsb
 
-getBooksForPerson :: Person -> [Book] -> [Book]
-getBooksForPerson p bs = [b | b <- bs, getBorrower b == Just p]
+getBooksForBorrower :: Borrower -> Books -> [Book]
+getBooksForBorrower br bksb = [bk | bk <- bks, getBorrower bk == Just br]
+  where bks = fst bksb
 
---getBooksForPerson :: Person -> Library -> [Book]
---getBooksForPerson p l = [b | b <- bs, getBorrower b == (Just p)]
+--getBooksForBorrower :: Borrower -> Library -> Books
+--getBooksForBorrower br l = [b | b <- bs, getBorrower b == (Just br)]
 --  where bs = (getLibBooks l)
 
---setLibBorrower :: Maybe Person -> Book -> Library -> Library
+--setLibBorrower :: Maybe Borrower -> Book -> Library -> Library
 --setLibBorrower mp b l =
 --  where nb = (setBorrower mp b)
 
--- checkOut :: Book -> Person -> [Book] -> [Book]
--- checkOut b p bs =
+-- checkOut :: Book -> Borrower -> Books -> Books
+-- checkOut b br bs =
 --   if notMaxedOut && bookNotOut
 --     then addBook newBook fewerBooks
 --     else bs
---       where booksOut = length (getBooksForPerson p bs)
---             maxBooksAllowed = getMaxBooks p
+--       where booksOut = length (getBooksForBorrower br bs)
+--             maxBooksAllowed = getMaxBooks br
 --             notMaxedOut = booksOut < maxBooksAllowed
 --             bookNotOut = isNothing (getBorrower b)
---             newBook = setBorrower (Just p) b
+--             newBook = setBorrower (Just br) b
 --             fewerBooks = removeBook b bs
 
-checkOut :: Name -> Title -> [Person] -> ([Book], Bool) -> ([Book], Bool)
-checkOut n t ps bsb =
+checkOut :: Name -> Title -> Borrowers -> Books -> Books
+checkOut n t brsb bksb =
   if notMaxedOut && bookNotOut
-    then (addBook newBook fewerBooks, True)
-    else (bs, False)
-      where bs = fst bsb
-            b = fromJust (findBook t bs)
-            p = fromJust (findPerson n ps)
-            booksOut = length (getBooksForPerson p bs)
-            maxBooksAllowed = getMaxBooks p
+    then addBook newBook fewerBooks
+    else (bks, False)
+      where bks = fst bksb
+            bk = fromJust (findBook t bksb)
+            br = fromJust (findBorrower n brsb)
+            booksOut = length (getBooksForBorrower br bksb)
+            maxBooksAllowed = getMaxBooks br
             notMaxedOut = booksOut < maxBooksAllowed
-            bookNotOut = isNothing (getBorrower b)
-            newBook = setBorrower (Just p) b
-            fewerBooks = removeBook b bs
+            bookNotOut = isNothing (getBorrower bk)
+            newBook = setBorrower (Just br) bk
+            fewerBooks = removeBook bk bksb
 
-checkIn :: Title -> [Book] -> [Book]
-checkIn t bs =
+checkIn :: Title -> Books -> Books
+checkIn t bksb =
   if bookOut
     then addBook newBook fewerBooks
-    else bs
-      where b = fromJust (findBook t bs)
-            bookOut = isJust (getBorrower b)
-            newBook = setBorrower Nothing b
-            fewerBooks = removeBook b bs
+    else (bks, False)
+      where bks = fst bksb
+            bk = fromJust (findBook t bksb)
+            bookOut = isJust (getBorrower bk)
+            newBook = setBorrower Nothing bk
+            fewerBooks = removeBook bk bksb
 
-libraryToString :: [Book] -> [Person] -> String
-libraryToString bs ps = "Test Library: " ++
-  show (length bs) ++ " books; " ++
-  show (length ps) ++ " people."
+libraryToString :: Books -> Borrowers -> String
+libraryToString bksb brsb = "Test Library: " ++
+  show (length bks) ++ " books; " ++
+  show (length brs) ++ " people."
+    where bks = fst bksb
+          brs = fst brsb
 
-statusToString :: [Book] -> [Person] -> String
-statusToString bs ps = "\n" ++
+statusToString :: Books -> Borrowers -> String
+statusToString bksb brsb = "\n" ++
   "--- Status Report of Test Library ---\n" ++
   "\n" ++
-  libraryToString bs ps ++
+  libraryToString bksb brsb ++
   "\n" ++
-  unlines (map bookToString bs) ++ "\n" ++
-  unlines (map personToString ps) ++ "\n" ++
+  unlines (map bookToString bks) ++ "\n" ++
+  unlines (map borrowerToString brs) ++ "\n" ++
   "--- End of Status Report ---" ++
   "\n"
+    where bks = fst bksb
+          brs = fst brsb
