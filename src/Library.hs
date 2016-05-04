@@ -36,8 +36,9 @@ type Books = ([Book], Bool)
 --getLibBooks Library {libBooks} = libBooks
 
 addBorrower :: Borrower -> Borrowers -> Borrowers
-addBorrower br brsb = (brs ++ [br], True)
+addBorrower br brsb = if null coll then (brs ++ [br], True) else (brs, False)
   where brs = fst brsb
+        coll = filter (\cbr -> cbr == br) brs
 
 --addBorrower :: Borrower -> Library -> Library
 --addBorrower br l = l {libBorrowers = nbrs}
