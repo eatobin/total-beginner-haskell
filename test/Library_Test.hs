@@ -43,6 +43,7 @@ bk4 = Book { title = "Title4"
 bksb1 = ([bk1, bk2], True)
 bksb2 = ([bk1, bk2, bk3], True)
 bksb3 = ([bk1, bk2, bk3, bk4], True)
+bksb4 = ([bk1, bk2, bk3, bk4], False)
 
 --lib1 = Library { libName = "Test Library"
 --                , libBorrowers = brsb1
@@ -80,9 +81,13 @@ testAddBorrowerFail = (~=?)
 --  lib2
 --  (addBorrower br3 lib1)
 
-testAddBook = (~=?)
+testAddBookPass = (~=?)
   bksb2
   (addBook bk3 bksb1)
+
+testAddBookFail = (~=?)
+  bksb4
+  (addBook bk3 bksb3)
 
 testRemoveBook = (~=?)
   bksb1
@@ -165,7 +170,7 @@ testLibraryToString = (~=?)
 
 libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBook
                         , testCheckOutFailCheckedOut, testCheckOutFailOverLimit
-                        , testAddBook, testGetBooksForBorrower0books
+                        , testAddBookPass, testAddBookFail, testGetBooksForBorrower0books
                         , testGetBooksForBorrower1book, testCheckOutPass
                         , testGetBooksForBorrower2books, testLibraryToString
                         , testCheckInPass, testCheckInFailCheckedIn
