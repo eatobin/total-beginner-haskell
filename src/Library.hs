@@ -9,8 +9,8 @@ module Library where
 -- bks = [bk]
 -- bksb = (bks, Bool)
 
-import           Borrower
 import           Book
+import           Borrower
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
@@ -38,7 +38,7 @@ type Books = ([Book], Bool)
 addBorrower :: Borrower -> Borrowers -> Borrowers
 addBorrower br brsb = if null coll then (brs ++ [br], True) else (brs, False)
   where brs = fst brsb
-        coll = filter (\cbr -> cbr == br) brs
+        coll = filter (== br) brs
 
 --addBorrower :: Borrower -> Library -> Library
 --addBorrower br l = l {libBorrowers = nbrs}
@@ -51,12 +51,12 @@ addBorrower br brsb = if null coll then (brs ++ [br], True) else (brs, False)
 addBook :: Book -> Books -> Books
 addBook bk bksb = if null coll then (bks ++ [bk], True) else (bks, False)
   where bks = fst bksb
-        coll = filter (\cbk -> cbk == bk) bks
+        coll = filter (== bk) bks
 
 removeBook :: Book -> Books -> Books
 removeBook tbk bksb = if not (null coll) then ([ bk | bk <- bks, bk /= tbk], True) else (bks, False)
   where bks = fst bksb
-        coll = filter (\cbk -> cbk == tbk) bks
+        coll = filter (== tbk) bks
 
 --addBook :: Book -> Library -> Library
 --addBook b l = l {libBooks = nbks}

@@ -25,6 +25,7 @@ br3 = Borrower {name = "Borrower3", maxBooks = 3}
 
 brsb1 = ([br1, br2], True)
 brsb2 = ([br1, br2, br3], True)
+brsb3 = ([br1, br2, br3], False)
 
 -- bk1 = Book { title = "Title1"
 --              , author = "Author1"
@@ -67,9 +68,13 @@ bksb3 = ([bk1, bk2, bk3, bk4], True)
 --  "Test Library"
 --  (getLibName lib2)
 
-testAddBorrower = (~=?)
+testAddBorrowerPass = (~=?)
   brsb2
   (addBorrower br3 brsb1)
+
+testAddBorrowerFail = (~=?)
+  brsb3
+  (addBorrower br3 brsb3)
 
 --testAddBorrower = (~=?)
 --  lib2
@@ -158,7 +163,7 @@ testLibraryToString = (~=?)
   "Test Library: 2 books; 3 people."
   (libraryToString bksb1 brsb2)
 
-libraryTests = TestList [ testAddBorrower, testRemoveBook
+libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBook
                         , testCheckOutFailCheckedOut, testCheckOutFailOverLimit
                         , testAddBook, testGetBooksForBorrower0books
                         , testGetBooksForBorrower1book, testCheckOutPass
