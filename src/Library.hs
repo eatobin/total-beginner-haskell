@@ -49,12 +49,14 @@ addBorrower br brsb = if null coll then (brs ++ [br], True) else (brs, False)
 ---- getBorrower n brs = head $ filter (\br -> getName br == n) brs
 
 addBook :: Book -> Books -> Books
-addBook bk bksb = (bks ++ [bk], True)
+addBook bk bksb = if null coll then (bks ++ [bk], True) else (bks, False)
   where bks = fst bksb
+        coll = filter (\cbk -> cbk == bk) bks
 
 removeBook :: Book -> Books -> Books
-removeBook tbk bksb = ([ bk | bk <- bks, bk /= tbk], True)
+removeBook tbk bksb = if not (null coll) then ([ bk | bk <- bks, bk /= tbk], True) else (bks, False)
   where bks = fst bksb
+        coll = filter (\cbk -> cbk == tbk) bks
 
 --addBook :: Book -> Library -> Library
 --addBook b l = l {libBooks = nbks}
