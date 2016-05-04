@@ -22,24 +22,28 @@ main = do
   tvBooks <- atomically (newTVar ([], True))
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "Jim" 3))
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "Sue" 3))
+  --atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "Jim" 3))
   atomically $ modifyTVar tvBooks (addBook (makeBook "War And Peace" "Tolstoy" Nothing))
   atomically $ modifyTVar tvBooks (addBook (makeBook "Great Expectations" "Dickens" Nothing))
-
+  --atomically $ modifyTVar tvBooks (addBook (makeBook "War And Peace" "Tolstoy" Nothing))
   books <- atomRead tvBooks
   borrowers <- atomRead tvBorrowers
   putStrLn ""
   putStrLn "Just created new library"
-  putStrLn (statusToString books borrowers)
+  if (snd books) && (snd borrowers) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with the borrowers list or the books list - or both! ***\n"
   putStrLn "Check out War And Peace to Sue"
   atomically $ modifyTVar tvBooks (checkOut "Sue" "War And Peace" borrowers)
   books <- atomRead tvBooks
-  putStrLn (statusToString books borrowers)
+  if (snd books) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with a book check out or check in! ***\n"
   putStrLn "Now check in War And Peace from Sue..."
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   putStrLn "...and check out Great Expectations to Jim"
   atomically $ modifyTVar tvBooks (checkOut "Jim" "Great Expectations" borrowers)
   books <- atomRead tvBooks
-  putStrLn (statusToString books borrowers)
+  if (snd books) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with a book check out or check in! ***\n"
   putStrLn "Add Eric and The Cat In The Hat"
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "Eric" 1))
   atomically $ modifyTVar tvBooks (addBook (makeBook "The Cat In The Hat" "Dr. Seuss" Nothing))
@@ -47,9 +51,14 @@ main = do
   borrowers <- atomRead tvBorrowers
   atomically $ modifyTVar tvBooks (checkOut "Eric" "The Cat In The Hat" borrowers)
   books <- atomRead tvBooks
-  putStrLn (statusToString books borrowers)
+  if (snd books) && (snd borrowers) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with the borrowers list or the books list - or both! ***\n"
   putStrLn "Now let's do some BAD stuff...\nCheck out a valid book to an invalid person:"
-
+  --atomically $ modifyTVar tvBooks (checkOut "JoJo" "War And Peace" borrowers)
+  --books <- atomRead tvBooks
+  --putStrLn (show books)
+  --if (snd books) then putStrLn (statusToString books borrowers)
+  --  else putStrLn "\n*** There is an error with a book check out or check in! ***\n"
 
 
 
@@ -87,7 +96,7 @@ main = do
           -- putStrLn "Bye!"
 
 atomRead = atomically . readTVar
---dispVar x = atomRead x >>= print
+dispVar x = atomRead x >>= print
 --appV fn x = atomically $ readTVar x >>= writeTVar x . fn
 --appV (addBook (makeBook "Great Expectations" "Dickens" Nothing)) tvBooks
 --appV fn x = atomically (readTVar x >>= writeTVar x . fn)
