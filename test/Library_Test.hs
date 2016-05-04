@@ -46,30 +46,6 @@ bksb3 = ([bk1, bk2, bk3, bk4], True)
 bksb4 = ([bk1, bk2, bk3, bk4], False)
 bksb5 = ([bk1, bk2, bk3], False)
 
---lib1 = Library { libName = "Test Library"
---                , libBorrowers = brsb1
---                , libBooks = bksb1 }
-
---lib2 = Library { libName = "Test Library"
---                , libBorrowers = brsb2
---                , libBooks = bksb1 }
-
---lib3 = Library { libName = "Test Library"
---                , libBorrowers = brsb1
---                , libBooks = bksb2 }
-
---lib4 = Library { libName = "Test Library"
---                , libBorrowers = brsb1
---                , libBooks = bksb3 }
-
---testMakeLibrary = (~=?)
---  lib1
---  (makeLibrary "Test Library" brsb1 bksb1)
-
---testGetLibName = (~=?)
---  "Test Library"
---  (getLibName lib2)
-
 testAddBorrowerPass = (~=?)
   brsb2
   (addBorrower br3 brsb1)
@@ -77,10 +53,6 @@ testAddBorrowerPass = (~=?)
 testAddBorrowerFail = (~=?)
   brsb3
   (addBorrower br3 brsb3)
-
---testAddBorrower = (~=?)
---  lib2
---  (addBorrower br3 lib1)
 
 testAddBookPass = (~=?)
   bksb2
@@ -97,22 +69,6 @@ testRemoveBookPass = (~=?)
 testRemoveBookFail = (~=?)
   bksb5
   (removeBook bk4 bksb2)
-
---testAddBook = (~=?)
---  lib3
---  (addBook bk3 lib1)
-
---testGetBooksForBorrower0books = (~=?)
---  []
---  (getBooksForBorrower br2 lib2)
-
---testGetBooksForBorrower1book = (~=?)
---  [bk1]
---  (getBooksForBorrower br1 lib2)
-
---testGetBooksForBorrower2books = (~=?)
---  [bk3, bk4]
---  (getBooksForBorrower br3 lib4)
 
 testFindBookPass = (~=?)
   (Just bk4)

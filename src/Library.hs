@@ -19,34 +19,10 @@ import           Data.Maybe
 type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
 
---data Library = Library { libName :: LibraryName
---                       , libBorrowers :: Borrowers
---                       , libBooks :: Books } deriving (Show, Eq)
-
---makeLibrary :: LibraryName -> Borrowers -> Books -> Library
---makeLibrary = Library
-
---getLibName :: Library -> LibraryName
---getLibName Library {libName} = libName
-
---getLibBorrowers :: Library -> Borrowers
---getLibBorrowers Library {libBorrowers} = libBorrowers
-
---getLibBooks :: Library -> Books
---getLibBooks Library {libBooks} = libBooks
-
 addBorrower :: Borrower -> Borrowers -> Borrowers
 addBorrower br brsb = if null coll then (brs ++ [br], True) else (brs, False)
   where brs = fst brsb
         coll = filter (== br) brs
-
---addBorrower :: Borrower -> Library -> Library
---addBorrower br l = l {libBorrowers = nbrs}
---  where nbrs = (getLibBorrowers l) ++ [br]
-
---findBorrower :: Name -> Borrowers -> Borrower
---findBorrower n brs = head [ br | br <- brs, getName br == n ]
----- getBorrower n brs = head $ filter (\br -> getName br == n) brs
 
 addBook :: Book -> Books -> Books
 addBook bk bksb = if null coll then (bks ++ [bk], True) else (bks, False)
@@ -57,13 +33,6 @@ removeBook :: Book -> Books -> Books
 removeBook tbk bksb = if not (null coll) then ([ bk | bk <- bks, bk /= tbk], True) else (bks, False)
   where bks = fst bksb
         coll = filter (== tbk) bks
-
---addBook :: Book -> Library -> Library
---addBook b l = l {libBooks = nbks}
---  where nbks = (getLibBooks l) ++ [b]
-
--- findBook :: Title -> Books -> Book
--- findBook t bs = head [ b | b <- bs, getTitle b == t ]
 
 findBook :: Title -> Books -> Maybe Book
 findBook t bksb = if null coll then Nothing else Just (head coll)
@@ -78,26 +47,6 @@ findBorrower n brsb = if null coll then Nothing else Just (head coll)
 getBooksForBorrower :: Borrower -> Books -> [Book]
 getBooksForBorrower br bksb = [bk | bk <- bks, getBorrower bk == Just br]
   where bks = fst bksb
-
---getBooksForBorrower :: Borrower -> Library -> Books
---getBooksForBorrower br l = [b | b <- bs, getBorrower b == (Just br)]
---  where bs = (getLibBooks l)
-
---setLibBorrower :: Maybe Borrower -> Book -> Library -> Library
---setLibBorrower mp b l =
---  where nb = (setBorrower mp b)
-
--- checkOut :: Book -> Borrower -> Books -> Books
--- checkOut b br bs =
---   if notMaxedOut && bookNotOut
---     then addBook newBook fewerBooks
---     else bs
---       where booksOut = length (getBooksForBorrower br bs)
---             maxBooksAllowed = getMaxBooks br
---             notMaxedOut = booksOut < maxBooksAllowed
---             bookNotOut = isNothing (getBorrower b)
---             newBook = setBorrower (Just br) b
---             fewerBooks = removeBook b bs
 
 checkOut :: Name -> Title -> Borrowers -> Books -> Books
 checkOut n t brsb bksb =
