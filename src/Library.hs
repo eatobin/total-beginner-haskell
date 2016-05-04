@@ -55,14 +55,14 @@ checkOut n t brsb bksb =
     then addBook newBook fewerBooks
     else (bks, False)
       where bks = fst bksb
-            bk = fromJust (findBook t bksb)
+            bk = findBook t bksb
             br = findBorrower n brsb
             booksOut = length (getBooksForBorrower br bksb)
             maxBooksAllowed = getMaxBooks (fromJust br)
             notMaxedOut = booksOut < maxBooksAllowed
-            bookNotOut = isNothing (getBorrower bk)
-            newBook = setBorrower br bk
-            fewerBooks = removeBook bk bksb
+            bookNotOut = isNothing (getBorrower (fromJust bk))
+            newBook = setBorrower br (fromJust bk)
+            fewerBooks = removeBook (fromJust bk) bksb
 
 checkIn :: Title -> Books -> Books
 checkIn t bksb =
