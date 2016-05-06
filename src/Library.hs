@@ -54,14 +54,14 @@ checkOut n t brsb bksb =
     then addBook newBook fewerBooks
     else (bks, False)
       where bks = fst bksb
-            bk = findBook t bksb
-            br = findBorrower n brsb
-            booksOut = length (getBooksForBorrower (fromJust br) bksb)
-            maxBooksAllowed = getMaxBooks (fromJust br)
+            mbk = findBook t bksb
+            mbr = findBorrower n brsb
+            booksOut = length (getBooksForBorrower (fromJust mbr) bksb)
+            maxBooksAllowed = getMaxBooks (fromJust mbr)
             notMaxedOut = booksOut < maxBooksAllowed
-            bookNotOut = isNothing (getBorrower (fromJust bk))
-            newBook = setBorrower br (fromJust bk)
-            fewerBooks = removeBook (fromJust bk) bksb
+            bookNotOut = isNothing (getBorrower (fromJust mbk))
+            newBook = setBorrower mbr (fromJust mbk)
+            fewerBooks = removeBook (fromJust mbk) bksb
 
 checkIn :: Title -> Books -> Books
 checkIn t bksb =
@@ -69,10 +69,10 @@ checkIn t bksb =
     then addBook newBook fewerBooks
     else (bks, False)
       where bks = fst bksb
-            bk = fromJust (findBook t bksb)
-            bookOut = isJust (getBorrower bk)
-            newBook = setBorrower Nothing bk
-            fewerBooks = removeBook bk bksb
+            mbk = findBook t bksb
+            bookOut = isJust (getBorrower (fromJust mbk))
+            newBook = setBorrower Nothing (fromJust mbk)
+            fewerBooks = removeBook (fromJust mbk) bksb
 
 libraryToString :: Books -> Borrowers -> String
 libraryToString bksb brsb = "Test Library: " ++
