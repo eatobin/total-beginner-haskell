@@ -103,10 +103,15 @@ testCheckOutFailCheckedOut = (~=?)
     , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
   (checkOut "Borrower3" "Title1" brsb2 bksb1)
 
+testCheckOutFailBadBook = (~=?)
+  ( [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+    , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
+  (checkOut "Borrower3" "NoTitle" brsb2 bksb1)
+
 testCheckOutFailBadBorrower = (~=?)
   ( [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
     , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
-  (checkOut "JoJo" "Title1" brsb2 bksb1)
+  (checkOut "NoName" "Title1" brsb2 bksb1)
 
 testCheckOutFailOverLimit = (~=?)
   ( [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
@@ -142,6 +147,6 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testCheckInPass, testCheckInFailCheckedIn
                         , testFindBookPass, testFindBookFail
                         , testFindBorrowerPass, testFindBorrowerFail
-                        , testCheckOutFailBadBorrower ]
+                        , testCheckOutFailBadBorrower, testCheckOutFailBadBook ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]
