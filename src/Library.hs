@@ -44,9 +44,8 @@ findBorrower n brsb = if null coll then Nothing else Just (head coll)
   where coll = [ br | br <- brs, getName br == n ]
         brs = fst brsb
 
-getBooksForBorrower :: Maybe Borrower -> Books -> [Book]
-getBooksForBorrower Nothing _ = []
-getBooksForBorrower br bksb = [bk | bk <- bks, getBorrower bk == br]
+getBooksForBorrower :: Borrower -> Books -> [Book]
+getBooksForBorrower br bksb = [bk | bk <- bks, getBorrower bk == Just br]
   where bks = fst bksb
 
 checkOut :: Name -> Title -> Borrowers -> Books -> Books
@@ -57,7 +56,7 @@ checkOut n t brsb bksb =
       where bks = fst bksb
             bk = findBook t bksb
             br = findBorrower n brsb
-            booksOut = length (getBooksForBorrower br bksb)
+            booksOut = length (getBooksForBorrower (fromJust br) bksb)
             maxBooksAllowed = getMaxBooks (fromJust br)
             notMaxedOut = booksOut < maxBooksAllowed
             bookNotOut = isNothing (getBorrower (fromJust bk))

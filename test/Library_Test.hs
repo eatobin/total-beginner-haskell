@@ -88,19 +88,15 @@ testFindBorrowerFail = (~=?)
 
 testGetBooksForBorrower0books = (~=?)
   []
-  (getBooksForBorrower (Just br2) bksb2)
+  (getBooksForBorrower br2 bksb2)
 
 testGetBooksForBorrower1book = (~=?)
   [bk1]
-  (getBooksForBorrower (Just br1) bksb2)
+  (getBooksForBorrower br1 bksb2)
 
 testGetBooksForBorrower2books = (~=?)
   [bk3, bk4]
-  (getBooksForBorrower (Just br3) bksb3)
-
-testGetBooksForBorrowerBadBorrower = (~=?)
-  []
-  (getBooksForBorrower Nothing bksb3)
+  (getBooksForBorrower br3 bksb3)
 
 testCheckOutFailCheckedOut = (~=?)
   ( [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
@@ -140,7 +136,6 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testGetBooksForBorrower2books, testLibraryToString
                         , testCheckInPass, testCheckInFailCheckedIn
                         , testFindBookPass, testFindBookFail
-                        , testFindBorrowerPass, testFindBorrowerFail
-                        , testGetBooksForBorrowerBadBorrower ]
+                        , testFindBorrowerPass, testFindBorrowerFail ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]
