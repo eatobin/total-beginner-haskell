@@ -135,6 +135,11 @@ testCheckInFailCheckedIn = (~=?)
     , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
   (checkIn "Title2" bksb1)
 
+testCheckInFailBadBook = (~=?)
+  ( [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+    , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
+  (checkIn "NoTitle" bksb1)
+
 testLibraryToString = (~=?)
   "Test Library: 2 books; 3 people."
   (libraryToString bksb1 brsb2)
@@ -147,6 +152,7 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testCheckInPass, testCheckInFailCheckedIn
                         , testFindBookPass, testFindBookFail
                         , testFindBorrowerPass, testFindBorrowerFail
-                        , testCheckOutFailBadBorrower, testCheckOutFailBadBook ]
+                        , testCheckOutFailBadBorrower, testCheckOutFailBadBook
+                        , testCheckInFailBadBook ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]

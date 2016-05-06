@@ -50,7 +50,7 @@ getBooksForBorrower br bksb = [bk | bk <- bks, getBorrower bk == Just br]
 
 checkOut :: Name -> Title -> Borrowers -> Books -> Books
 checkOut n t brsb bksb = 
-  if (isJust mbk) && (isJust mbr) && notMaxedOut && bookNotOut
+  if isJust mbk && isJust mbr && notMaxedOut && bookNotOut
     then addBook newBook fewerBooks
     else (bks, False)
       where bks = fst bksb
@@ -65,7 +65,7 @@ checkOut n t brsb bksb =
 
 checkIn :: Title -> Books -> Books
 checkIn t bksb =
-  if bookOut
+  if isJust mbk && bookOut
     then addBook newBook fewerBooks
     else (bks, False)
       where bks = fst bksb
