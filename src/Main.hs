@@ -22,10 +22,8 @@ main = do
   tvBooks <- atomically (newTVar ([], True))
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "Jim" 3))
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "Sue" 3))
-  --atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "Jim" 3))
   atomically $ modifyTVar tvBooks (addBook (makeBook "War And Peace" "Tolstoy" Nothing))
   atomically $ modifyTVar tvBooks (addBook (makeBook "Great Expectations" "Dickens" Nothing))
-  --atomically $ modifyTVar tvBooks (addBook (makeBook "War And Peace" "Tolstoy" Nothing))
   books <- atomRead tvBooks
   borrowers <- atomRead tvBorrowers
   putStrLn ""
@@ -53,12 +51,29 @@ main = do
   books <- atomRead tvBooks
   if (snd books) && (snd borrowers) then putStrLn (statusToString books borrowers)
     else putStrLn "\n*** There is an error with the borrowers list or the books list - or both! ***\n"
-  putStrLn "Now let's do some BAD stuff...\nCheck out a valid book to an invalid person:"
-  --atomically $ modifyTVar tvBooks (checkOut "JoJo" "War And Peace" borrowers)
-  --books <- atomRead tvBooks
-  --putStrLn (show books)
-  --if (snd books) then putStrLn (statusToString books borrowers)
-  --  else putStrLn "\n*** There is an error with a book check out or check in! ***\n"
+  putStrLn "Now let's do some BAD stuff..."
+  putStrLn "Add a borrower that already exists (makeBorrower 'Jim' 3):"
+  atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "Jim" 3))
+  borrowers <- atomRead tvBorrowers
+  if (snd books) && (snd borrowers) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with the borrowers list or the books list - or both! ***\n"
+  atomically $ writeTVar tvBorrowers (fst borrowers, True)
+  putStrLn "Add a book that already exists (makeBook 'War And Peace' 'Tolstoy' Nothing):"
+  atomically $ modifyTVar tvBooks (addBook (makeBook "War And Peace" "Tolstoy" Nothing))
+  books <- atomRead tvBooks
+  if (snd books) && (snd borrowers) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with the borrowers list or the books list - or both! ***\n"
+  atomically $ writeTVar tvBooks (fst books, True)
+  books <- atomRead tvBooks
+  borrowers <- atomRead tvBorrowers
+  putStrLn "All reset?..."
+  if (snd books) && (snd borrowers) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with the borrowers list or the books list - or both! ***\n"
+  putStrLn "Check out a valid book to an invalid person (checkOut 'JoJo' 'War And Peace' borrowers):"
+  atomically $ modifyTVar tvBooks (checkOut "JoJo" "War And Peace" borrowers)
+  books <- atomRead tvBooks
+  if (snd books) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with a book check out or check in! ***\n"
 
 
 
