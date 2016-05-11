@@ -74,10 +74,22 @@ main = do
   books <- atomRead tvBooks
   if (snd books) then putStrLn (statusToString books borrowers)
     else putStrLn "\n*** There is an error with a book check out or check in! ***\n"
-
-
-
-
+  putStrLn "Check out an invalid book to an valid person (checkOut 'Sue' 'Not A Book' borrowers):"
+  atomically $ modifyTVar tvBooks (checkOut "Sue" "Not A Book" borrowers)
+  books <- atomRead tvBooks
+  if (snd books) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with a book check out or check in! ***\n"
+  atomically $ writeTVar tvBooks (fst books, True)
+  books <- atomRead tvBooks
+  putStrLn "All reset?..."
+  if (snd books) && (snd borrowers) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with the borrowers list or the books list - or both! ***\n"
+  putStrLn "Last - check in a book not checked out (checkIn 'War And Peace'):"
+  atomically $ modifyTVar tvBooks (checkIn "War And Peace")
+  books <- atomRead tvBooks
+  if (snd books) then putStrLn (statusToString books borrowers)
+    else putStrLn "\n*** There is an error with a book check out or check in! ***\n"
+  putStrLn "Thanks - bye!\n"
 
 --module Main where
 
