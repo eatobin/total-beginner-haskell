@@ -26,9 +26,6 @@ getTitle Book {title} = title
 getAuthor :: Book -> Author
 getAuthor Book {author} = author
 
-setAuthor :: Author -> Book -> Book
-setAuthor a bk@Book {author} = bk {author = a}
-
 getBorrower :: Book -> Maybe Borrower
 getBorrower Book {borrower} = borrower
 
