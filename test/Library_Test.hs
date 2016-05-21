@@ -52,7 +52,7 @@ testAddBorrowerPass = (~=?)
 
 testAddBorrowerFail = (~=?)
   brsb3
-  (addBorrower br3 brsb3)
+  (addBorrower br3 brsb2)
 
 testAddBookPass = (~=?)
   bksb2
