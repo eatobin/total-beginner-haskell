@@ -68,14 +68,15 @@ main = do
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   printStatus tvBooks tvBorrowers
   putStrLn "Thanks - bye!\n"
-  
 
 atomRead = atomically . readTVar
+
 printStatus tvbksb tvbrsb = do
   bksb <- atomRead tvbksb
   brsb <- atomRead tvbrsb
-  if (snd bksb) && (snd brsb) then putStrLn (statusToString bksb brsb)
+  if snd bksb && snd brsb then putStrLn (statusToString bksb brsb)
     else putStrLn "\n*** There was an error with the operation just performed! ***\n"
+
 resetV tvbksb tvbrsb = do
   bksb <- atomRead tvbksb
   brsb <- atomRead tvbrsb

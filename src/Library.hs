@@ -25,9 +25,9 @@ addBorrower br brsb = if null coll then (brs ++ [br], True) else (brs, False)
         coll = filter (== br) brs
 
 addBook :: Book -> Books -> Books
-addBook bk bksb = if null coll then (bks ++ [bk], True) else (bks, False)
+addBook tbk bksb = if null coll then (bks ++ [tbk], True) else (bks, False)
   where bks = fst bksb
-        coll = filter (== bk) bks
+        coll = filter (== tbk) bks
 
 removeBook :: Book -> Books -> Books
 removeBook tbk bksb = if not (null coll) then ([ bk | bk <- bks, bk /= tbk], True) else (bks, False)
