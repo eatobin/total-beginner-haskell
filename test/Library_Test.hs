@@ -141,7 +141,7 @@ testCheckInFailBadBook = (~=?)
   (checkIn "NoTitle" bksb1)
 
 testLibraryToString = (~=?)
-  "Test Library: 2 books; 3 people."
+  "Test Library: 2 books; 3 borrowers."
   (libraryToString bksb1 brsb2)
 
 libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBookPass
