@@ -77,7 +77,7 @@ checkIn t bksb =
 libraryToString :: Books -> Borrowers -> String
 libraryToString bksb brsb = "Test Library: " ++
   show (length bks) ++ " books; " ++
-  show (length brs) ++ " people."
+  show (length brs) ++ " borrowers."
     where bks = fst bksb
           brs = fst brsb
 
