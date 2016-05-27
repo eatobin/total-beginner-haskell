@@ -144,6 +144,10 @@ testLibraryToString = (~=?)
   "Test Library: 2 books; 3 borrowers."
   (libraryToString bksb1 brsb2)
 
+testStatusToString = (~=?)
+  "\n--- Status Report of Test Library ---\n\nTest Library: 3 books; 3 borrowers.\nTitle1 by Author1; Checked out to Borrower1\nTitle2 by Author2; Available\nTitle3 by Author3; Checked out to Borrower3\n\nBorrower1 (1 books)\nBorrower2 (2 books)\nBorrower3 (3 books)\n\n--- End of Status Report ---\n"
+  (statusToString bksb2 brsb2)
+
 libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBookPass
                         , testRemoveBookFail, testCheckOutFailCheckedOut, testCheckOutFailOverLimit
                         , testAddBookPass, testAddBookFail, testGetBooksForBorrower0books
@@ -153,6 +157,6 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testFindBookPass, testFindBookFail
                         , testFindBorrowerPass, testFindBorrowerFail
                         , testCheckOutFailBadBorrower, testCheckOutFailBadBook
-                        , testCheckInFailBadBook ]
+                        , testCheckInFailBadBook, testStatusToString ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]
