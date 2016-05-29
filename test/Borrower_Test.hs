@@ -1,7 +1,7 @@
 module Borrower_Test where
 
-import Borrower
-import Test.HUnit
+import           Borrower
+import           Test.HUnit
 
 br1 = Borrower {name = "Borrower1", maxBooks = 1}
 

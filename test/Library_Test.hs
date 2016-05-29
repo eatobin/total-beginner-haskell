@@ -11,12 +11,12 @@ module Library_Test where
 
 import           Book
 import           Book_Test
+import           Borrower
+import           Borrower_Test
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
 import           Library
-import           Borrower
-import           Borrower_Test
 import           Test.HUnit
 
 -- br1 = Borrower {name = "Borrower1", maxBooks = 1}

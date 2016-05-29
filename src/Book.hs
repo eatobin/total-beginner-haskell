@@ -5,15 +5,15 @@ module Book where
 -- br = Borrower
 -- bk = Book
 
-import           Data.Maybe
 import           Borrower
+import           Data.Maybe
 
 type Title = String
 type Author = String
 
 data Book = Book
-  { title :: Title
-  , author :: Author
+  { title    :: Title
+  , author   :: Author
   , borrower :: Maybe Borrower
   } deriving (Show, Eq)
 
