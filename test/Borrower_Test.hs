@@ -14,7 +14,7 @@ testGetName = (~=?)
   (getName br1)
 
 testSetName = (~=?)
-  Borrower {name = "Borrower1", maxBooks = 1}
+  br1
   (setName "Borrower1" (Borrower "Jack" 1))
 
 testGetMaxBooks = (~=?)
