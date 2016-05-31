@@ -1,7 +1,7 @@
 module Borrower_Test where
 
-import Borrower
-import Test.HUnit
+import           Borrower
+import           Test.HUnit
 
 br1 = Borrower {name = "Borrower1", maxBooks = 1}
 
@@ -14,7 +14,7 @@ testGetName = (~=?)
   (getName br1)
 
 testSetName = (~=?)
-  Borrower {name = "Borrower1", maxBooks = 1}
+  br1
   (setName "Borrower1" (Borrower "Jack" 1))
 
 testGetMaxBooks = (~=?)

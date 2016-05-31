@@ -1,9 +1,9 @@
 module Book_Test where
 
-import Book
-import Borrower
-import Borrower_Test
-import Test.HUnit
+import           Book
+import           Borrower
+import           Borrower_Test
+import           Test.HUnit
 
 bk1 = Book { title = "Title1"
              , author = "Author1"
@@ -38,12 +38,12 @@ testGetBorrowerSomeone = (~=?)
   (getBorrower bk1)
 
 testSetBorrowerSomeone = (~=?)
-  (Book {title = "Title2", author = "Author2",
-         borrower = Just (Borrower {name = "BorrowerNew", maxBooks = 111})})
+  Book {title = "Title2", author = "Author2",
+         borrower = Just Borrower {name = "BorrowerNew", maxBooks = 111}}
   (setBorrower (Just Borrower { name = "BorrowerNew", maxBooks = 111 }) bk2)
 
 testSetBorrowerNothing = (~=?)
-  (Book {title = "Title2", author = "Author2", borrower = Nothing})
+  Book {title = "Title2", author = "Author2", borrower = Nothing}
   (setBorrower Nothing bk2)
 
 testBookToStringSomeone = (~=?)

@@ -20,29 +20,44 @@ type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
 
 addBorrower :: Borrower -> Borrowers -> Borrowers
-addBorrower br brsb = if null coll then (brs ++ [br], True) else (brs, False)
-  where brs = fst brsb
-        coll = filter (== br) brs
+addBorrower br brsb =
+  if null coll
+    then (brs ++ [br], True)
+    else (brs, False)
+      where brs = fst brsb
+            coll = filter (== br) brs
 
 addBook :: Book -> Books -> Books
-addBook tbk bksb = if null coll then (bks ++ [tbk], True) else (bks, False)
-  where bks = fst bksb
-        coll = filter (== tbk) bks
+addBook tbk bksb =
+  if null coll
+    then (bks ++ [tbk], True)
+    else (bks, False)
+      where bks = fst bksb
+            coll = filter (== tbk) bks
 
 removeBook :: Book -> Books -> Books
-removeBook tbk bksb = if not (null coll) then ([ bk | bk <- bks, bk /= tbk], True) else (bks, False)
-  where bks = fst bksb
-        coll = filter (== tbk) bks
+removeBook tbk bksb =
+  if not (null coll)
+    then ([ bk | bk <- bks, bk /= tbk], True)
+    else (bks, False)
+      where bks = fst bksb
+            coll = filter (== tbk) bks
 
 findBook :: Title -> Books -> Maybe Book
-findBook t bksb = if null coll then Nothing else Just (head coll)
-  where coll = [ bk | bk <- bks, getTitle bk == t ]
-        bks = fst bksb
+findBook t bksb =
+  if null coll
+    then Nothing
+    else Just (head coll)
+      where coll = [ bk | bk <- bks, getTitle bk == t ]
+            bks = fst bksb
 
 findBorrower :: Name -> Borrowers -> Maybe Borrower
-findBorrower n brsb = if null coll then Nothing else Just (head coll)
-  where coll = [ br | br <- brs, getName br == n ]
-        brs = fst brsb
+findBorrower n brsb =
+  if null coll
+    then Nothing
+    else Just (head coll)
+      where coll = [ br | br <- brs, getName br == n ]
+            brs = fst brsb
 
 getBooksForBorrower :: Borrower -> Books -> [Book]
 getBooksForBorrower br bksb = [bk | bk <- bks, getBorrower bk == Just br]
