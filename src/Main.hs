@@ -51,19 +51,16 @@ main = do
   atomically $ modifyTVar tvBooks (addBook (makeBook "War And Peace" "Tolstoy" Nothing))
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
-  putStrLn "Reset! --- All reset?..."
-  printStatus tvBooks tvBorrowers
   putStrLn "Check out a valid book to an invalid person (checkOut 'JoJo' 'War And Peace' borrowers):"
   borrowers <- atomRead tvBorrowers
   atomically $ modifyTVar tvBooks (checkOut "JoJo" "War And Peace" borrowers)
   printStatus tvBooks tvBorrowers
+  resetV tvBooks tvBorrowers
   putStrLn "Check out an invalid book to an valid person (checkOut 'Sue' 'Not A Book' borrowers):"
   borrowers <- atomRead tvBorrowers
   atomically $ modifyTVar tvBooks (checkOut "Sue" "Not A Book" borrowers)
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
-  putStrLn "Reset! --- All reset?..."
-  printStatus tvBooks tvBorrowers
   putStrLn "Last - check in a book not checked out (checkIn 'War And Peace'):"
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   printStatus tvBooks tvBorrowers
@@ -82,3 +79,5 @@ resetV tvbksb tvbrsb = do
   brsb <- atomRead tvbrsb
   atomically $ writeTVar tvbksb (fst bksb, True)
   atomically $ writeTVar tvbrsb (fst brsb, True)
+  putStrLn "Reset! --- All reset?..."
+  printStatus tvbksb tvbrsb
