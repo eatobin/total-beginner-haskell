@@ -5,6 +5,7 @@ import           Borrower
 import           Borrower_Test
 import           Test.HUnit
 
+--br1 = Borrower {name = "Borrower1", maxBooks = 1}
 bk1 = Book { title = "Title1"
              , author = "Author1"
              , borrower = Just br1 }
