@@ -12,21 +12,15 @@ import Library
 
 import qualified Data.ByteString.Char8 as BS
 
-data MyUser = MyUser {id :: Int,
-                      name :: String,
-                      reputation :: Int}
-                      deriving (Show)
-
-instance FromJSON MyUser where
-    parseJSON (Object v) = MyUser <$>
-                           v .: "id" <*>
+instance FromJSON Borrower where
+    parseJSON (Object v) = Borrower <$>
                            v .: "name" <*>
-                           v .: "reputation"
+                           v .: "maxBooks"
     -- A non-Object value is of the wrong type, so fail.
-    parseJSON _ = error "Can't parse MyUser from YAML/JSON"
+    parseJSON _ = error "Can't parse Borrower from YAML/JSON"
 
 mainly = do
-         ymlData <- BS.readFile "users.yml"
-         let users = Data.Yaml.decode ymlData :: Maybe [MyUser]
+         ymlData <- BS.readFile "borrowers-before.yml"
+         let borrowers = Data.Yaml.decode ymlData :: Maybe [Borrower]
          -- Print it, just for show
-         print $ fromJust users
+         print $ fromJust borrowers
