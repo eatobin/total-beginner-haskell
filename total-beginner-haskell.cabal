@@ -22,8 +22,11 @@ executable total-beginner-haskell
                      , Book_Test
                      , Library
                      , Library_Test
+                     , Yaml
                      , All_Tests
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
                      , HUnit
                      , stm
+                     , yaml
+                     , bytestring

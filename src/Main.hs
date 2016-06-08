@@ -10,6 +10,7 @@ import           Library
 import           Library_Test
 import           Borrower
 import           Borrower_Test
+import           Yaml
 
 import           Control.Concurrent
 import           Control.Concurrent.STM
