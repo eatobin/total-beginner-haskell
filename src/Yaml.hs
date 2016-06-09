@@ -22,7 +22,7 @@ instance FromJSON Book where
     parseJSON (Object v) = Book <$>
                            v .: "title" <*>
                            v .: "author" <*>
-                           v .: "borrower"
+                           v .:? "borrower"
     -- A non-Object value is of the wrong type, so fail.
     parseJSON _ = error "Can't parse Book from YAML/JSON"
 

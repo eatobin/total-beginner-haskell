@@ -1,1 +1,2 @@
-- {title: War And Peace, author: unknown author, borrower: Nothing}
+- {title: TOne, author: AOne, borrower: {name: BOne, maxBooks: 100}}
+- {title: TTwo, author: ATwo, borrower: null}
