@@ -3,8 +3,8 @@
 module Yaml where
 
 import Data.Yaml
-import Control.Applicative -- <$>, <*>
-import Data.Maybe
+--import Control.Applicative -- <$>, <*>
+--import Data.Maybe
 
 import           Book
 import           Borrower
@@ -26,11 +26,11 @@ instance FromJSON Book where
     -- A non-Object value is of the wrong type, so fail.
     parseJSON _ = error "Can't parse Book from YAML/JSON"
 
-mainly = do
-         ymlData <- BS.readFile "borrowers-before.yml"
-         ymlData2 <- BS.readFile "books-before.yml"
-         let borrowers = Data.Yaml.decode ymlData :: Maybe [Borrower]
-             books = Data.Yaml.decode ymlData2 :: Maybe [Book]
-         -- Print it, just for show
-         print $ fromJust borrowers
-         print $ fromJust books
+--mainly = do
+--         ymlData <- BS.readFile "borrowers-before.yml"
+--         ymlData2 <- BS.readFile "books-before.yml"
+--         let borrowers = Data.Yaml.decode ymlData :: Maybe [Borrower]
+--             books = Data.Yaml.decode ymlData2 :: Maybe [Book]
+--         -- Print it, just for show
+--         print $ fromJust borrowers
+--         print $ fromJust books

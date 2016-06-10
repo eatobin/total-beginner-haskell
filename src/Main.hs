@@ -6,15 +6,20 @@ module Main where
 import           All_Tests
 import           Book
 import           Book_Test
+import           Yaml
 import           Library
 import           Library_Test
 import           Borrower
 import           Borrower_Test
-import           Yaml
 
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
+import Data.Yaml
+--import Control.Applicative -- <$>, <*>
+import Data.Maybe
+
+import qualified Data.ByteString.Char8 as BS
 
 main :: IO ()
 main = do
@@ -66,6 +71,14 @@ main = do
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   printStatus tvBooks tvBorrowers
   putStrLn "Thanks - bye!\n"
+
+  ymlData <- BS.readFile "borrowers-before.yml"
+  ymlData2 <- BS.readFile "books-before.yml"
+  let borrowers = Data.Yaml.decode ymlData :: Maybe [Borrower]
+      books = Data.Yaml.decode ymlData2 :: Maybe [Book]
+  -- Print it, just for show
+  print $ fromJust borrowers
+  print $ fromJust books
 
 atomRead = atomically . readTVar
 
