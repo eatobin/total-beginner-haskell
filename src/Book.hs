@@ -1,6 +1,8 @@
-{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE NamedFieldPuns, DeriveGeneric #-}
 
 module Book where
+
+import GHC.Generics
 
 -- br = Borrower
 -- bk = Book
@@ -15,7 +17,7 @@ data Book = Book
   { title    :: Title
   , author   :: Author
   , borrower :: Maybe Borrower
-  } deriving (Show, Eq)
+  } deriving (Show, Eq, Generic)
 
 makeBook :: Title -> Author -> Maybe Borrower -> Book
 makeBook = Book

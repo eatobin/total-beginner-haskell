@@ -1,6 +1,8 @@
-{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE NamedFieldPuns, DeriveGeneric #-}
 
 module Borrower where
+
+import GHC.Generics
 
 -- br = Borrower
 
@@ -10,7 +12,7 @@ type MaxBooks = Int
 data Borrower = Borrower
   { name     :: Name
   , maxBooks :: MaxBooks
-  } deriving (Show, Eq)
+  } deriving (Show, Eq, Generic)
 
 makeBorrower :: Name -> MaxBooks -> Borrower
 makeBorrower = Borrower
