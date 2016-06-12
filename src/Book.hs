@@ -3,14 +3,13 @@
 
 module Book where
 
+import           Borrower
+import           Data.Maybe
 import           Data.Yaml
 import           GHC.Generics
 
 -- br = Borrower
 -- bk = Book
-
-import           Borrower
-import           Data.Maybe
 
 type Title = String
 type Author = String

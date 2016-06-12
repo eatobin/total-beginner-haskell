@@ -8,18 +8,15 @@ import           Book
 import           Book_Test
 import           Borrower
 import           Borrower_Test
-import           Library
-import           Library_Test
-import           Yaml
-
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
-import           Data.Yaml
---import Control.Applicative -- <$>, <*>
-import           Data.Maybe
-
 import qualified Data.ByteString.Char8  as BS
+import           Data.Maybe
+import           Data.Yaml
+import           Library
+import           Library_Test
+import           Yaml
 
 main :: IO ()
 main = do
