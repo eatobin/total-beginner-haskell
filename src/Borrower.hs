@@ -1,8 +1,9 @@
-{-# LANGUAGE NamedFieldPuns, OverloadedStrings #-}
+{-# LANGUAGE NamedFieldPuns    #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Borrower where
 
-import Data.Yaml
+import           Data.Yaml
 
 -- br = Borrower
 

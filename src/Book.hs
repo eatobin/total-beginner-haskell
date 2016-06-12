@@ -1,9 +1,10 @@
-{-# LANGUAGE NamedFieldPuns, DeriveGeneric #-}
+{-# LANGUAGE DeriveGeneric  #-}
+{-# LANGUAGE NamedFieldPuns #-}
 
 module Book where
 
-import Data.Yaml
-import GHC.Generics
+import           Data.Yaml
+import           GHC.Generics
 
 -- br = Borrower
 -- bk = Book

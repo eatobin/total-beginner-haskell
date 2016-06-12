@@ -6,20 +6,20 @@ module Main where
 import           All_Tests
 import           Book
 import           Book_Test
-import           Yaml
-import           Library
-import           Library_Test
 import           Borrower
 import           Borrower_Test
+import           Library
+import           Library_Test
+import           Yaml
 
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
-import Data.Yaml
+import           Data.Yaml
 --import Control.Applicative -- <$>, <*>
-import Data.Maybe
+import           Data.Maybe
 
-import qualified Data.ByteString.Char8 as BS
+import qualified Data.ByteString.Char8  as BS
 
 main :: IO ()
 main = do
