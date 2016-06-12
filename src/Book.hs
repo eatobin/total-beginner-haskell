@@ -2,6 +2,7 @@
 
 module Book where
 
+import Data.Yaml
 import GHC.Generics
 
 -- br = Borrower
@@ -18,6 +19,8 @@ data Book = Book
   , author   :: Author
   , borrower :: Maybe Borrower
   } deriving (Show, Eq, Generic)
+
+instance FromJSON Book
 
 makeBook :: Title -> Author -> Maybe Borrower -> Book
 makeBook = Book

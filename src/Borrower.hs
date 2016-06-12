@@ -1,8 +1,8 @@
-{-# LANGUAGE NamedFieldPuns, DeriveGeneric #-}
+{-# LANGUAGE NamedFieldPuns, OverloadedStrings #-}
 
 module Borrower where
 
-import GHC.Generics
+import Data.Yaml
 
 -- br = Borrower
 
@@ -12,7 +12,13 @@ type MaxBooks = Int
 data Borrower = Borrower
   { name     :: Name
   , maxBooks :: MaxBooks
-  } deriving (Show, Eq, Generic)
+  } deriving (Show, Eq)
+
+instance FromJSON Borrower where
+  parseJSON (Object v) = Borrower <$>
+                         v .: "name" <*>
+                         v .: "max-books"
+  parseJSON _ = error "Can't parse Borrower from YAML/JSON"
 
 makeBorrower :: Name -> MaxBooks -> Borrower
 makeBorrower = Borrower
