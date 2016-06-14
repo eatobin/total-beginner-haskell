@@ -23,7 +23,6 @@ instance FromJSON Borrower where
 
 instance ToJSON Borrower where
   toJSON (Borrower name maxBooks) = object ["name" .= name, "max-books" .= maxBooks]
---  toEncoding (Borrower name maxBooks) = pairs ("name" .= name <> "max-books" .= maxBooks)
 
 makeBorrower :: Name -> MaxBooks -> Borrower
 makeBorrower = Borrower

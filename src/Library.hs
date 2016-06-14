@@ -14,9 +14,9 @@ import           Borrower
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
-import           Data.Maybe
-import      Data.Yaml as Y
 import qualified Data.ByteString.Char8  as BS
+import           Data.Maybe
+import           Data.Yaml              as Y
 
 type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
@@ -93,27 +93,23 @@ checkIn t bksb =
 
 yamlStringToBorrowrs :: String -> Borrowers
 yamlStringToBorrowrs s =
-  ((fromJust mbrs), True)
+  (fromJust mbrs, True)
     where mbrs = Y.decode (BS.pack s) :: Maybe [Borrower]
 
 yamlStringToBooks :: String -> Books
 yamlStringToBooks s =
-  ((fromJust mbks), True)
+  (fromJust mbks, True)
     where mbks = Y.decode (BS.pack s) :: Maybe [Book]
-
-
-
-
-
-
 
 borrowersToYamlString :: Borrowers -> String
 borrowersToYamlString brsb =
   BS.unpack (Y.encode brs)
     where brs = fst brsb
 
-
-
+booksToYamlString :: Books -> String
+booksToYamlString bksb =
+  BS.unpack (Y.encode bks)
+    where bks = fst bksb
 
 libraryToString :: Books -> Borrowers -> String
 libraryToString bksb brsb = "Test Library: " ++

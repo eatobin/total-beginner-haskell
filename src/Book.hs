@@ -22,6 +22,8 @@ data Book = Book
 
 instance FromJSON Book
 
+instance ToJSON Book
+
 makeBook :: Title -> Author -> Maybe Borrower -> Book
 makeBook = Book
 
