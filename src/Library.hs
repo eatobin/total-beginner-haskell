@@ -15,6 +15,8 @@ import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
 import           Data.Maybe
+import      Data.Yaml as Y
+import qualified Data.ByteString.Char8  as BS
 
 type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
@@ -90,9 +92,14 @@ checkIn t bksb =
             fewerBooks = removeBook (fromJust mbk) bksb
 
 yamlStringToBorrowrs :: String -> Borrowers
+yamlStringToBorrowrs s =
+  ((fromJust mbrs), True)
+    where mbrs = Y.decode (BS.pack s) :: Maybe [Borrower]
 
 yamlStringToBooks :: String -> Books
-
+yamlStringToBooks s =
+  ((fromJust mbks), True)
+    where mbks = Y.decode (BS.pack s) :: Maybe [Book]
 
 
 

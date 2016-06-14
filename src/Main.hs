@@ -11,9 +11,9 @@ import           Borrower_Test
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
-import qualified Data.ByteString.Char8  as BS
+import qualified Data.ByteString.Char8 as BS
 import           Data.Maybe
-import           Data.Yaml
+import      Data.Yaml as Y
 import           Library
 import           Library_Test
 import           Yaml
@@ -69,13 +69,15 @@ main = do
   printStatus tvBooks tvBorrowers
   putStrLn "Thanks - bye!\n"
 
-  ymlData <- BS.readFile "borrowers-before.yml"
-  ymlData2 <- BS.readFile "books-before.yml"
-  let borrowers = Data.Yaml.decode ymlData :: Maybe [Borrower]
-      books = Data.Yaml.decode ymlData2 :: Maybe [Book]
+  ymlData <- BS.readFile yamlBorrowersFile
+  ymlData2 <- BS.readFile yamlBooksFile
+  let borrowers = Y.decode ymlData :: Maybe [Borrower]
+      books = Y.decode ymlData2 :: Maybe [Book]
   -- Print it, just for show
   print $ fromJust borrowers
   print $ fromJust books
+  print ymlData
+  print ymlData2
 
 atomRead = atomically . readTVar
 
@@ -92,3 +94,9 @@ resetV tvbksb tvbrsb = do
   atomically $ writeTVar tvbrsb (fst brsb, True)
   putStrLn "Reset! --- All reset?..."
   printStatus tvbksb tvbrsb
+
+yamlBorrowersFile :: FilePath
+yamlBorrowersFile = "borrowers-before.yml"
+
+yamlBooksFile :: FilePath
+yamlBooksFile = "books-before.yml"

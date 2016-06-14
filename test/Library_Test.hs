@@ -18,6 +18,9 @@ import           Control.Concurrent.STM
 import           Control.Monad
 import           Library
 import           Test.HUnit
+import      Data.Yaml as Y
+import qualified Data.ByteString.Char8 as BS
+import           Data.Maybe
 
 -- br1 = Borrower {name = "Borrower1", maxBooks = 1}
 br2 = Borrower {name = "Borrower2", maxBooks = 2}
@@ -45,6 +48,9 @@ bksb2 = ([bk1, bk2, bk3], True)
 bksb3 = ([bk1, bk2, bk3, bk4], True)
 bksb4 = ([bk1, bk2, bk3, bk4], False)
 bksb5 = ([bk1, bk2, bk3], False)
+
+yamlStringBorrowers  = "- {name: Borrower1, max-books: 1}\n- name: Borrower2\n  max-books: 2\n"
+yamlStringBooks = "- {title: Title1, author: Author1, borrower: {name: Borrower1, max-books: 1}}\n- {title: Title2, author: Author2, borrower: null}\n"
 
 testAddBorrowerPass = (~=?)
   brsb2
@@ -140,6 +146,14 @@ testCheckInFailBadBook = (~=?)
     , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
   (checkIn "NoTitle" bksb1)
 
+testYamlStringToBorrowrs = (~=?)
+  brsb1
+  (yamlStringToBorrowrs yamlStringBorrowers)
+
+testYamlStringToBooks = (~=?)
+  bksb1
+  (yamlStringToBooks yamlStringBooks)
+
 testLibraryToString = (~=?)
   "Test Library: 2 books; 3 borrowers."
   (libraryToString bksb1 brsb2)
@@ -157,6 +171,8 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testFindBookPass, testFindBookFail
                         , testFindBorrowerPass, testFindBorrowerFail
                         , testCheckOutFailBadBorrower, testCheckOutFailBadBook
-                        , testCheckInFailBadBook, testStatusToString ]
+                        , testCheckInFailBadBook, testStatusToString
+                        , testYamlStringToBorrowrs, testYamlStringToBooks
+                         ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]
