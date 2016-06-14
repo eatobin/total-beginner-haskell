@@ -89,6 +89,13 @@ checkIn t bksb =
             newBook = setBorrower Nothing (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bksb
 
+yamlStringToBorrowrs :: String -> Borrowers
+
+yamlStringToBooks :: String -> Books
+
+
+
+
 libraryToString :: Books -> Borrowers -> String
 libraryToString bksb brsb = "Test Library: " ++
   show (length bks) ++ " books; " ++
