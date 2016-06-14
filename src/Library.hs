@@ -103,6 +103,18 @@ yamlStringToBooks s =
 
 
 
+
+
+
+
+borrowersToYamlString :: Borrowers -> String
+borrowersToYamlString brsb =
+  BS.unpack (Y.encode brs)
+    where brs = fst brsb
+
+
+
+
 libraryToString :: Books -> Borrowers -> String
 libraryToString bksb brsb = "Test Library: " ++
   show (length bks) ++ " books; " ++
