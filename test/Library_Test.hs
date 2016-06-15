@@ -49,7 +49,8 @@ bksb3 = ([bk1, bk2, bk3, bk4], True)
 bksb4 = ([bk1, bk2, bk3, bk4], False)
 bksb5 = ([bk1, bk2, bk3], False)
 
-yamlStringBorrowers  = "- name: Borrower1\n  max-books: 1\n- name: Borrower2\n  max-books: 2\n"
+yamlStringBorrowersBad = "- name Borrower1\n  max-books: 1\n- name: Borrower2\n  max-books: 2\n"
+yamlStringBorrowers = "- name: Borrower1\n  max-books: 1\n- name: Borrower2\n  max-books: 2\n"
 yamlStringBooks = "- borrower:\n    name: Borrower1\n    max-books: 1\n  author: Author1\n  title: Title1\n- borrower: null\n  author: Author2\n  title: Title2\n"
 
 testAddBorrowerPass = (~=?)
@@ -146,7 +147,11 @@ testCheckInFailBadBook = (~=?)
     , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
   (checkIn "NoTitle" bksb1)
 
-testYamlStringToBorrowrs = (~=?)
+testYamlStringToBorrowrsFail = (~=?)
+  ([], False)
+  (yamlStringToBorrowrs yamlStringBorrowersBad)
+
+testYamlStringToBorrowrsPass = (~=?)
   brsb1
   (yamlStringToBorrowrs yamlStringBorrowers)
 
@@ -180,7 +185,8 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testFindBorrowerPass, testFindBorrowerFail
                         , testCheckOutFailBadBorrower, testCheckOutFailBadBook
                         , testCheckInFailBadBook, testStatusToString
-                        , testYamlStringToBorrowrs, testYamlStringToBooks
-                        , testBorrowersToYamlString, testBooksToYamlString ]
+                        , testYamlStringToBorrowrsFail, testYamlStringToBooks
+                        , testBorrowersToYamlString, testBooksToYamlString
+                        , testYamlStringToBorrowrsPass ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]

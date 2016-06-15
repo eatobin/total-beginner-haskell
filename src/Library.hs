@@ -93,13 +93,17 @@ checkIn t bksb =
 
 yamlStringToBorrowrs :: String -> Borrowers
 yamlStringToBorrowrs s =
-  (fromJust mbrs, True)
-    where mbrs = Y.decode (BS.pack s) :: Maybe [Borrower]
+  if isJust mbrs
+    then (fromJust mbrs, True)
+    else ([], False)
+      where mbrs = Y.decode (BS.pack s) :: Maybe [Borrower]
 
 yamlStringToBooks :: String -> Books
 yamlStringToBooks s =
-  (fromJust mbks, True)
-    where mbks = Y.decode (BS.pack s) :: Maybe [Book]
+  if isJust mbks
+    then (fromJust mbks, True)
+    else ([], False)
+      where mbks = Y.decode (BS.pack s) :: Maybe [Book]
 
 borrowersToYamlString :: Borrowers -> String
 borrowersToYamlString brsb =
