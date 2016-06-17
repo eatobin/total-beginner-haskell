@@ -29,3 +29,4 @@ executable total-beginner-haskell
                      , stm
                      , yaml
                      , bytestring
+                     , directory

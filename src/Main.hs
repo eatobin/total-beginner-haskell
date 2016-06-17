@@ -16,6 +16,7 @@ import           Data.Maybe
 import           Data.Yaml              as Y
 import           Library
 import           Library_Test
+import System.Directory
 
 main :: IO ()
 main = do
@@ -68,7 +69,9 @@ main = do
   printStatus tvBooks tvBorrowers
   putStrLn "Thanks - bye!\n"
 
-  ymlData <- BS.readFile yamlBorrowersFile
+  dfe <- doesFileExist yamlBorrowersFile
+  print dfe
+  ymlData <- BS.readFile "bad.txt"
   ymlData2 <- BS.readFile yamlBooksFile
   let borrowers = Y.decode ymlData :: Maybe [Borrower]
       books = Y.decode ymlData2 :: Maybe [Book]
@@ -78,14 +81,17 @@ main = do
   print ymlData
   print ymlData2
 
+atomRead :: TVar a -> IO a
 atomRead = atomically . readTVar
 
+printStatus :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) -> IO ()
 printStatus tvbksb tvbrsb = do
   bksb <- atomRead tvbksb
   brsb <- atomRead tvbrsb
   if snd bksb && snd brsb then putStrLn (statusToString bksb brsb)
     else putStrLn "\n*** There was an error with the operation just performed! ***\n"
 
+resetV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) -> IO ()
 resetV tvbksb tvbrsb = do
   bksb <- atomRead tvbksb
   brsb <- atomRead tvbrsb
@@ -99,3 +105,22 @@ yamlBorrowersFile = "borrowers-before.yml"
 
 yamlBooksFile :: FilePath
 yamlBooksFile = "books-before.yml"
+
+-- readFileIntoYamlString :: FilePath -> Bool
+-- readFileIntoYamlString f = do
+--   dfe <- doesFileExist f
+--   return dfe
+--   if dfe then BS.readFile yamlBorrowersFile else (BS.pack "no")
+
+
+-- (defn read-file-into-collection [file]
+--   (if (.exists (io/file file))
+--     (yaml-string-to-collection (slurp file))
+--     nil-collection))
+
+-- if dfe
+--   then
+--     do =
+--       ymlData <- BS.readFile f
+--   else ymlData = "no"
+-- return ymlData
