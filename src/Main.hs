@@ -109,7 +109,7 @@ yamlBooksFile = "books-before.yml"
 readFileIntoYamlString :: FilePath -> IO String
  readFileIntoYamlString f = do
    if doesFileExist f
-     then return (BS.unpack (BS.readFile yamlBorrowersFile))
+     then return (BS.unpack (BS.readFile f))
      else return "bad!"
 
 
