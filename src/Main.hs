@@ -69,17 +69,24 @@ main = do
   printStatus tvBooks tvBorrowers
   putStrLn "Thanks - bye!\n"
 
-  dfe <- doesFileExist yamlBorrowersFile
-  print dfe
-  ymlData <- BS.readFile "bad.txt"
+  --dfe <- doesFileExist yamlBorrowersFile
+  --print dfe
+  ymlData <- BS.readFile yamlBorrowersFile
   ymlData2 <- BS.readFile yamlBooksFile
   let borrowers = Y.decode ymlData :: Maybe [Borrower]
       books = Y.decode ymlData2 :: Maybe [Book]
   -- Print it, just for show
   print $ fromJust borrowers
   print $ fromJust books
-  print ymlData
-  print ymlData2
+  --print ymlData
+  --print 
+  ys1 <- readFileIntoYamlString yamlBorrowersFile
+  ys2 <- readFileIntoYamlString yamlBooksFile
+  ys3 <- readFileIntoYamlString "bad.txt"
+  putStrLn "\n\n"
+  print ys1
+  print ys2
+  print ys3
 
 atomRead :: TVar a -> IO a
 atomRead = atomically . readTVar
@@ -106,22 +113,15 @@ yamlBorrowersFile = "borrowers-before.yml"
 yamlBooksFile :: FilePath
 yamlBooksFile = "books-before.yml"
 
---readFileIntoYamlString :: FilePath -> IO String
+readFileIntoYamlString :: FilePath -> IO String
 readFileIntoYamlString f = do
   dfe <- doesFileExist f
   if dfe
-    then BS.readFile f
-    else return (BS.empty)
-
-
--- (defn read-file-into-collection [file]
---   (if (.exists (io/file file))
---     (yaml-string-to-collection (slurp file))
---     nil-collection))
-
--- if dfe
---   then
---     do =
---       ymlData <- BS.readFile f
---   else ymlData = "no"
--- return ymlData
+    then do
+      bs <- BS.readFile f
+      let s = BS.unpack bs
+      return s
+    else do
+      let bs = BS.empty
+          s = BS.unpack bs
+      return s
