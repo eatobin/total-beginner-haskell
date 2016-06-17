@@ -106,11 +106,12 @@ yamlBorrowersFile = "borrowers-before.yml"
 yamlBooksFile :: FilePath
 yamlBooksFile = "books-before.yml"
 
-readFileIntoYamlString :: FilePath -> IO String
- readFileIntoYamlString f = do
-   if doesFileExist f
-     then return (BS.unpack (BS.readFile f))
-     else return "bad!"
+--readFileIntoYamlString :: FilePath -> IO String
+readFileIntoYamlString f = do
+  dfe <- doesFileExist f
+  if dfe
+    then BS.readFile f
+    else return (BS.empty)
 
 
 -- (defn read-file-into-collection [file]
