@@ -87,6 +87,10 @@ main = do
   print ys1
   print ys2
   print ys3
+  
+  let newBorrowers = yamlStringToBorrowrs ys1
+      newBooks = yamlStringToBooks ys2
+  newV newBooks newBorrowers
 
 atomRead :: TVar a -> IO a
 atomRead = atomically . readTVar
@@ -105,6 +109,13 @@ resetV tvbksb tvbrsb = do
   atomically $ writeTVar tvbksb (fst bksb, True)
   atomically $ writeTVar tvbrsb (fst brsb, True)
   putStrLn "Reset! --- All reset?..."
+  printStatus tvbksb tvbrsb
+ 
+newV :: Books -> Borrowers -> IO ()
+newV bksb brsb = do
+  atomically $ writeTVar tvbksb bksb
+  atomically $ writeTVar tvbrsb brsb
+  putStrLn "Just wrote new atoms"
   printStatus tvbksb tvbrsb
 
 yamlBorrowersFile :: FilePath
