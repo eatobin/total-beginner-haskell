@@ -16,7 +16,7 @@ import           Data.Maybe
 import           Data.Yaml              as Y
 import           Library
 import           Library_Test
-import System.Directory
+import           System.Directory
 
 main :: IO ()
 main = do
@@ -79,7 +79,7 @@ main = do
   print $ fromJust borrowers
   print $ fromJust books
   --print ymlData
-  --print 
+  --print
   ys1 <- readFileIntoYamlString yamlBorrowersFile
   ys2 <- readFileIntoYamlString yamlBooksFile
   ys3 <- readFileIntoYamlString "bad.txt"
@@ -87,7 +87,7 @@ main = do
   print ys1
   print ys2
   print ys3
-  
+
   let newBorrowers = yamlStringToBorrowrs ys1
       newBooks = yamlStringToBooks ys2
   newV tvBooks tvBorrowers newBooks newBorrowers
@@ -110,7 +110,7 @@ resetV tvbksb tvbrsb = do
   atomically $ writeTVar tvbrsb (fst brsb, True)
   putStrLn "Reset! --- All reset?..."
   printStatus tvbksb tvbrsb
- 
+
 newV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) ->Books -> Borrowers -> IO ()
 newV tvbksb tvbrsb bksb brsb = do
   atomically $ writeTVar tvbksb bksb
