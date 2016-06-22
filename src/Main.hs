@@ -92,6 +92,48 @@ main = do
       newBooks = yamlStringToBooks ys2
   newV tvBooks tvBorrowers newBooks newBorrowers
 
+
+
+      (println "Okay... let's finish with some persistence. First clear the whole library:")
+      (reset! a-borrowers [[] true])
+      (reset! a-books [[] true])
+      (print-status a-books a-borrowers)
+      (println "Lets read in a new library from \"borrowers-before.yml\" and \"books-before.yml\":")
+      (reset! a-borrowers (yaml-string-to-collection (read-file-into-string yaml-borrowers-file-before)))
+      (reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file)))
+      (println (library-to-string (deref a-books) (deref a-borrowers)))
+      (print-status a-books a-borrowers)
+      (println "Add... a new borrower:")
+      (swap! a-borrowers (partial add-borrower (make-borrower "BorrowerNew" 300)))
+      (print-status a-books a-borrowers)
+      (println "Save the revised borrowers to \"borrowers-after.yml\"")
+      (write-file-from-string (collection-to-yaml-string (deref a-borrowers)) yaml-borrowers-file-after)
+      (println "Clear the whole library again:")
+      (reset! a-borrowers [[] true])
+      (reset! a-books [[] true])
+      (print-status a-books a-borrowers)
+      (println "Then read in the revised library from \"borrowers-after.yml\" and \"books-before.yml\":")
+      (reset! a-borrowers (yaml-string-to-collection (read-file-into-string yaml-borrowers-file-after)))
+      (reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file)))
+      (print-status a-books a-borrowers)
+      (println "Last... delete the file \"borrowers-after.yml\"")
+      (io/delete-file yaml-borrowers-file-after)
+      (println "Then try to make a library using the deleted \"borrowers-after.yml\":")
+      (reset! a-borrowers (yaml-string-to-collection (read-file-into-string yaml-borrowers-file-after)))
+      (reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file)))
+      (print-status a-books a-borrowers)
+      (println "And if we read in a file with mal-formed yaml content... like \"bad-books.yml\":")
+      (reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file-bad)))
+      (print-status a-books a-borrowers)
+      (println "Or how about reading in an empty file... \"empty.yml\":")
+      (reset! a-books (yaml-string-to-collection (read-file-into-string empty-file)))
+      (print-status a-books a-borrowers)
+      (println "And... that's all...")
+      (println "Thanks - bye!\n"))))
+
+
+
+
 atomRead :: TVar a -> IO a
 atomRead = atomically . readTVar
 
