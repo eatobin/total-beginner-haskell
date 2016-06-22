@@ -67,69 +67,77 @@ main = do
   putStrLn "Last - check in a book not checked out (checkIn 'War And Peace'):"
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   printStatus tvBooks tvBorrowers
-  putStrLn "Thanks - bye!\n"
 
-  --dfe <- doesFileExist yamlBorrowersFile
-  --print dfe
-  ymlData <- BS.readFile yamlBorrowersFile
-  ymlData2 <- BS.readFile yamlBooksFile
-  let borrowers = Y.decode ymlData :: Maybe [Borrower]
-      books = Y.decode ymlData2 :: Maybe [Book]
-  -- Print it, just for show
-  print $ fromJust borrowers
-  print $ fromJust books
-  --print ymlData
-  --print
-  ys1 <- readFileIntoYamlString yamlBorrowersFile
-  ys2 <- readFileIntoYamlString yamlBooksFile
-  ys3 <- readFileIntoYamlString "bad.txt"
-  putStrLn "\n\n"
-  print ys1
-  print ys2
-  print ys3
-
-  let newBorrowers = yamlStringToBorrowrs ys1
-      newBooks = yamlStringToBooks ys2
+  putStrLn "Okay... let's finish with some persistence. First clear the whole library:"
+  atomically $ writeTVar tvBooks ([], True)
+  atomically $ writeTVar tvBorrowers ([], True)
+  printStatus tvBooks tvBorrowers
+  putStrLn "Lets read in a new library from \"borrowers-before.yml\" and \"books-before.yml\":"
+  ymlBrsStr <- readFileIntoYamlString yamlBorrowersFile
+  ymlBksStr <- readFileIntoYamlString yamlBooksFile
+  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
+      newBooks = yamlStringToBooks ymlBksStr
   newV tvBooks tvBorrowers newBooks newBorrowers
 
 
 
-      (println "Okay... let's finish with some persistence. First clear the whole library:")
-      (reset! a-borrowers [[] true])
-      (reset! a-books [[] true])
-      (print-status a-books a-borrowers)
-      (println "Lets read in a new library from \"borrowers-before.yml\" and \"books-before.yml\":")
-      (reset! a-borrowers (yaml-string-to-collection (read-file-into-string yaml-borrowers-file-before)))
-      (reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file)))
-      (println (library-to-string (deref a-books) (deref a-borrowers)))
-      (print-status a-books a-borrowers)
-      (println "Add... a new borrower:")
-      (swap! a-borrowers (partial add-borrower (make-borrower "BorrowerNew" 300)))
-      (print-status a-books a-borrowers)
-      (println "Save the revised borrowers to \"borrowers-after.yml\"")
-      (write-file-from-string (collection-to-yaml-string (deref a-borrowers)) yaml-borrowers-file-after)
-      (println "Clear the whole library again:")
-      (reset! a-borrowers [[] true])
-      (reset! a-books [[] true])
-      (print-status a-books a-borrowers)
-      (println "Then read in the revised library from \"borrowers-after.yml\" and \"books-before.yml\":")
-      (reset! a-borrowers (yaml-string-to-collection (read-file-into-string yaml-borrowers-file-after)))
-      (reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file)))
-      (print-status a-books a-borrowers)
-      (println "Last... delete the file \"borrowers-after.yml\"")
-      (io/delete-file yaml-borrowers-file-after)
-      (println "Then try to make a library using the deleted \"borrowers-after.yml\":")
-      (reset! a-borrowers (yaml-string-to-collection (read-file-into-string yaml-borrowers-file-after)))
-      (reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file)))
-      (print-status a-books a-borrowers)
-      (println "And if we read in a file with mal-formed yaml content... like \"bad-books.yml\":")
-      (reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file-bad)))
-      (print-status a-books a-borrowers)
-      (println "Or how about reading in an empty file... \"empty.yml\":")
-      (reset! a-books (yaml-string-to-collection (read-file-into-string empty-file)))
-      (print-status a-books a-borrowers)
-      (println "And... that's all...")
-      (println "Thanks - bye!\n"))))
+
+  putStrLn "Thanks - bye!\n"
+
+  ----dfe <- doesFileExist yamlBorrowersFile
+  ----print dfe
+  --ymlData <- BS.readFile yamlBorrowersFile
+  --ymlData2 <- BS.readFile yamlBooksFile
+  --let borrowers = Y.decode ymlData :: Maybe [Borrower]
+  --    books = Y.decode ymlData2 :: Maybe [Book]
+  ---- Print it, just for show
+  --print $ fromJust borrowers
+  --print $ fromJust books
+  ----print ymlData
+  ----print
+  --ys1 <- readFileIntoYamlString yamlBorrowersFile
+  --ys2 <- readFileIntoYamlString yamlBooksFile
+  --ys3 <- readFileIntoYamlString "bad.txt"
+  --putStrLn "\n\n"
+  --print ys1
+  --print ys2
+  --print ys3
+
+  --let newBorrowers = yamlStringToBorrowrs ys1
+  --    newBooks = yamlStringToBooks ys2
+  --newV tvBooks tvBorrowers newBooks newBorrowers
+
+
+
+
+
+      --(println "Add... a new borrower:")
+      --(swap! a-borrowers (partial add-borrower (make-borrower "BorrowerNew" 300)))
+      --(print-status a-books a-borrowers)
+      --(println "Save the revised borrowers to \"borrowers-after.yml\"")
+      --(write-file-from-string (collection-to-yaml-string (deref a-borrowers)) yaml-borrowers-file-after)
+      --(println "Clear the whole library again:")
+      --(reset! a-borrowers [[] true])
+      --(reset! a-books [[] true])
+      --(print-status a-books a-borrowers)
+      --(println "Then read in the revised library from \"borrowers-after.yml\" and \"books-before.yml\":")
+      --(reset! a-borrowers (yaml-string-to-collection (read-file-into-string yaml-borrowers-file-after)))
+      --(reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file)))
+      --(print-status a-books a-borrowers)
+      --(println "Last... delete the file \"borrowers-after.yml\"")
+      --(io/delete-file yaml-borrowers-file-after)
+      --(println "Then try to make a library using the deleted \"borrowers-after.yml\":")
+      --(reset! a-borrowers (yaml-string-to-collection (read-file-into-string yaml-borrowers-file-after)))
+      --(reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file)))
+      --(print-status a-books a-borrowers)
+      --(println "And if we read in a file with mal-formed yaml content... like \"bad-books.yml\":")
+      --(reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file-bad)))
+      --(print-status a-books a-borrowers)
+      --(println "Or how about reading in an empty file... \"empty.yml\":")
+      --(reset! a-books (yaml-string-to-collection (read-file-into-string empty-file)))
+      --(print-status a-books a-borrowers)
+      --(println "And... that's all...")
+      --(println "Thanks - bye!\n"))))
 
 
 
@@ -157,7 +165,6 @@ newV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) ->Books -> Borrowers -> I
 newV tvbksb tvbrsb bksb brsb = do
   atomically $ writeTVar tvbksb bksb
   atomically $ writeTVar tvbrsb brsb
-  putStrLn "Just wrote new atoms"
   printStatus tvbksb tvbrsb
 
 yamlBorrowersFile :: FilePath
