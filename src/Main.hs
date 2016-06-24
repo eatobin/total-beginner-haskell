@@ -68,15 +68,12 @@ main = do
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   printStatus tvBooks tvBorrowers
   putStrLn "Okay... let's finish with some persistence. First clear the whole library:"
-  atomically $ writeTVar tvBooks ([], True)
-  atomically $ writeTVar tvBorrowers ([], True)
-  printStatus tvBooks tvBorrowers
+  newEmptyV tvBooks tvBorrowers
   putStrLn "Lets read in a new library from \"borrowers-before.yml\" and \"books-before.yml\":"
   ymlBrsStr <- readFileIntoYamlString yamlBorrowersFile
   ymlBksStr <- readFileIntoYamlString yamlBooksFile
-  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
-      newBooks = yamlStringToBooks ymlBksStr
-  newV tvBooks tvBorrowers newBooks newBorrowers
+  newBorrowersCollection yamlBorrowersFile ymlBksStr tvBooks tvBorrowers
+  newBooksCollection yamlBooksFile ymlBrsStr tvBooks tvBorrowers
   putStrLn "Add... a new borrower:"
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "BorrowerNew" 300))
   printStatus tvBooks tvBorrowers
@@ -85,9 +82,7 @@ main = do
   let ymlBrsStr = borrowersToYamlString borrowers
   writeFileFromYamlString ymlBrsStr "borrowers-after.yml"
   putStrLn "Clear the whole library again:"
-  atomically $ writeTVar tvBooks ([], True)
-  atomically $ writeTVar tvBorrowers ([], True)
-  printStatus tvBooks tvBorrowers
+  newEmptyV tvBooks tvBorrowers
   putStrLn "Then read in the revised library from \"borrowers-after.yml\" and \"books-before.yml\":"
   ymlBrsStr <- readFileIntoYamlString "borrowers-after.yml"
   ymlBksStr <- readFileIntoYamlString yamlBooksFile
@@ -102,32 +97,16 @@ main = do
   let newBorrowers = yamlStringToBorrowrs ymlBrsStr
       newBooks = yamlStringToBooks ymlBksStr
   newV tvBooks tvBorrowers newBooks newBorrowers
-
-
-
-
+  putStrLn "And if we read in a file with mal-formed yaml content... like \"bad-borrowers.yml\":"
+  ymlBrsStr <- readFileIntoYamlString "bad-borrowers.yml"
+  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
+  newV tvBooks tvBorrowers newBooks newBorrowers
+  putStrLn "Or how about reading in an empty file... \"empty.yml\":"
+  ymlBrsStr <- readFileIntoYamlString "empty.yml"
+  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
+  newV tvBooks tvBorrowers newBooks newBorrowers
+  putStrLn "And... that's all..."
   putStrLn "Thanks - bye!\n"
-
-
-
-
-
-
-
-
-
-
-      --(println "And if we read in a file with mal-formed yaml content... like \"bad-books.yml\":")
-      --(reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file-bad)))
-      --(print-status a-books a-borrowers)
-      --(println "Or how about reading in an empty file... \"empty.yml\":")
-      --(reset! a-books (yaml-string-to-collection (read-file-into-string empty-file)))
-      --(print-status a-books a-borrowers)
-      --(println "And... that's all...")
-      --(println "Thanks - bye!\n"))))
-
-
-
 
 atomRead :: TVar a -> IO a
 atomRead = atomically . readTVar
@@ -148,7 +127,7 @@ resetV tvbksb tvbrsb = do
   putStrLn "Reset! --- All reset?..."
   printStatus tvbksb tvbrsb
 
-newV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) ->Books -> Borrowers -> IO ()
+newV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) -> Books -> Borrowers -> IO ()
 newV tvbksb tvbrsb bksb brsb = do
   atomically $ writeTVar tvbksb bksb
   atomically $ writeTVar tvbrsb brsb
@@ -178,3 +157,31 @@ writeFileFromYamlString s f =
   BS.writeFile f bs
     where
       bs = BS.pack s
+
+newEmptyV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) -> IO ()
+newEmptyV tvbksb tvbrsb = do
+  atomically $ writeTVar tvbksb ([], True)
+  atomically $ writeTVar tvbrsb ([], True)
+  printStatus tvbksb tvbrsb
+
+newBooksCollection :: FilePath
+  -> String
+  -> TVar ([Book], Bool)
+  -> TVar ([Borrower], Bool)
+  -> IO ()
+newBooksCollection yamlBooksFile ymlBrsStr tvBooks tvBorrowers = do
+  ymlBksStr <- readFileIntoYamlString yamlBooksFile
+  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
+      newBooks = yamlStringToBooks ymlBksStr
+  newV tvBooks tvBorrowers newBooks newBorrowers
+
+newBorrowersCollection :: FilePath
+  -> String
+  -> TVar ([Book], Bool)
+  -> TVar ([Borrower], Bool)
+  -> IO ()
+newBorrowersCollection yamlBorrowersFile tvBorrowers = do
+  ymlBrsStr <- readFileIntoYamlString yamlBorrowersFile
+  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
+      newBooks = yamlStringToBooks ymlBksStr
+  newV tvBooks tvBorrowers newBooks newBorrowers
