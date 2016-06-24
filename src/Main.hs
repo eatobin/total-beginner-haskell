@@ -94,6 +94,16 @@ main = do
   let newBorrowers = yamlStringToBorrowrs ymlBrsStr
       newBooks = yamlStringToBooks ymlBksStr
   newV tvBooks tvBorrowers newBooks newBorrowers
+  putStrLn "Last... delete the file \"borrowers-after.yml\""
+  removeFile "borrowers-after.yml"
+  putStrLn "Then try to make a library using the deleted \"borrowers-after.yml\":"
+  ymlBrsStr <- readFileIntoYamlString "borrowers-after.yml"
+  ymlBksStr <- readFileIntoYamlString yamlBooksFile
+  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
+      newBooks = yamlStringToBooks ymlBksStr
+  newV tvBooks tvBorrowers newBooks newBorrowers
+
+
 
 
   putStrLn "Thanks - bye!\n"
@@ -105,12 +115,8 @@ main = do
 
 
 
-      --(println "Last... delete the file \"borrowers-after.yml\"")
-      --(io/delete-file yaml-borrowers-file-after)
-      --(println "Then try to make a library using the deleted \"borrowers-after.yml\":")
-      --(reset! a-borrowers (yaml-string-to-collection (read-file-into-string yaml-borrowers-file-after)))
-      --(reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file)))
-      --(print-status a-books a-borrowers)
+
+
       --(println "And if we read in a file with mal-formed yaml content... like \"bad-books.yml\":")
       --(reset! a-books (yaml-string-to-collection (read-file-into-string yaml-books-file-bad)))
       --(print-status a-books a-borrowers)
