@@ -164,3 +164,26 @@ newEmptyV tvbksb tvbrsb = do
   atomically $ writeTVar tvbksb ([], True)
   atomically $ writeTVar tvbrsb ([], True)
   printStatus tvbksb tvbrsb
+
+
+
+
+-- /Users/eatobin/haskell_projects/total-beginner-haskell/src/Main.hs: 74, 3
+-- Reduce duplication
+-- Found:
+--   ymlBksStr <- readFileIntoYamlString yamlBooksFile
+--   let newBorrowers = yamlStringToBorrowrs ymlBrsStr
+--       newBooks = yamlStringToBooks ymlBksStr
+--   newV tvBooks tvBorrowers newBooks newBorrowers
+-- Why not:
+--   Combine with /Users/eatobin/haskell_projects/total-beginner-haskell/src/Main.hs:89:3
+-- /Users/eatobin/haskell_projects/total-beginner-haskell/src/Main.hs: 88, 3
+-- Reduce duplication
+-- Found:
+--   ymlBrsStr <- readFileIntoYamlString "borrowers-after.yml"
+--   ymlBksStr <- readFileIntoYamlString yamlBooksFile
+--   let newBorrowers = yamlStringToBorrowrs ymlBrsStr
+--       newBooks = yamlStringToBooks ymlBksStr
+--   newV tvBooks tvBorrowers newBooks newBorrowers
+-- Why not:
+--   Combine with /Users/eatobin/haskell_projects/total-beginner-haskell/src/Main.hs:96:3
