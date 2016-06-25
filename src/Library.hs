@@ -22,14 +22,14 @@ type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
 
 data Item = Borrower | Book
-data CollBool = Borrowers | Books
+data Items = Borrowers | Books
 
-addItem :: Item -> CollBool -> CollBool
-addItem it cb =
+addItem :: Item -> Items -> Items
+addItem it itsb =
   if null coll
     then (its ++ [it], True)
     else (its, False)
-      where its = fst cb
+      where its = fst itsb
             coll = filter (== it) its
 
 addBorrower :: Borrower -> Borrowers -> Borrowers
