@@ -21,16 +21,16 @@ import           Data.Yaml              as Y
 type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
 
-data Item = Borrower | Book
-data Items = Borrowers | Books
+--data Item = Borrower | Book
+--data Items = Borrowers | Books
 
-addItem :: Item -> Items -> Items
-addItem it itsb =
-  if null coll
-    then (its ++ [it], True)
-    else (its, False)
-      where its = fst itsb
-            coll = filter (== it) its
+--addItem :: Item -> Items -> Items
+--addItem it itsb =
+--  if null coll
+--    then (its ++ [it], True)
+--    else (its, False)
+--      where its = fst itsb
+--            coll = filter (== it) its
 
 addBorrower :: Borrower -> Borrowers -> Borrowers
 addBorrower br brsb =

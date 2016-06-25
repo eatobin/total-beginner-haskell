@@ -72,8 +72,9 @@ main = do
   putStrLn "Lets read in a new library from \"borrowers-before.yml\" and \"books-before.yml\":"
   ymlBrsStr <- readFileIntoYamlString yamlBorrowersFile
   ymlBksStr <- readFileIntoYamlString yamlBooksFile
-  newBorrowersCollection yamlBorrowersFile ymlBksStr tvBooks tvBorrowers
-  newBooksCollection yamlBooksFile ymlBrsStr tvBooks tvBorrowers
+  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
+      newBooks = yamlStringToBooks ymlBksStr
+  newV tvBooks tvBorrowers newBooks newBorrowers
   putStrLn "Add... a new borrower:"
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "BorrowerNew" 300))
   printStatus tvBooks tvBorrowers
@@ -163,25 +164,3 @@ newEmptyV tvbksb tvbrsb = do
   atomically $ writeTVar tvbksb ([], True)
   atomically $ writeTVar tvbrsb ([], True)
   printStatus tvbksb tvbrsb
-
-newBooksCollection :: FilePath
-  -> String
-  -> TVar ([Book], Bool)
-  -> TVar ([Borrower], Bool)
-  -> IO ()
-newBooksCollection yamlBooksFile ymlBrsStr tvBooks tvBorrowers = do
-  ymlBksStr <- readFileIntoYamlString yamlBooksFile
-  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
-      newBooks = yamlStringToBooks ymlBksStr
-  newV tvBooks tvBorrowers newBooks newBorrowers
-
-newBorrowersCollection :: FilePath
-  -> String
-  -> TVar ([Book], Bool)
-  -> TVar ([Borrower], Bool)
-  -> IO ()
-newBorrowersCollection yamlBorrowersFile tvBorrowers = do
-  ymlBrsStr <- readFileIntoYamlString yamlBorrowersFile
-  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
-      newBooks = yamlStringToBooks ymlBksStr
-  newV tvBooks tvBorrowers newBooks newBorrowers
