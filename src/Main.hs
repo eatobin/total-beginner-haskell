@@ -70,11 +70,7 @@ main = do
   putStrLn "Okay... let's finish with some persistence. First clear the whole library:"
   newEmptyV tvBooks tvBorrowers
   putStrLn "Lets read in a new library from \"borrowers-before.yml\" and \"books-before.yml\":"
-  ymlBrsStr <- readFileIntoYamlString yamlBorrowersFile
-  ymlBksStr <- readFileIntoYamlString yamlBooksFile
-  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
-      newBooks = yamlStringToBooks ymlBksStr
-  newV tvBooks tvBorrowers newBooks newBorrowers
+  newV tvBooks tvBorrowers yamlBorrowersFile yamlBooksFile
   putStrLn "Add... a new borrower:"
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "BorrowerNew" 300))
   printStatus tvBooks tvBorrowers
@@ -85,27 +81,15 @@ main = do
   putStrLn "Clear the whole library again:"
   newEmptyV tvBooks tvBorrowers
   putStrLn "Then read in the revised library from \"borrowers-after.yml\" and \"books-before.yml\":"
-  ymlBrsStr <- readFileIntoYamlString "borrowers-after.yml"
-  ymlBksStr <- readFileIntoYamlString yamlBooksFile
-  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
-      newBooks = yamlStringToBooks ymlBksStr
-  newV tvBooks tvBorrowers newBooks newBorrowers
+  newV tvBooks tvBorrowers "borrowers-after.yml" yamlBooksFile
   putStrLn "Last... delete the file \"borrowers-after.yml\""
   removeFile "borrowers-after.yml"
   putStrLn "Then try to make a library using the deleted \"borrowers-after.yml\":"
-  ymlBrsStr <- readFileIntoYamlString "borrowers-after.yml"
-  ymlBksStr <- readFileIntoYamlString yamlBooksFile
-  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
-      newBooks = yamlStringToBooks ymlBksStr
-  newV tvBooks tvBorrowers newBooks newBorrowers
+  newV tvBooks tvBorrowers "borrowers-after.yml" yamlBooksFile
   putStrLn "And if we read in a file with mal-formed yaml content... like \"bad-borrowers.yml\":"
-  ymlBrsStr <- readFileIntoYamlString "bad-borrowers.yml"
-  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
-  newV tvBooks tvBorrowers newBooks newBorrowers
+  newV tvBooks tvBorrowers "bad-borrowers.yml" yamlBooksFile
   putStrLn "Or how about reading in an empty file... \"empty.yml\":"
-  ymlBrsStr <- readFileIntoYamlString "empty.yml"
-  let newBorrowers = yamlStringToBorrowrs ymlBrsStr
-  newV tvBooks tvBorrowers newBooks newBorrowers
+  newV tvBooks tvBorrowers "empty.yml" yamlBooksFile
   putStrLn "And... that's all..."
   putStrLn "Thanks - bye!\n"
 
@@ -125,8 +109,12 @@ resetV tvbksb tvbrsb = do
   putStrLn "Reset! --- All reset?..."
   printStatus tvbksb tvbrsb
 
-newV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) -> Books -> Borrowers -> IO ()
-newV tvbksb tvbrsb bksb brsb = do
+newV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) -> FilePath -> FilePath -> IO ()
+newV tvbksb tvbrsb brsfl bksfl = do
+  ymlBrsStr <- readFileIntoYamlString brsfl
+  ymlBksStr <- readFileIntoYamlString bksfl
+  let brsb = yamlStringToBorrowrs ymlBrsStr
+      bksb = yamlStringToBooks ymlBksStr
   atomically $ writeTVar tvbksb bksb
   atomically $ writeTVar tvbrsb brsb
   printStatus tvbksb tvbrsb
@@ -161,26 +149,3 @@ newEmptyV tvbksb tvbrsb = do
   atomically $ writeTVar tvbksb ([], True)
   atomically $ writeTVar tvbrsb ([], True)
   printStatus tvbksb tvbrsb
-
-
-
-
--- /Users/eatobin/haskell_projects/total-beginner-haskell/src/Main.hs: 74, 3
--- Reduce duplication
--- Found:
---   ymlBksStr <- readFileIntoYamlString yamlBooksFile
---   let newBorrowers = yamlStringToBorrowrs ymlBrsStr
---       newBooks = yamlStringToBooks ymlBksStr
---   newV tvBooks tvBorrowers newBooks newBorrowers
--- Why not:
---   Combine with /Users/eatobin/haskell_projects/total-beginner-haskell/src/Main.hs:89:3
--- /Users/eatobin/haskell_projects/total-beginner-haskell/src/Main.hs: 88, 3
--- Reduce duplication
--- Found:
---   ymlBrsStr <- readFileIntoYamlString "borrowers-after.yml"
---   ymlBksStr <- readFileIntoYamlString yamlBooksFile
---   let newBorrowers = yamlStringToBorrowrs ymlBrsStr
---       newBooks = yamlStringToBooks ymlBksStr
---   newV tvBooks tvBorrowers newBooks newBorrowers
--- Why not:
---   Combine with /Users/eatobin/haskell_projects/total-beginner-haskell/src/Main.hs:96:3
