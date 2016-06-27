@@ -17,6 +17,7 @@ import           Data.Yaml              as Y
 import           Library
 import           Library_Test
 import           System.Directory
+import Brook
 
 main :: IO ()
 main = do

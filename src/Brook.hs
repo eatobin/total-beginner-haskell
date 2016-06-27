@@ -1,28 +1,28 @@
 {-# LANGUAGE NamedFieldPuns #-}
 
-module Collection where
+module Brook where
 
 type Name = String
 type MaxBooks = Int
 type Title = String
 type Author = String
 
-data Item = Borrower
+data Brook = Borrower
             { name     :: Name
             , maxBooks :: MaxBooks
             }
           | Book
             { title    :: Title
             , author   :: Author
-            , borrower :: Maybe Item
+            , borrower :: Maybe Brook
             } deriving (Show, Eq)
 
-makeBorrower :: Name -> MaxBooks -> Item
-makeBorrower = Borrower
+makeBrorrower :: Name -> MaxBooks -> Brook
+makeBrorrower = Borrower
 
-makeBook :: Title -> Author -> Maybe Item -> Item
-makeBook = Book
+makeBrook :: Title -> Author -> Maybe Brook -> Brook
+makeBrook = Book
 
-getName :: Item -> Maybe Name
-getName Borrower {name} = Just name
-getName _ = Nothing
+getNamer :: Brook -> Maybe Name
+getNamer Borrower {name} = Just name
+getNamer _ = Nothing
