@@ -1,12 +1,15 @@
+{-# LANGUAGE DeriveGeneric  #-}
 {-# LANGUAGE NamedFieldPuns #-}
 
 module Book where
 
--- br = Borrower
--- bk = Book
-
 import           Borrower
 import           Data.Maybe
+import           Data.Yaml
+import           GHC.Generics
+
+-- br = Borrower
+-- bk = Book
 
 type Title = String
 type Author = String
@@ -15,7 +18,11 @@ data Book = Book
   { title    :: Title
   , author   :: Author
   , borrower :: Maybe Borrower
-  } deriving (Show, Eq)
+  } deriving (Show, Eq, Generic)
+
+instance FromJSON Book
+
+instance ToJSON Book
 
 makeBook :: Title -> Author -> Maybe Borrower -> Book
 makeBook = Book

@@ -1,6 +1,9 @@
-{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE NamedFieldPuns    #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Borrower where
+
+import           Data.Yaml
 
 -- br = Borrower
 
@@ -11,6 +14,15 @@ data Borrower = Borrower
   { name     :: Name
   , maxBooks :: MaxBooks
   } deriving (Show, Eq)
+
+instance FromJSON Borrower where
+  parseJSON (Object v) = Borrower <$>
+                         v .: "name" <*>
+                         v .: "max-books"
+  parseJSON _ = error "Can't parse Borrower from YAML/JSON"
+
+instance ToJSON Borrower where
+  toJSON (Borrower name maxBooks) = object ["name" .= name, "max-books" .= maxBooks]
 
 makeBorrower :: Name -> MaxBooks -> Borrower
 makeBorrower = Borrower

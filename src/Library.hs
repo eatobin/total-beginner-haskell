@@ -14,10 +14,23 @@ import           Borrower
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
+import qualified Data.ByteString.Char8  as BS
 import           Data.Maybe
+import           Data.Yaml              as Y
 
 type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
+
+--data Item = Borrower | Book
+--data Items = Borrowers | Books
+
+--addItem :: Item -> Items -> Items
+--addItem it itsb =
+--  if null coll
+--    then (its ++ [it], True)
+--    else (its, False)
+--      where its = fst itsb
+--            coll = filter (== it) its
 
 addBorrower :: Borrower -> Borrowers -> Borrowers
 addBorrower br brsb =
@@ -88,6 +101,30 @@ checkIn t bksb =
             bookOut = isJust (getBorrower (fromJust mbk))
             newBook = setBorrower Nothing (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bksb
+
+yamlStringToBorrowrs :: String -> Borrowers
+yamlStringToBorrowrs s =
+  if isJust mbrs
+    then (fromJust mbrs, True)
+    else ([], False)
+      where mbrs = Y.decode (BS.pack s) :: Maybe [Borrower]
+
+yamlStringToBooks :: String -> Books
+yamlStringToBooks s =
+  if isJust mbks
+    then (fromJust mbks, True)
+    else ([], False)
+      where mbks = Y.decode (BS.pack s) :: Maybe [Book]
+
+borrowersToYamlString :: Borrowers -> String
+borrowersToYamlString brsb =
+  BS.unpack (Y.encode brs)
+    where brs = fst brsb
+
+booksToYamlString :: Books -> String
+booksToYamlString bksb =
+  BS.unpack (Y.encode bks)
+    where bks = fst bksb
 
 libraryToString :: Books -> Borrowers -> String
 libraryToString bksb brsb = "Test Library: " ++

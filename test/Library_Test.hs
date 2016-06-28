@@ -16,6 +16,9 @@ import           Borrower_Test
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
+import qualified Data.ByteString.Char8  as BS
+import           Data.Maybe
+import           Data.Yaml              as Y
 import           Library
 import           Test.HUnit
 
@@ -45,6 +48,10 @@ bksb2 = ([bk1, bk2, bk3], True)
 bksb3 = ([bk1, bk2, bk3, bk4], True)
 bksb4 = ([bk1, bk2, bk3, bk4], False)
 bksb5 = ([bk1, bk2, bk3], False)
+
+yamlStringBorrowersBad = "- name Borrower1\n  max-books: 1\n- name: Borrower2\n  max-books: 2\n"
+yamlStringBorrowers = "- name: Borrower1\n  max-books: 1\n- name: Borrower2\n  max-books: 2\n"
+yamlStringBooks = "- borrower:\n    name: Borrower1\n    max-books: 1\n  author: Author1\n  title: Title1\n- borrower: null\n  author: Author2\n  title: Title2\n"
 
 testAddBorrowerPass = (~=?)
   brsb2
@@ -140,6 +147,26 @@ testCheckInFailBadBook = (~=?)
     , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
   (checkIn "NoTitle" bksb1)
 
+testYamlStringToBorrowrsFail = (~=?)
+  ([], False)
+  (yamlStringToBorrowrs yamlStringBorrowersBad)
+
+testYamlStringToBorrowrsPass = (~=?)
+  brsb1
+  (yamlStringToBorrowrs yamlStringBorrowers)
+
+testYamlStringToBooks = (~=?)
+  bksb1
+  (yamlStringToBooks yamlStringBooks)
+
+testBorrowersToYamlString = (~=?)
+  yamlStringBorrowers
+  (borrowersToYamlString brsb1)
+
+testBooksToYamlString = (~=?)
+  yamlStringBooks
+  (booksToYamlString bksb1)
+
 testLibraryToString = (~=?)
   "Test Library: 2 books; 3 borrowers."
   (libraryToString bksb1 brsb2)
@@ -157,6 +184,9 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testFindBookPass, testFindBookFail
                         , testFindBorrowerPass, testFindBorrowerFail
                         , testCheckOutFailBadBorrower, testCheckOutFailBadBook
-                        , testCheckInFailBadBook, testStatusToString ]
+                        , testCheckInFailBadBook, testStatusToString
+                        , testYamlStringToBorrowrsFail, testYamlStringToBooks
+                        , testBorrowersToYamlString, testBooksToYamlString
+                        , testYamlStringToBorrowrsPass ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]

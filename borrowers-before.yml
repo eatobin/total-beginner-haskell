@@ -1,0 +1,3 @@
+- {name: Borrower100, max-books: 100}
+- name: Borrower200
+  max-books: 200
