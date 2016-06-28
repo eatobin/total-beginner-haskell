@@ -8,7 +8,6 @@ import           Book
 import           Book_Test
 import           Borrower
 import           Borrower_Test
-import           Brook
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
