@@ -70,26 +70,26 @@ main = do
   putStrLn "Okay... let's finish with some persistence. First clear the whole library:"
   newEmptyV tvBooks tvBorrowers
   putStrLn "Lets read in a new library from \"borrowers-before.yml\" and \"books-before.yml\":"
-  newV tvBooks tvBorrowers yamlBorrowersFile yamlBooksFile
+  newV tvBooks tvBorrowers yamlBorrowersFileBefore yamlBooksFile
   putStrLn "Add... a new borrower:"
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "BorrowerNew" 300))
   printStatus tvBooks tvBorrowers
   putStrLn "Save the revised borrowers to \"borrowers-after.yml\""
   borrowers <- readTVarIO tvBorrowers
   let ymlBrsStr = borrowersToYamlString borrowers
-  writeFileFromYamlString ymlBrsStr "borrowers-after.yml"
+  writeFileFromYamlString ymlBrsStr yamlBorrowersFileAfter
   putStrLn "Clear the whole library again:"
   newEmptyV tvBooks tvBorrowers
   putStrLn "Then read in the revised library from \"borrowers-after.yml\" and \"books-before.yml\":"
-  newV tvBooks tvBorrowers "borrowers-after.yml" yamlBooksFile
+  newV tvBooks tvBorrowers yamlBorrowersFileAfter yamlBooksFile
   putStrLn "Last... delete the file \"borrowers-after.yml\""
-  removeFile "borrowers-after.yml"
+  removeFile yamlBorrowersFileAfter
   putStrLn "Then try to make a library using the deleted \"borrowers-after.yml\":"
-  newV tvBooks tvBorrowers "borrowers-after.yml" yamlBooksFile
+  newV tvBooks tvBorrowers yamlBorrowersFileAfter yamlBooksFile
   putStrLn "And if we read in a file with mal-formed yaml content... like \"bad-borrowers.yml\":"
-  newV tvBooks tvBorrowers "bad-borrowers.yml" yamlBooksFile
+  newV tvBooks tvBorrowers yamlBorrowersFileBad yamlBooksFile
   putStrLn "Or how about reading in an empty file... \"empty.yml\":"
-  newV tvBooks tvBorrowers "empty.yml" yamlBooksFile
+  newV tvBooks tvBorrowers emptyFile yamlBooksFile
   putStrLn "And... that's all..."
   putStrLn "Thanks - bye!\n"
 
@@ -119,11 +119,20 @@ newV tvbksb tvbrsb brsfl bksfl = do
   atomically $ writeTVar tvbrsb brsb
   printStatus tvbksb tvbrsb
 
-yamlBorrowersFile :: FilePath
-yamlBorrowersFile = "borrowers-before.yml"
+yamlBorrowersFileBefore :: FilePath
+yamlBorrowersFileBefore = "borrowers-before.yml"
+
+yamlBorrowersFileAfter :: FilePath
+yamlBorrowersFileAfter = "borrowers-after.yml"
 
 yamlBooksFile :: FilePath
 yamlBooksFile = "books-before.yml"
+
+yamlBorrowersFileBad :: FilePath
+yamlBorrowersFileBad = "bad-borrowers.yml"
+
+emptyFile :: FilePath
+emptyFile = "empty.yml"
 
 readFileIntoYamlString :: FilePath -> IO String
 readFileIntoYamlString f = do
