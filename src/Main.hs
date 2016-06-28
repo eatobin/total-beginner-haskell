@@ -8,6 +8,7 @@ import           Book
 import           Book_Test
 import           Borrower
 import           Borrower_Test
+import           Brook
 import           Control.Concurrent
 import           Control.Concurrent.STM
 import           Control.Monad
@@ -17,7 +18,6 @@ import           Data.Yaml              as Y
 import           Library
 import           Library_Test
 import           System.Directory
-import Brook
 
 main :: IO ()
 main = do
