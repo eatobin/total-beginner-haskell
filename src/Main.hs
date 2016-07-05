@@ -119,21 +119,6 @@ newV tvbksb tvbrsb brsfl bksfl = do
   atomically $ writeTVar tvbrsb brsb
   printStatus tvbksb tvbrsb
 
-yamlBorrowersFileBefore :: FilePath
-yamlBorrowersFileBefore = "borrowers-before.yml"
-
-yamlBorrowersFileAfter :: FilePath
-yamlBorrowersFileAfter = "borrowers-after.yml"
-
-yamlBooksFile :: FilePath
-yamlBooksFile = "books-before.yml"
-
-yamlBorrowersFileBad :: FilePath
-yamlBorrowersFileBad = "bad-borrowers.yml"
-
-emptyFile :: FilePath
-emptyFile = "empty.yml"
-
 readFileIntoYamlString :: FilePath -> IO String
 readFileIntoYamlString f = do
   dfe <- doesFileExist f
@@ -158,3 +143,18 @@ newEmptyV tvbksb tvbrsb = do
   atomically $ writeTVar tvbksb ([], True)
   atomically $ writeTVar tvbrsb ([], True)
   printStatus tvbksb tvbrsb
+
+yamlBorrowersFileBefore :: FilePath
+yamlBorrowersFileBefore = "borrowers-before.yml"
+
+yamlBorrowersFileAfter :: FilePath
+yamlBorrowersFileAfter = "borrowers-after.yml"
+
+yamlBooksFile :: FilePath
+yamlBooksFile = "books-before.yml"
+
+yamlBorrowersFileBad :: FilePath
+yamlBorrowersFileBad = "bad-borrowers.yml"
+
+emptyFile :: FilePath
+emptyFile = "empty.yml"
