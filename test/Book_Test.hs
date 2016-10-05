@@ -44,8 +44,8 @@ testSetBorrowerSomeone = (~=?)
   (setBorrower (Just Borrower { name = "BorrowerNew", maxBooks = 111 }) bk2)
 
 testSetBorrowerNothing = (~=?)
-  Book {title = "Title2", author = "Author2", borrower = Nothing}
-  (setBorrower Nothing bk2)
+  Book {title = "Title1", author = "Author1", borrower = Nothing}
+  (setBorrower Nothing bk1)
 
 testBookToStringSomeone = (~=?)
   "Title1 by Author1; Checked out to Borrower1"
