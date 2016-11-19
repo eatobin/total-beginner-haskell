@@ -27,8 +27,8 @@ br2 = Borrower {name = "Borrower2", maxBooks = 2}
 br3 = Borrower {name = "Borrower3", maxBooks = 3}
 
 brsb1 = ([br1, br2], True)
-brsb2 = ([br1, br2, br3], True)
-brsb3 = ([br1, br2, br3], False)
+brsb2 = ([br3, br1, br2], True)
+brsb3 = ([br3, br1, br2], False)
 
 -- bk1 = Book { title = "Title1"
 --              , author = "Author1"
@@ -59,7 +59,7 @@ testAddBorrowerPass = (~=?)
 
 testAddBorrowerFail = (~=?)
   brsb3
-  (addBorrower br3 brsb2)
+  (addBorrower br2 brsb2)
 
 testAddBookPass = (~=?)
   bksb2
@@ -172,7 +172,7 @@ testLibraryToString = (~=?)
   (libraryToString bksb1 brsb2)
 
 testStatusToString = (~=?)
-  "\n--- Status Report of Test Library ---\n\nTest Library: 3 books; 3 borrowers.\nTitle1 by Author1; Checked out to Borrower1\nTitle2 by Author2; Available\nTitle3 by Author3; Checked out to Borrower3\n\nBorrower1 (1 books)\nBorrower2 (2 books)\nBorrower3 (3 books)\n\n--- End of Status Report ---\n"
+  "\n--- Status Report of Test Library ---\n\nTest Library: 3 books; 3 borrowers.\nTitle1 by Author1; Checked out to Borrower1\nTitle2 by Author2; Available\nTitle3 by Author3; Checked out to Borrower3\n\nBorrower3 (3 books)\nBorrower1 (1 books)\nBorrower2 (2 books)\n\n--- End of Status Report ---\n"
   (statusToString bksb2 brsb2)
 
 libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBookPass

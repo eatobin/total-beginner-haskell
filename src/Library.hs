@@ -24,7 +24,8 @@ type Books = ([Book], Bool)
 addBorrower :: Borrower -> Borrowers -> Borrowers
 addBorrower br brsb =
   if null coll
-    then (brs ++ [br], True)
+    then (br:brs, True)
+    -- then (brs ++ [br], True)
     else (brs, False)
       where brs = fst brsb
             coll = filter (== br) brs
