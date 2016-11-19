@@ -25,18 +25,17 @@ addBorrower :: Borrower -> Borrowers -> Borrowers
 addBorrower br brsb =
   if null coll
     then (br:brs, True)
-    -- then (brs ++ [br], True)
     else (brs, False)
       where brs = fst brsb
             coll = filter (== br) brs
 
 addBook :: Book -> Books -> Books
-addBook tbk bksb =
+addBook bk bksb =
   if null coll
-    then (bks ++ [tbk], True)
+    then (bk:bks, True)
     else (bks, False)
       where bks = fst bksb
-            coll = filter (== tbk) bks
+            coll = filter (== bk) bks
 
 removeBook :: Book -> Books -> Books
 removeBook tbk bksb =

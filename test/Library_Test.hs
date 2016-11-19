@@ -44,10 +44,10 @@ bk4 = Book { title = "Title4"
              , borrower = Just br3 }
 
 bksb1 = ([bk1, bk2], True)
-bksb2 = ([bk1, bk2, bk3], True)
+bksb2 = ([bk3, bk1, bk2], True)
 bksb3 = ([bk1, bk2, bk3, bk4], True)
 bksb4 = ([bk1, bk2, bk3, bk4], False)
-bksb5 = ([bk1, bk2, bk3], False)
+bksb5 = ([bk3, bk1, bk2], False)
 
 yamlStringBorrowersBad = "- name Borrower1\n  max-books: 1\n- name: Borrower2\n  max-books: 2\n"
 yamlStringBorrowers = "- name: Borrower1\n  max-books: 1\n- name: Borrower2\n  max-books: 2\n"
@@ -126,15 +126,15 @@ testCheckOutFailOverLimit = (~=?)
   (checkOut "Borrower1" "Title2" brsb2 bksb1)
 
 testCheckOutPass = (~=?)
-  ( [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+  ( [ Book {title = "Title2", author = "Author2", borrower = Just Borrower {name = "Borrower3", maxBooks = 3}}
+    , Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
     , Book {title = "Title3", author = "Author3", borrower = Just Borrower {name = "Borrower3", maxBooks = 3}}
-    , Book {title = "Title4", author = "Author4", borrower = Just Borrower {name = "Borrower3", maxBooks = 3}}
-    , Book {title = "Title2", author = "Author2", borrower = Just Borrower {name = "Borrower3", maxBooks = 3}} ], True )
+    , Book {title = "Title4", author = "Author4", borrower = Just Borrower {name = "Borrower3", maxBooks = 3}} ], True )
   (checkOut "Borrower3" "Title2" brsb2 bksb3)
 
 testCheckInPass = (~=?)
-  ( [ Book {title = "Title2", author = "Author2", borrower = Nothing}
-    , Book {title = "Title1", author = "Author1", borrower = Nothing} ], True )
+  ( [ Book {title = "Title1", author = "Author1", borrower = Nothing}
+    , Book {title = "Title2", author = "Author2", borrower = Nothing} ], True )
   (checkIn "Title1" bksb1)
 
 testCheckInFailCheckedIn = (~=?)
@@ -172,7 +172,7 @@ testLibraryToString = (~=?)
   (libraryToString bksb1 brsb2)
 
 testStatusToString = (~=?)
-  "\n--- Status Report of Test Library ---\n\nTest Library: 3 books; 3 borrowers.\nTitle1 by Author1; Checked out to Borrower1\nTitle2 by Author2; Available\nTitle3 by Author3; Checked out to Borrower3\n\nBorrower3 (3 books)\nBorrower1 (1 books)\nBorrower2 (2 books)\n\n--- End of Status Report ---\n"
+  "\n--- Status Report of Test Library ---\n\nTest Library: 3 books; 3 borrowers.\nTitle3 by Author3; Checked out to Borrower3\nTitle1 by Author1; Checked out to Borrower1\nTitle2 by Author2; Available\n\nBorrower3 (3 books)\nBorrower1 (1 books)\nBorrower2 (2 books)\n\n--- End of Status Report ---\n"
   (statusToString bksb2 brsb2)
 
 libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBookPass
