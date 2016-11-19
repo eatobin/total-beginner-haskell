@@ -21,17 +21,6 @@ import           Data.Yaml              as Y
 type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
 
---data Item = Borrower | Book
---data Items = Borrowers | Books
-
---addItem :: Item -> Items -> Items
---addItem it itsb =
---  if null coll
---    then (its ++ [it], True)
---    else (its, False)
---      where its = fst itsb
---            coll = filter (== it) its
-
 addBorrower :: Borrower -> Borrowers -> Borrowers
 addBorrower br brsb =
   if null coll
@@ -76,29 +65,37 @@ getBooksForBorrower :: Borrower -> Books -> [Book]
 getBooksForBorrower br bksb = [bk | bk <- bks, getBorrower bk == Just br]
   where bks = fst bksb
 
+numBooksOut :: Borrower -> Books -> Int
+numBooksOut br bksb = length (getBooksForBorrower br bksb)
+
+notMaxedOut :: Borrower -> Books -> Bool
+notMaxedOut br bksb = numBooksOut br bksb < getMaxBooks br
+
+bookNotOut :: Book -> Bool
+bookNotOut bk = isNothing (getBorrower bk)
+
+bookOut :: Book -> Bool
+bookOut bk = isJust (getBorrower bk)
+
 checkOut :: Name -> Title -> Borrowers -> Books -> Books
 checkOut n t brsb bksb =
-  if isJust mbk && isJust mbr && notMaxedOut && bookNotOut
+  if isJust mbk && isJust mbr &&
+      notMaxedOut (fromJust mbr) bksb && bookNotOut (fromJust mbk)
     then addBook newBook fewerBooks
     else (bks, False)
       where bks = fst bksb
             mbk = findBook t bksb
             mbr = findBorrower n brsb
-            booksOut = length (getBooksForBorrower (fromJust mbr) bksb)
-            maxBooksAllowed = getMaxBooks (fromJust mbr)
-            notMaxedOut = booksOut < maxBooksAllowed
-            bookNotOut = isNothing (getBorrower (fromJust mbk))
             newBook = setBorrower mbr (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bksb
 
 checkIn :: Title -> Books -> Books
 checkIn t bksb =
-  if isJust mbk && bookOut
+  if isJust mbk && bookOut (fromJust mbk)
     then addBook newBook fewerBooks
     else (bks, False)
       where bks = fst bksb
             mbk = findBook t bksb
-            bookOut = isJust (getBorrower (fromJust mbk))
             newBook = setBorrower Nothing (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bksb
 
