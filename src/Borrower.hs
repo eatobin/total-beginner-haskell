@@ -16,9 +16,9 @@ data Borrower = Borrower
   } deriving (Show, Eq)
 
 instance FromJSON Borrower where
-  parseJSON (Object v) = Borrower <$>
-                         v .: "name" <*>
-                         v .: "max-books"
+  parseJSON (Object v) =
+    Borrower <$> v .: "name"
+             <*> v .: "max-books"
   parseJSON _ = error "Can't parse Borrower from YAML/JSON"
 
 instance ToJSON Borrower where
