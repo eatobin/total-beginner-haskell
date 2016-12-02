@@ -99,8 +99,8 @@ checkIn t bksb =
             newBook = setBorrower Nothing (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bksb
 
-yamlStringToBorrowrs :: String -> Borrowers
-yamlStringToBorrowrs s =
+yamlStringToBorrowers :: String -> Borrowers
+yamlStringToBorrowers s =
   if isJust mbrs
     then (fromJust mbrs, True)
     else ([], False)

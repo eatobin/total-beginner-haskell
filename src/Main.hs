@@ -113,7 +113,7 @@ newV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) -> FilePath -> FilePath -
 newV tvbksb tvbrsb brsfl bksfl = do
   ymlBrsStr <- readFileIntoYamlString brsfl
   ymlBksStr <- readFileIntoYamlString bksfl
-  let brsb = yamlStringToBorrowrs ymlBrsStr
+  let brsb = yamlStringToBorrowers ymlBrsStr
       bksb = yamlStringToBooks ymlBksStr
   atomically $ writeTVar tvbksb bksb
   atomically $ writeTVar tvbrsb brsb
