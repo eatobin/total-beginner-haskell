@@ -30,3 +30,4 @@ executable total-beginner-haskell
                      , yaml
                      , bytestring
                      , directory
+                     , aeson
