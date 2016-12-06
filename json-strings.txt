@@ -1,0 +1,3 @@
+"[{\"name\":\"Borrower1\",\"max-books\":1}]"
+
+"[{\"name\":\"Borrower1\",\"max-books\":1},{\"name\":\"Borrower2\",\"max-books\":2}]"
