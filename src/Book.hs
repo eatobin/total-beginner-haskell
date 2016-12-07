@@ -4,8 +4,8 @@
 module Book where
 
 import           Borrower
+import           Data.Aeson
 import           Data.Maybe
-import           Data.Yaml
 import           GHC.Generics
 
 -- br = Borrower

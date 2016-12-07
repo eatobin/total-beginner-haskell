@@ -3,7 +3,7 @@
 
 module Borrower where
 
-import           Data.Yaml
+import           Data.Aeson
 
 -- br = Borrower
 
