@@ -18,11 +18,11 @@ data Borrower = Borrower
 instance FromJSON Borrower where
   parseJSON (Object v) =
     Borrower <$> v .: "name"
-             <*> v .: "max-books"
-  parseJSON _ = error "Can't parse Borrower from YAML/JSON"
+             <*> v .: "maxBooks"
+  parseJSON _ = error "Can't parse Borrower from JSON"
 
 instance ToJSON Borrower where
-  toJSON (Borrower name maxBooks) = object ["name" .= name, "max-books" .= maxBooks]
+  toJSON (Borrower name maxBooks) = object ["name" .= name, "maxBooks" .= maxBooks]
 
 makeBorrower :: Name -> MaxBooks -> Borrower
 makeBorrower = Borrower
