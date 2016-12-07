@@ -121,14 +121,31 @@ yamlStringToBooks s =
     else ([], False)
       where mbks = Y.decode (BS.pack s) :: Maybe [Book]
 
+jsonStringToBooks :: JsonString -> Books
+jsonStringToBooks s =
+  if isJust mbks
+    then (fromJust mbks, True)
+    else ([], False)
+      where mbks = A.decode (BL.fromStrict $ BS.pack s) :: Maybe [Book]
+
 borrowersToYamlString :: Borrowers -> YamlString
 borrowersToYamlString brsb =
   BS.unpack (Y.encode brs)
     where brs = fst brsb
 
+borrowersToJsonString :: Borrowers -> JsonString
+borrowersToJsonString brsb =
+  BS.unpack (BL.toStrict $ A.encode brs)
+    where brs = fst brsb
+
 booksToYamlString :: Books -> YamlString
 booksToYamlString bksb =
   BS.unpack (Y.encode bks)
+    where bks = fst bksb
+
+booksToJsonString :: Books -> JsonString
+booksToJsonString bksb =
+  BS.unpack (BL.toStrict $ A.encode bks)
     where bks = fst bksb
 
 libraryToString :: Books -> Borrowers -> String

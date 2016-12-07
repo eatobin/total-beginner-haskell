@@ -1,3 +1,7 @@
 "[{\"name\":\"Borrower1\",\"maxBooks\":1}]"
 
 "[{\"name\":\"Borrower1\",\"maxBooks\":1},{\"name\":\"Borrower2\",\"maxBooks\":2}]"
+
+"[{\"title\":\"Title2\",\"author\":\"Author22\",\"borrower\":null}, {\"title\":\"Title99\",\"author\":\"Author99\",\"borrower\":null}]"
+
+"[{\"title\":\"Title2\",\"author\":\"Author22\",\"borrower\":null}, {\"title\":\"Title99\",\"author\":\"Author99\",\"borrower\":{\"name\":\"Borrower1\",\"maxBooks\":1}}]"
