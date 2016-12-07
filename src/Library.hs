@@ -11,16 +11,11 @@ module Library where
 
 import           Book
 import           Borrower
-import           Control.Concurrent
-import           Control.Concurrent.STM
-import           Control.Monad
-import           Data.Aeson                as A
-import qualified Data.ByteString.Char8     as BS
-import qualified Data.ByteString.Lazy      as BL
-import           Data.ByteString.Lazy.UTF8 as B8
+import           Data.Aeson            as A
+import qualified Data.ByteString.Char8 as BS
+import qualified Data.ByteString.Lazy  as BL
 import           Data.Maybe
-import           Data.Yaml                 as Y
-import           GHC.Word
+import           Data.Yaml             as Y
 
 type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
@@ -72,7 +67,7 @@ getBooksForBorrower br bksb = [bk | bk <- bks, getBorrower bk == Just br]
   where bks = fst bksb
 
 numBooksOut :: Borrower -> Books -> Int
-numBooksOut br bksb = Prelude.length (getBooksForBorrower br bksb)
+numBooksOut br bksb = length (getBooksForBorrower br bksb)
 
 notMaxedOut :: Borrower -> Books -> Bool
 notMaxedOut br bksb = numBooksOut br bksb < getMaxBooks br
@@ -117,7 +112,7 @@ jsonStringToBorrowers s =
   if isJust mbrs
     then (fromJust mbrs, True)
     else ([], False)
-      where mbrs = A.decode (BL.fromStrict(BS.pack s)) :: Maybe [Borrower]
+      where mbrs = A.decode (BL.fromStrict $ BS.pack s) :: Maybe [Borrower]
 
 yamlStringToBooks :: YamlString -> Books
 yamlStringToBooks s =
@@ -138,8 +133,8 @@ booksToYamlString bksb =
 
 libraryToString :: Books -> Borrowers -> String
 libraryToString bksb brsb = "Test Library: " ++
-  show (Prelude.length bks) ++ " books; " ++
-  show (Prelude.length brs) ++ " borrowers."
+  show (length bks) ++ " books; " ++
+  show (length brs) ++ " borrowers."
     where bks = fst bksb
           brs = fst brsb
 

@@ -13,7 +13,6 @@ import           Control.Concurrent.STM
 import           Control.Monad
 import qualified Data.ByteString.Char8  as BS
 import           Data.Maybe
-import           Data.Yaml              as Y
 import           Library
 import           Library_Test
 import           System.Directory

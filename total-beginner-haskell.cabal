@@ -31,4 +31,3 @@ executable total-beginner-haskell
                      , bytestring
                      , directory
                      , aeson
-                     , utf8-string
