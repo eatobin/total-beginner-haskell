@@ -112,7 +112,7 @@ jsonStringToBorrowers s =
   if isJust mbrs
     then (fromJust mbrs, True)
     else ([], False)
-      where mbrs = A.decode (BL.fromStrict $ BS.pack s) :: Maybe [Borrower]
+      where mbrs = A.decodeStrict (BS.pack s) :: Maybe [Borrower]
 
 yamlStringToBooks :: YamlString -> Books
 yamlStringToBooks s =
