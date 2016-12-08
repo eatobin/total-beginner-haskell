@@ -68,27 +68,27 @@ main = do
   printStatus tvBooks tvBorrowers
   putStrLn "Okay... let's finish with some persistence. First clear the whole library:"
   newEmptyV tvBooks tvBorrowers
-  putStrLn "Lets read in a new library from \"borrowers-before.yml\" and \"books-before.yml\":"
-  newV tvBooks tvBorrowers yamlBorrowersFileBefore yamlBooksFile
+  putStrLn "Lets read in a new library from \"borrowers-before.json\" and \"books-before.json\":"
+  newV tvBooks tvBorrowers jsonBorrowersFileBefore jsonBooksFile
   putStrLn "Add... a new borrower:"
   atomically $ modifyTVar tvBorrowers (addBorrower (makeBorrower "BorrowerNew" 300))
   printStatus tvBooks tvBorrowers
-  putStrLn "Save the revised borrowers to \"borrowers-after.yml\""
+  putStrLn "Save the revised borrowers to \"borrowers-after.json\""
   borrowers <- readTVarIO tvBorrowers
-  let ymlBrsStr = borrowersToYamlString borrowers
-  writeFileFromYamlString ymlBrsStr yamlBorrowersFileAfter
+  let jsonBrsStr = borrowersToJsonString borrowers
+  writeFileFromJsonString jsonBrsStr jsonBorrowersFileAfter
   putStrLn "Clear the whole library again:"
   newEmptyV tvBooks tvBorrowers
-  putStrLn "Then read in the revised library from \"borrowers-after.yml\" and \"books-before.yml\":"
-  newV tvBooks tvBorrowers yamlBorrowersFileAfter yamlBooksFile
-  putStrLn "Last... delete the file \"borrowers-after.yml\""
-  removeFile yamlBorrowersFileAfter
-  putStrLn "Then try to make a library using the deleted \"borrowers-after.yml\":"
-  newV tvBooks tvBorrowers yamlBorrowersFileAfter yamlBooksFile
-  putStrLn "And if we read in a file with mal-formed yaml content... like \"bad-borrowers.yml\":"
-  newV tvBooks tvBorrowers yamlBorrowersFileBad yamlBooksFile
-  putStrLn "Or how about reading in an empty file... \"empty.yml\":"
-  newV tvBooks tvBorrowers emptyFile yamlBooksFile
+  putStrLn "Then read in the revised library from \"borrowers-after.json\" and \"books-before.json\":"
+  newV tvBooks tvBorrowers jsonBorrowersFileAfter jsonBooksFile
+  putStrLn "Last... delete the file \"borrowers-after.json\""
+  removeFile jsonBorrowersFileAfter
+  putStrLn "Then try to make a library using the deleted \"borrowers-after.json\":"
+  newV tvBooks tvBorrowers jsonBorrowersFileAfter jsonBooksFile
+  putStrLn "And if we read in a file with mal-formed json content... like \"bad-borrowers.json\":"
+  newV tvBooks tvBorrowers jsonBorrowersFileBad jsonBooksFile
+  putStrLn "Or how about reading in an empty file... \"empty.json\":"
+  newV tvBooks tvBorrowers emptyFile jsonBooksFile
   putStrLn "And... that's all..."
   putStrLn "Thanks - bye!\n"
 
@@ -110,29 +110,29 @@ resetV tvbksb tvbrsb = do
 
 newV :: TVar ([Book], Bool) -> TVar ([Borrower], Bool) -> FilePath -> FilePath -> IO ()
 newV tvbksb tvbrsb brsfl bksfl = do
-  ymlBrsStr <- readFileIntoYamlString brsfl
-  ymlBksStr <- readFileIntoYamlString bksfl
-  let brsb = yamlStringToBorrowers ymlBrsStr
-      bksb = yamlStringToBooks ymlBksStr
-  atomically $ writeTVar tvbksb bksb
+  jsonBrsStr <- readFileIntoJsonString brsfl
+  jsonBksStr <- readFileIntoJsonString bksfl
+  let brsb = jsonStringToBorrowers jsonBrsStr
+      bksb = jsonStringToBooks jsonBksStr
   atomically $ writeTVar tvbrsb brsb
+  atomically $ writeTVar tvbksb bksb
   printStatus tvbksb tvbrsb
 
-readFileIntoYamlString :: FilePath -> IO String
-readFileIntoYamlString f = do
+readFileIntoJsonString :: FilePath -> IO String
+readFileIntoJsonString f = do
   dfe <- doesFileExist f
   if dfe
     then do
       bs <- BS.readFile f
       let s = BS.unpack bs
-      return s
+      return (filter (/= '\n') s)
     else do
       let bs = BS.empty
           s = BS.unpack bs
       return s
 
-writeFileFromYamlString :: String -> FilePath -> IO ()
-writeFileFromYamlString s f =
+writeFileFromJsonString :: String -> FilePath -> IO ()
+writeFileFromJsonString s f =
   BS.writeFile f bs
     where
       bs = BS.pack s
@@ -143,17 +143,17 @@ newEmptyV tvbksb tvbrsb = do
   atomically $ writeTVar tvbrsb ([], True)
   printStatus tvbksb tvbrsb
 
-yamlBorrowersFileBefore :: FilePath
-yamlBorrowersFileBefore = "borrowers-before.yml"
+jsonBorrowersFileBefore :: FilePath
+jsonBorrowersFileBefore = "borrowers-before.json"
 
-yamlBorrowersFileAfter :: FilePath
-yamlBorrowersFileAfter = "borrowers-after.yml"
+jsonBorrowersFileAfter :: FilePath
+jsonBorrowersFileAfter = "borrowers-after.json"
 
-yamlBooksFile :: FilePath
-yamlBooksFile = "books-before.yml"
+jsonBooksFile :: FilePath
+jsonBooksFile = "books-before.json"
 
-yamlBorrowersFileBad :: FilePath
-yamlBorrowersFileBad = "bad-borrowers.yml"
+jsonBorrowersFileBad :: FilePath
+jsonBorrowersFileBad = "bad-borrowers.json"
 
 emptyFile :: FilePath
-emptyFile = "empty.yml"
+emptyFile = "empty.json"
