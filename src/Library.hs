@@ -15,7 +15,6 @@ import           Data.Aeson            as A
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy  as BL
 import           Data.Maybe
-import           Data.Yaml             as Y
 
 type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
@@ -100,26 +99,12 @@ checkIn t bksb =
             newBook = setBorrower Nothing (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bksb
 
-yamlStringToBorrowers :: YamlString -> Borrowers
-yamlStringToBorrowers s =
-  if isJust mbrs
-    then (fromJust mbrs, True)
-    else ([], False)
-      where mbrs = Y.decode (BS.pack s) :: Maybe [Borrower]
-
 jsonStringToBorrowers :: JsonString -> Borrowers
 jsonStringToBorrowers s =
   if isJust mbrs
     then (fromJust mbrs, True)
     else ([], False)
       where mbrs = A.decodeStrict (BS.pack s) :: Maybe [Borrower]
-
-yamlStringToBooks :: YamlString -> Books
-yamlStringToBooks s =
-  if isJust mbks
-    then (fromJust mbks, True)
-    else ([], False)
-      where mbks = Y.decode (BS.pack s) :: Maybe [Book]
 
 jsonStringToBooks :: JsonString -> Books
 jsonStringToBooks s =
@@ -128,20 +113,10 @@ jsonStringToBooks s =
     else ([], False)
       where mbks = A.decodeStrict (BS.pack s) :: Maybe [Book]
 
-borrowersToYamlString :: Borrowers -> YamlString
-borrowersToYamlString brsb =
-  BS.unpack (Y.encode brs)
-    where brs = fst brsb
-
 borrowersToJsonString :: Borrowers -> JsonString
 borrowersToJsonString brsb =
   BS.unpack (BL.toStrict $ A.encode brs)
     where brs = fst brsb
-
-booksToYamlString :: Books -> YamlString
-booksToYamlString bksb =
-  BS.unpack (Y.encode bks)
-    where bks = fst bksb
 
 booksToJsonString :: Books -> JsonString
 booksToJsonString bksb =
