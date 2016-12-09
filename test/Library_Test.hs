@@ -49,9 +49,9 @@ bksb3 = ([bk1, bk2, bk3, bk4], True)
 bksb4 = ([bk1, bk2, bk3, bk4], False)
 bksb5 = ([bk3, bk1, bk2], False)
 
-yamlStringBorrowersBad = "- name Borrower1\n  max-books: 1\n- name: Borrower2\n  max-books: 2\n"
-yamlStringBorrowers = "- name: Borrower1\n  max-books: 1\n- name: Borrower2\n  max-books: 2\n"
-yamlStringBooks = "- borrower:\n    name: Borrower1\n    max-books: 1\n  author: Author1\n  title: Title1\n- borrower: null\n  author: Author2\n  title: Title2\n"
+jsonStringBorrowersBad = "[{\"name\"\"Borrower1\",\"maxBooks\":1},{\"name\":\"Borrower2\",\"maxBooks\":2}]"
+jsonStringBorrowers = "[{\"name\":\"Borrower1\",\"maxBooks\":1},{\"name\":\"Borrower2\",\"maxBooks\":2}]"
+jsonStringBooks = "[{\"borrower\":{\"name\":\"Borrower1\",\"maxBooks\":1},\"author\":\"Author1\",\"title\":\"Title1\"},{\"borrower\":null,\"author\":\"Author2\",\"title\":\"Title2\"}]"
 
 testAddBorrowerPass = (~=?)
   brsb2
@@ -147,25 +147,25 @@ testCheckInFailBadBook = (~=?)
     , Book {title = "Title2", author = "Author2", borrower = Nothing} ], False )
   (checkIn "NoTitle" bksb1)
 
-testYamlStringToBorrowersFail = (~=?)
+testJsonStringToBorrowersFail = (~=?)
   ([], False)
-  (yamlStringToBorrowers yamlStringBorrowersBad)
+  (jsonStringToBorrowers jsonStringBorrowersBad)
 
 testYamlStringToBorrowersPass = (~=?)
   brsb1
-  (yamlStringToBorrowers yamlStringBorrowers)
+  (jsonStringToBorrowers jsonStringBorrowers)
 
 testYamlStringToBooks = (~=?)
   bksb1
-  (yamlStringToBooks yamlStringBooks)
+  (jsonStringToBooks jsonStringBooks)
 
 testBorrowersToYamlString = (~=?)
-  yamlStringBorrowers
-  (borrowersToYamlString brsb1)
+  jsonStringBorrowers
+  (borrowersToJsonString brsb1)
 
 testBooksToYamlString = (~=?)
-  yamlStringBooks
-  (booksToYamlString bksb1)
+  jsonStringBooks
+  (booksToJsonString bksb1)
 
 testLibraryToString = (~=?)
   "Test Library: 2 books; 3 borrowers."
@@ -185,7 +185,7 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testFindBorrowerPass, testFindBorrowerFail
                         , testCheckOutFailBadBorrower, testCheckOutFailBadBook
                         , testCheckInFailBadBook, testStatusToString
-                        , testYamlStringToBorrowersFail, testYamlStringToBooks
+                        , testJsonStringToBorrowersFail, testYamlStringToBooks
                         , testBorrowersToYamlString, testBooksToYamlString
                         , testYamlStringToBorrowersPass ]
 
