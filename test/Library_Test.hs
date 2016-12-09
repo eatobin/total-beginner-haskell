@@ -1,5 +1,3 @@
-{-# LANGUAGE NamedFieldPuns #-}
-
 module Library_Test where
 
 -- br = Borrower
@@ -13,12 +11,6 @@ import           Book
 import           Book_Test
 import           Borrower
 import           Borrower_Test
-import           Control.Concurrent
-import           Control.Concurrent.STM
-import           Control.Monad
-import qualified Data.ByteString.Char8  as BS
-import           Data.Maybe
-import           Data.Yaml              as Y
 import           Library
 import           Test.HUnit
 
@@ -151,19 +143,19 @@ testJsonStringToBorrowersFail = (~=?)
   ([], False)
   (jsonStringToBorrowers jsonStringBorrowersBad)
 
-testYamlStringToBorrowersPass = (~=?)
+testJsonStringToBorrowersPass = (~=?)
   brsb1
   (jsonStringToBorrowers jsonStringBorrowers)
 
-testYamlStringToBooks = (~=?)
+testJsonStringToBooks = (~=?)
   bksb1
   (jsonStringToBooks jsonStringBooks)
 
-testBorrowersToYamlString = (~=?)
+testBorrowersToJsonString = (~=?)
   jsonStringBorrowers
   (borrowersToJsonString brsb1)
 
-testBooksToYamlString = (~=?)
+testBooksToJsonString = (~=?)
   jsonStringBooks
   (booksToJsonString bksb1)
 
@@ -185,8 +177,8 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testFindBorrowerPass, testFindBorrowerFail
                         , testCheckOutFailBadBorrower, testCheckOutFailBadBook
                         , testCheckInFailBadBook, testStatusToString
-                        , testJsonStringToBorrowersFail, testYamlStringToBooks
-                        , testBorrowersToYamlString, testBooksToYamlString
-                        , testYamlStringToBorrowersPass ]
+                        , testJsonStringToBorrowersFail, testJsonStringToBooks
+                        , testBorrowersToJsonString, testBooksToJsonString
+                        , testJsonStringToBorrowersPass ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]
