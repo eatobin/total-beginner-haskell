@@ -125,7 +125,8 @@ readFileIntoJsonString f = do
     then do
       bs <- BS.readFile f
       let s = BS.unpack bs
-      return (filter (/= '\n') s)
+      -- return (filter (/= '\n') s)
+      return s
     else do
       let bs = BS.empty
           s = BS.unpack bs

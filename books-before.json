@@ -1,1 +1,12 @@
-[{"title":"Book100","author":"Author100","borrower":{"name":"Borrower100","maxBooks":100}},{"title":"Book200","author":"Author200","borrower":null}]
+[{
+    "title": "Book100",
+    "author": "Author100",
+    "borrower": {
+        "name": "Borrower100",
+        "maxBooks": 100
+    }
+}, {
+    "title": "Book200",
+    "author": "Author200",
+    "borrower": null
+}]
