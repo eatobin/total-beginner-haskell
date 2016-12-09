@@ -27,7 +27,6 @@ executable total-beginner-haskell
   build-depends:       base >= 4.7 && < 5
                      , HUnit
                      , stm
-                     , yaml
                      , bytestring
                      , directory
                      , aeson

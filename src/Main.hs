@@ -8,11 +8,8 @@ import           Book
 import           Book_Test
 import           Borrower
 import           Borrower_Test
-import           Control.Concurrent
 import           Control.Concurrent.STM
-import           Control.Monad
 import qualified Data.ByteString.Char8  as BS
-import           Data.Maybe
 import           Library
 import           Library_Test
 import           System.Directory
