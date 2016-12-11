@@ -1,4 +1,3 @@
--- just testing - delete!
 module Main where
 
 -- brsb = (brs, Bool)
