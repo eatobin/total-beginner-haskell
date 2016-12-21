@@ -16,7 +16,6 @@ import           Data.Maybe
 
 type Borrowers = ([Borrower], Bool)
 type Books = ([Book], Bool)
-type YamlString = String
 type JsonString = String
 
 addBorrower :: Borrower -> Borrowers -> Borrowers

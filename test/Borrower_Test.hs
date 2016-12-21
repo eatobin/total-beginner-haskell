@@ -3,7 +3,8 @@ module Borrower_Test where
 import           Borrower
 import           Test.HUnit
 
-br1 = Borrower {name = "Borrower1", maxBooks = 1}
+br1 = Borrower { name = "Borrower1"
+               , maxBooks = 1 }
 
 testMakeBorrower = (~=?)
   br1
@@ -30,7 +31,7 @@ testBorrowerToString = (~=?)
   (borrowerToString br1)
 
 borrowerTests = TestList [ testMakeBorrower, testGetName
-                       , testSetName, testGetMaxBooks
-                       , testSetMaxBooks, testBorrowerToString ]
+                         , testSetName, testGetMaxBooks
+                         , testSetMaxBooks, testBorrowerToString ]
 
 runBorrowerTests = runTestTT $ TestList [ borrowerTests ]

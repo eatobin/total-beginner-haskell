@@ -14,26 +14,29 @@ import           Borrower_Test
 import           Library
 import           Test.HUnit
 
--- br1 = Borrower {name = "Borrower1", maxBooks = 1}
-br2 = Borrower {name = "Borrower2", maxBooks = 2}
-br3 = Borrower {name = "Borrower3", maxBooks = 3}
+-- br1 = Borrower { name = "Borrower1"
+--                , maxBooks = 1 }
+br2 = Borrower { name = "Borrower2"
+               , maxBooks = 2 }
+br3 = Borrower { name = "Borrower3"
+               , maxBooks = 3 }
 
 brsb1 = ([br1, br2], True)
 brsb2 = ([br3, br1, br2], True)
 brsb3 = ([br3, br1, br2], False)
 
 -- bk1 = Book { title = "Title1"
---              , author = "Author1"
---              , borrower = Just br1 }
+--            , author = "Author1"
+--            , borrower = Just br1 }
 -- bk2 = Book { title = "Title2"
---              , author = "Author2"
---              , borrower = Nothing }
+--            , author = "Author2"
+--            , borrower = Nothing }
 bk3 = Book { title = "Title3"
-             , author = "Author3"
-             , borrower = Just br3 }
+           , author = "Author3"
+           , borrower = Just br3 }
 bk4 = Book { title = "Title4"
-             , author = "Author4"
-             , borrower = Just br3 }
+           , author = "Author4"
+           , borrower = Just br3 }
 
 bksb1 = ([bk1, bk2], True)
 bksb2 = ([bk3, bk1, bk2], True)

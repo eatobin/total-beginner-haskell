@@ -5,14 +5,15 @@ import           Borrower
 import           Borrower_Test
 import           Test.HUnit
 
---br1 = Borrower {name = "Borrower1", maxBooks = 1}
+--br1 = Borrower { name = "Borrower1"
+--               , maxBooks = 1 }
 bk1 = Book { title = "Title1"
-             , author = "Author1"
-             , borrower = Just br1 }
+           , author = "Author1"
+           , borrower = Just br1 }
 
 bk2 = Book { title = "Title2"
-             , author = "Author2"
-             , borrower = Nothing }
+           , author = "Author2"
+           , borrower = Nothing }
 
 testMakeBookNothing = (~=?)
   bk2
