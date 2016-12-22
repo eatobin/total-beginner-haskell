@@ -27,3 +27,14 @@ parseMultiple' = do
   x <- parseEither 'm'
   y <- parseEither '2'
   return (x + y)
+
+myParseMultiple :: Either Char Int -> Either Char Int
+myParseMultiple x =
+  case x of
+    Right r -> Right(r * 2)
+    Left l -> Left l
+
+-- *Scratch> myParseMultiple (Right 6)
+-- Right 12
+-- *Scratch> myParseMultiple (Left 'c')
+-- Left 'c'
