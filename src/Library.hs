@@ -30,6 +30,12 @@ addBook bk bks =
     then bks
     else bk:bks
 
+addItem :: (Eq a) => a -> [a] -> [a]
+addItem x xs =
+  if x `elem` xs
+    then xs
+    else x:xs
+
 removeBook :: Book -> Books -> Books
 removeBook bk bks =
   if bk `elem` bks
