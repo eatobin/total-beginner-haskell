@@ -18,17 +18,17 @@ type Borrowers = [Borrower]
 type Books = [Book]
 type JsonString = String
 
-addBorrower :: Borrower -> Borrowers -> Borrowers
-addBorrower br brs =
-  if br `elem` brs
-    then brs
-    else br:brs
+-- addBorrower :: Borrower -> Borrowers -> Borrowers
+-- addBorrower br brs =
+--   if br `elem` brs
+--     then brs
+--     else br:brs
 
-addBook :: Book -> Books -> Books
-addBook bk bks =
-  if bk `elem` bks
-    then bks
-    else bk:bks
+-- addBook :: Book -> Books -> Books
+-- addBook bk bks =
+--   if bk `elem` bks
+--     then bks
+--     else bk:bks
 
 addItem :: (Eq a) => a -> [a] -> [a]
 addItem x xs =
@@ -75,7 +75,7 @@ checkOut :: Name -> Title -> Borrowers -> Books -> Books
 checkOut n t brs bks =
   if isJust mbk && isJust mbr &&
       notMaxedOut (fromJust mbr) bks && bookNotOut (fromJust mbk)
-    then addBook newBook fewerBooks
+    then addItem newBook fewerBooks
     else bks
       where mbk = findBook t bks
             mbr = findBorrower n brs
@@ -85,7 +85,7 @@ checkOut n t brs bks =
 checkIn :: Title -> Books -> Books
 checkIn t bks =
   if isJust mbk && bookOut (fromJust mbk)
-    then addBook newBook fewerBooks
+    then addItem newBook fewerBooks
     else bks
       where mbk = findBook t bks
             newBook = setBorrower Nothing (fromJust mbk)

@@ -48,19 +48,19 @@ jsonStringBooks = "[{\"borrower\":{\"name\":\"Borrower1\",\"maxBooks\":1},\"auth
 
 testAddBorrowerPass = (~=?)
   brs2
-  (addBorrower br3 brs1)
+  (addItem br3 brs1)
 
 testAddBorrowerFail = (~=?)
   brs3
-  (addBorrower br2 brs2)
+  (addItem br2 brs2)
 
 testAddBookPass = (~=?)
   bks2
-  (addBook bk3 bks1)
+  (addItem bk3 bks1)
 
 testAddBookFail = (~=?)
   bks4
-  (addBook bk3 bks3)
+  (addItem bk3 bks3)
 
 testRemoveBookPass = (~=?)
   bks1
