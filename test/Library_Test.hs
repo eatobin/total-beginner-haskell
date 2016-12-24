@@ -72,19 +72,19 @@ testRemoveBookFail = (~=?)
 
 testFindBookPass = (~=?)
   (Just bk4)
-  (findBook "Title4" bks3)
+  (findItem "Title4" bks3 getTitle)
 
 testFindBookFail = (~=?)
   Nothing
-  (findBook "Title4" bks2)
+  (findItem "Title4" bks2 getTitle)
 
 testFindBorrowerPass = (~=?)
   (Just br3)
-  (findBorrower "Borrower3" brs2)
+  (findItem "Borrower3" brs2 getName)
 
 testFindBorrowerFail = (~=?)
   Nothing
-  (findBorrower "Borrower3" brs1)
+  (findItem "Borrower3" brs1 getName)
 
 testGetBooksForBorrower0books = (~=?)
   []

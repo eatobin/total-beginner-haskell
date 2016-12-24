@@ -56,6 +56,13 @@ findBorrower n brs =
     else Just (head coll)
       where coll = [ br | br <- brs, getName br == n ]
 
+findItem :: String -> [a] -> (a -> String) -> Maybe a
+findItem tgt xs f =
+  if null result
+    then Nothing
+    else Just (head result)
+      where result = [ x | x <- xs, f x == tgt ]
+
 getBooksForBorrower :: Borrower -> Books -> [Book]
 getBooksForBorrower br bks = [bk | bk <- bks, getBorrower bk == Just br]
 
