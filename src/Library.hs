@@ -42,20 +42,6 @@ removeBook bk bks =
     then filter (/= bk) bks
     else bks
 
-findBook :: Title -> Books -> Maybe Book
-findBook t bks =
-  if null coll
-    then Nothing
-    else Just (head coll)
-      where coll = [ bk | bk <- bks, getTitle bk == t ]
-
-findBorrower :: Name -> Borrowers -> Maybe Borrower
-findBorrower n brs =
-  if null coll
-    then Nothing
-    else Just (head coll)
-      where coll = [ br | br <- brs, getName br == n ]
-
 findItem :: String -> [a] -> (a -> String) -> Maybe a
 findItem tgt xs f =
   if null result
@@ -84,8 +70,8 @@ checkOut n t brs bks =
       notMaxedOut (fromJust mbr) bks && bookNotOut (fromJust mbk)
     then addItem newBook fewerBooks
     else bks
-      where mbk = findBook t bks
-            mbr = findBorrower n brs
+      where mbk = findItem t bks getTitle
+            mbr = findItem n brs getName
             newBook = setBorrower mbr (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bks
 
@@ -94,7 +80,7 @@ checkIn t bks =
   if isJust mbk && bookOut (fromJust mbk)
     then addItem newBook fewerBooks
     else bks
-      where mbk = findBook t bks
+      where mbk = findItem t bks getTitle
             newBook = setBorrower Nothing (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bks
 
