@@ -13,10 +13,12 @@ import           Data.Aeson            as A
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy  as BL
 import           Data.Maybe
+import           Control.Exception
 
 type Borrowers = [Borrower]
 type Books = [Book]
 type JsonString = String
+type ErrorString = String
 
 -- addBorrower :: Borrower -> Borrowers -> Borrowers
 -- addBorrower br brs =
@@ -84,10 +86,20 @@ checkIn t bks =
             newBook = setBorrower Nothing (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bks
 
-jsonStringToBorrowers :: JsonString -> Borrowers
+-- jsonStringToBorrowers :: JsonString -> Borrowers
+-- jsonStringToBorrowers s =
+--   fromMaybe [] mbrs
+--     where mbrs = A.decodeStrict (BS.pack s) :: Maybe [Borrower]
+
+jsonStringToBorrowers :: Either ErrorString JsonString -> Either ErrorString Borrowers
 jsonStringToBorrowers s =
-  fromMaybe [] mbrs
-    where mbrs = A.decodeStrict (BS.pack s) :: Maybe [Borrower]
+  case s of
+    Right r -> do
+                 let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Borrowers
+                 case brs of
+                   Right r -> (Right r)
+                   Left _ -> (Left "JSON parse error.")
+    Left l -> (Left l)
 
 jsonStringToBooks :: JsonString -> Books
 jsonStringToBooks s =

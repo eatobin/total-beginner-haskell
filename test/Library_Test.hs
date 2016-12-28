@@ -140,17 +140,17 @@ testCheckInFailBadBook = (~=?)
   , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
   (checkIn "NoTitle" bks1)
 
-testJsonStringToBorrowersFail = (~=?)
-  []
-  (jsonStringToBorrowers jsonStringBorrowersBad)
-
-testJsonStringToBorrowersPass = (~=?)
-  brs1
-  (jsonStringToBorrowers jsonStringBorrowers)
-
-testJsonStringToBooks = (~=?)
-  bks1
-  (jsonStringToBooks jsonStringBooks)
+-- testJsonStringToBorrowersFail = (~=?)
+--   []
+--   (jsonStringToBorrowers jsonStringBorrowersBad)
+--
+-- testJsonStringToBorrowersPass = (~=?)
+--   brs1
+--   (jsonStringToBorrowers jsonStringBorrowers)
+--
+-- testJsonStringToBooks = (~=?)
+--   bks1
+--   (jsonStringToBooks jsonStringBooks)
 
 testBorrowersToJsonString = (~=?)
   jsonStringBorrowers
@@ -178,8 +178,8 @@ libraryTests = TestList [ testAddBorrowerPass, testAddBorrowerFail, testRemoveBo
                         , testFindBorrowerPass, testFindBorrowerFail
                         , testCheckOutFailBadBorrower, testCheckOutFailBadBook
                         , testCheckInFailBadBook, testStatusToString
-                        , testJsonStringToBorrowersFail, testJsonStringToBooks
-                        , testBorrowersToJsonString, testBooksToJsonString
-                        , testJsonStringToBorrowersPass ]
+                        -- , testJsonStringToBorrowersFail, testJsonStringToBooks
+                        , testBorrowersToJsonString, testBooksToJsonString]
+                        -- , testJsonStringToBorrowersPass ]
 
 runLibraryTests = runTestTT $ TestList [ libraryTests ]
