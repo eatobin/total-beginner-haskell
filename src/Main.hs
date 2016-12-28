@@ -155,15 +155,15 @@ readFileIntoJsonString f =
 
 jsonBorrowersFileBefore :: FilePath
 jsonBorrowersFileBefore = "borrowers-before.json"
---
--- jsonBorrowersFileAfter :: FilePath
--- jsonBorrowersFileAfter = "borrowers-after.json"
+
+jsonBorrowersFileAfter :: FilePath
+jsonBorrowersFileAfter = "borrowers-after.json"
 
 jsonBooksFile :: FilePath
 jsonBooksFile = "books-before.json"
---
--- jsonBorrowersFileBad :: FilePath
--- jsonBorrowersFileBad = "bad-borrowers.json"
---
--- emptyFile :: FilePath
--- emptyFile = "empty.json"
+
+jsonBorrowersFileBad :: FilePath
+jsonBorrowersFileBad = "bad-borrowers.json"
+
+emptyFile :: FilePath
+emptyFile = "empty.json"
