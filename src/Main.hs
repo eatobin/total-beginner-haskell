@@ -3,17 +3,17 @@ module Main where
 -- brsb = (brs, Bool)
 -- bksb = (bks, Bool)
 
--- import           All_Tests
--- import           Book
--- import           Book_Test
--- import           Borrower
--- import           Borrower_Test
--- import           Control.Concurrent.STM
--- import qualified Data.ByteString.Char8  as BS
--- import           Library
--- import           Library_Test
--- import           System.Directory
---
+import           All_Tests
+import           Book
+import           Book_Test
+import           Borrower
+import           Borrower_Test
+import           Control.Concurrent.STM
+import qualified Data.ByteString.Char8  as BS
+import           Library
+import           Library_Test
+import           System.Directory
+
 main :: IO ()
 main = do
 --   tvBorrowers <- atomically (newTVar ([], True))
@@ -114,19 +114,19 @@ main = do
 --   atomically $ writeTVar tvbrsb brsb
 --   atomically $ writeTVar tvbksb bksb
 --   printStatus tvbksb tvbrsb
---
--- readFileIntoJsonString :: FilePath -> IO String
--- readFileIntoJsonString f = do
---   dfe <- doesFileExist f
---   if dfe
---     then do
---       bs <- BS.readFile f
---       let s = BS.unpack bs
---       return s
---     else do
---       let bs = BS.empty
---           s = BS.unpack bs
---       return s
+
+readFileIntoJsonString :: FilePath -> IO String
+readFileIntoJsonString f = do
+  dfe <- doesFileExist f
+  if dfe
+    then do
+      bs <- BS.readFile f
+      let s = BS.unpack bs
+      return s
+    else do
+      let bs = BS.empty
+          s = BS.unpack bs
+      return s
 --
 -- writeFileFromJsonString :: String -> FilePath -> IO ()
 -- writeFileFromJsonString s f =
@@ -139,15 +139,15 @@ main = do
 --   atomically $ writeTVar tvbksb ([], True)
 --   atomically $ writeTVar tvbrsb ([], True)
 --   printStatus tvbksb tvbrsb
---
--- jsonBorrowersFileBefore :: FilePath
--- jsonBorrowersFileBefore = "borrowers-before.json"
+
+jsonBorrowersFileBefore :: FilePath
+jsonBorrowersFileBefore = "borrowers-before.json"
 --
 -- jsonBorrowersFileAfter :: FilePath
 -- jsonBorrowersFileAfter = "borrowers-after.json"
---
--- jsonBooksFile :: FilePath
--- jsonBooksFile = "books-before.json"
+
+jsonBooksFile :: FilePath
+jsonBooksFile = "books-before.json"
 --
 -- jsonBorrowersFileBad :: FilePath
 -- jsonBorrowersFileBad = "bad-borrowers.json"
