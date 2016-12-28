@@ -38,3 +38,9 @@ myParseMultiple x =
 -- Right 12
 -- *Scratch> myParseMultiple (Left 'c')
 -- Left 'c'
+
+myParseMultiple' :: Either Char Int -> Either String Int
+myParseMultiple' x =
+  case x of
+    Right r -> Right(r * 2)
+    Left _ -> Left "Wrong!!"
