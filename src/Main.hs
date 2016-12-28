@@ -13,6 +13,9 @@ import qualified Data.ByteString.Char8  as BS
 import           Library
 import           Library_Test
 import           System.Directory
+import Control.Exception
+
+type ErrorString = String
 
 main :: IO ()
 main = do
@@ -115,19 +118,29 @@ main = do
 --   atomically $ writeTVar tvbksb bksb
 --   printStatus tvbksb tvbrsb
 
-readFileIntoJsonString :: FilePath -> IO String
-readFileIntoJsonString f = do
-  dfe <- doesFileExist f
-  if dfe
-    then do
-      bs <- BS.readFile f
-      let s = BS.unpack bs
-      return s
-    else do
-      let bs = BS.empty
-          s = BS.unpack bs
-      return s
---
+-- readFileIntoJsonString :: FilePath -> IO JsonString
+-- readFileIntoJsonString f = do
+--   dfe <- doesFileExist f
+--   if dfe
+--     then do
+--       bs <- BS.readFile f
+--       let s = BS.unpack bs
+--       return s
+--     else do
+--       let bs = BS.empty
+--           s = BS.unpack bs
+--       return s
+
+readFileIntoJsonString :: FilePath -> IO (Either ErrorString JsonString)
+readFileIntoJsonString f =
+  do
+    result <- try (BS.readFile f) :: IO (Either SomeException BS.ByteString)
+    case result of
+      Right r -> do
+                   let s = BS.unpack r
+                   return (Right s)
+      Left _ -> return (Left "File read error.")
+
 -- writeFileFromJsonString :: String -> FilePath -> IO ()
 -- writeFileFromJsonString s f =
 --   BS.writeFile f bs

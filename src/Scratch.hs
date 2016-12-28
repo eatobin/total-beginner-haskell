@@ -32,7 +32,7 @@ myParseMultiple :: Either Char Int -> Either Char Int
 myParseMultiple x =
   case x of
     Right r -> Right(r * 2)
-    Left l -> Left l
+    Left l  -> Left l
 
 -- *Scratch> myParseMultiple (Right 6)
 -- Right 12
@@ -43,4 +43,4 @@ myParseMultiple' :: Either Char Int -> Either String Int
 myParseMultiple' x =
   case x of
     Right r -> Right(r * 2)
-    Left _ -> Left "Wrong!!"
+    Left _  -> Left "Wrong!!"
