@@ -9,11 +9,11 @@ module Library where
 
 import           Book
 import           Borrower
+import           Control.Exception
 import           Data.Aeson            as A
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy  as BL
 import           Data.Maybe
-import           Control.Exception
 
 type Borrowers = [Borrower]
 type Books = [Book]
@@ -97,9 +97,9 @@ jsonStringToBorrowers s =
     Right r -> do
                  let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Borrowers
                  case brs of
-                   Right r -> (Right r)
-                   Left _ -> (Left "JSON parse error.")
-    Left l -> (Left l)
+                   Right r -> Right r
+                   Left _  -> Left "JSON parse error."
+    Left l -> Left l
 
 jsonStringToBooks :: JsonString -> Books
 jsonStringToBooks s =
