@@ -101,10 +101,20 @@ jsonStringToBorrowers s =
                    Left _  -> Left "JSON parse error."
     Left l -> Left l
 
-jsonStringToBooks :: JsonString -> Books
+jsonStringToBooks :: Either ErrorString JsonString -> Either ErrorString Books
 jsonStringToBooks s =
-  fromMaybe [] mbks
-    where mbks = A.decodeStrict (BS.pack s) :: Maybe [Book]
+  case s of
+    Right r -> do
+                 let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Books
+                 case brs of
+                   Right r -> Right r
+                   Left _  -> Left "JSON parse error."
+    Left l -> Left l
+
+-- jsonStringToBooks :: JsonString -> Books
+-- jsonStringToBooks s =
+--   fromMaybe [] mbks
+--     where mbks = A.decodeStrict (BS.pack s) :: Maybe [Book]
 
 borrowersToJsonString :: Borrowers -> JsonString
 borrowersToJsonString brs =
