@@ -86,11 +86,6 @@ checkIn t bks =
             newBook = setBorrower Nothing (fromJust mbk)
             fewerBooks = removeBook (fromJust mbk) bks
 
--- jsonStringToBorrowers :: JsonString -> Borrowers
--- jsonStringToBorrowers s =
---   fromMaybe [] mbrs
---     where mbrs = A.decodeStrict (BS.pack s) :: Maybe [Borrower]
-
 jsonStringToBorrowers :: Either ErrorString JsonString -> Either ErrorString Borrowers
 jsonStringToBorrowers s =
   case s of
@@ -110,11 +105,6 @@ jsonStringToBooks s =
                    Right r -> Right r
                    Left _  -> Left "JSON parse error."
     Left l -> Left l
-
--- jsonStringToBooks :: JsonString -> Books
--- jsonStringToBooks s =
---   fromMaybe [] mbks
---     where mbks = A.decodeStrict (BS.pack s) :: Maybe [Book]
 
 borrowersToJsonString :: Borrowers -> JsonString
 borrowersToJsonString brs =
