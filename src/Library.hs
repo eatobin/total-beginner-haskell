@@ -20,18 +20,6 @@ type Books = [Book]
 type JsonString = String
 type ErrorString = String
 
--- addBorrower :: Borrower -> Borrowers -> Borrowers
--- addBorrower br brs =
---   if br `elem` brs
---     then brs
---     else br:brs
-
--- addBook :: Book -> Books -> Books
--- addBook bk bks =
---   if bk `elem` bks
---     then bks
---     else bk:bks
-
 addItem :: (Eq a) => a -> [a] -> [a]
 addItem x xs =
   if x `elem` xs
