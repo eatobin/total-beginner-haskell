@@ -3,16 +3,16 @@ module Main where
 -- brsb = (brs, Bool)
 -- bksb = (bks, Bool)
 
-import           All_Tests
+--import           All_Tests
 import           Book
-import           Book_Test
+--import           Book_Test
 import           Borrower
-import           Borrower_Test
+--import           Borrower_Test
 import           Control.Concurrent.STM
 import           Control.Exception
 import qualified Data.ByteString.Char8  as BS
 import           Library
-import           Library_Test
+--import           Library_Test
 import           System.Directory
 
 main :: IO ()
@@ -34,16 +34,16 @@ main = do
   putStrLn "Now check in War And Peace from Sue..."
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   putStrLn "...and check out Great Expectations to Jim"
-  borrowers <- readTVarIO tvBorrowers
-  atomically $ modifyTVar tvBooks (checkOut "Jim" "Great Expectations" borrowers)
+  borrowers1 <- readTVarIO tvBorrowers
+  atomically $ modifyTVar tvBooks (checkOut "Jim" "Great Expectations" borrowers1)
   printStatus tvBooks tvBorrowers
 
   putStrLn "Add Eric and The Cat In The Hat"
   atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "Eric" 1))
   atomically $ modifyTVar tvBooks (addItem (makeBook "The Cat In The Hat" "Dr. Seuss" Nothing))
   putStrLn "Check Out Dr. Seuss to Eric"
-  borrowers <- readTVarIO tvBorrowers
-  atomically $ modifyTVar tvBooks (checkOut "Eric" "The Cat In The Hat" borrowers)
+  borrowers2 <- readTVarIO tvBorrowers
+  atomically $ modifyTVar tvBooks (checkOut "Eric" "The Cat In The Hat" borrowers2)
   printStatus tvBooks tvBorrowers
 
   putStrLn "Now let's do some BAD stuff..."
@@ -59,14 +59,14 @@ main = do
   resetV tvBooks tvBorrowers
 
   putStrLn "Check out a valid book to an invalid person (checkOut 'JoJo' 'War And Peace' borrowers):"
-  borrowers <- readTVarIO tvBorrowers
-  atomically $ modifyTVar tvBooks (checkOut "JoJo" "War And Peace" borrowers)
+  borrowers3 <- readTVarIO tvBorrowers
+  atomically $ modifyTVar tvBooks (checkOut "JoJo" "War And Peace" borrowers3)
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
 
   putStrLn "Check out an invalid book to an valid person (checkOut 'Sue' 'Not A Book' borrowers):"
-  borrowers <- readTVarIO tvBorrowers
-  atomically $ modifyTVar tvBooks (checkOut "Sue" "Not A Book" borrowers)
+  borrowers4 <- readTVarIO tvBorrowers
+  atomically $ modifyTVar tvBooks (checkOut "Sue" "Not A Book" borrowers4)
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
 
@@ -83,8 +83,8 @@ main = do
   printStatus tvBooks tvBorrowers
 
   putStrLn "Save the revised borrowers to \"borrowers-after.json\""
-  borrowers <- readTVarIO tvBorrowers
-  let jsonBrsStr = borrowersToJsonString borrowers
+  borrowers5 <- readTVarIO tvBorrowers
+  let jsonBrsStr = borrowersToJsonString borrowers5
   writeFileFromJsonString jsonBrsStr jsonBorrowersFileAfter
 
   putStrLn "Clear the whole library again:"

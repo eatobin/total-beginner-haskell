@@ -37,7 +37,7 @@ getBorrower :: Book -> Maybe Borrower
 getBorrower Book {borrower} = borrower
 
 setBorrower :: Maybe Borrower -> Book -> Book
-setBorrower br bk@Book {borrower} = bk {borrower = br}
+setBorrower br bk = bk {borrower = br}
 
 availableString :: Book -> String
 availableString bk

@@ -31,13 +31,13 @@ getName :: Borrower -> Name
 getName Borrower {name} = name
 
 setName :: Name -> Borrower -> Borrower
-setName n br@Borrower {name} = br {name = n}
+setName n br = br {name = n}
 
 getMaxBooks :: Borrower -> MaxBooks
 getMaxBooks Borrower {maxBooks} = maxBooks
 
 setMaxBooks :: MaxBooks -> Borrower -> Borrower
-setMaxBooks m br@Borrower {maxBooks} = br {maxBooks = m}
+setMaxBooks m br = br {maxBooks = m}
 
 borrowerToString :: Borrower -> String
 borrowerToString br = getName br ++ " (" ++ show (getMaxBooks br) ++ " books)"

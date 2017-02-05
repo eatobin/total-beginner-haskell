@@ -8,7 +8,10 @@ s = Left "foo"
 n :: Either String Int
 n = Right 3
 
+x0 :: Either String Int
 x0 = fmap (*2) s
+
+x1 :: Either String Int
 x1 = fmap (*2) n
 
 parseEither :: Char -> Either String Int
