@@ -80,7 +80,7 @@ jsonStringToBorrowers s =
     Right r -> do
                  let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Borrowers
                  case brs of
-                   Right r -> Right r
+                   Right c -> Right c
                    Left _  -> Left "JSON parse error."
     Left l -> Left l
 
@@ -90,7 +90,7 @@ jsonStringToBooks s =
     Right r -> do
                  let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Books
                  case brs of
-                   Right r -> Right r
+                   Right c -> Right c
                    Left _  -> Left "JSON parse error."
     Left l -> Left l
 
