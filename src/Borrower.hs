@@ -40,4 +40,8 @@ setMaxBooks :: MaxBooks -> Borrower -> Borrower
 setMaxBooks m br = br {maxBooks = m}
 
 borrowerToString :: Borrower -> String
-borrowerToString br = getName br ++ " (" ++ show (getMaxBooks br) ++ " books)"
+borrowerToString br =
+  getName br `mappend`
+  " (" `mappend`
+  show (getMaxBooks br) `mappend`
+  " books)"
