@@ -54,11 +54,11 @@ bks4 = [bk1, bk2, bk3, bk4]
 bks5 :: [Book]
 bks5 = [bk3, bk1, bk2]
 
-jsonStringBorrowersBad :: [Char]
+jsonStringBorrowersBad :: String
 jsonStringBorrowersBad = "[{\"name\"\"Borrower1\",\"maxBooks\":1},{\"name\":\"Borrower2\",\"maxBooks\":2}]"
-jsonStringBorrowers :: [Char]
+jsonStringBorrowers :: String
 jsonStringBorrowers = "[{\"name\":\"Borrower1\",\"maxBooks\":1},{\"name\":\"Borrower2\",\"maxBooks\":2}]"
-jsonStringBooks :: [Char]
+jsonStringBooks :: String
 jsonStringBooks = "[{\"borrower\":{\"name\":\"Borrower1\",\"maxBooks\":1},\"author\":\"Author1\",\"title\":\"Title1\"},{\"borrower\":null,\"author\":\"Author2\",\"title\":\"Title2\"}]"
 
 testAddBorrowerPass :: Test
