@@ -112,12 +112,9 @@ statusToString bks brs = "\n" `mappend`
   "\n" `mappend`
   libraryToString bks brs `mappend`
   "\n" `mappend`
-  unlines (map bookToString bks) `mappend`
+  unlines (fmap bookToString bks) `mappend`
   "\n" `mappend`
-  unlines (map borrowerToString brs) `mappend`
---  fmap unlines (borrowerToString brs) `mappend`
+  unlines (fmap borrowerToString brs) `mappend`
   "\n" `mappend`
   "--- End of Status Report ---" `mappend`
   "\n"
-
---vv = unlines (map borrowerToString brs)
