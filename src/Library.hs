@@ -2,10 +2,8 @@ module Library where
 
 -- br = Borrower
 -- brs = [br]
--- brsb = (brs, Bool)
 -- bk = Book
 -- bks = [bk]
--- bksb = (bks, Bool)
 
 import           Book
 import           Borrower
@@ -109,12 +107,17 @@ libraryToString bks brs = "Test Library: " `mappend`
   " borrowers."
 
 statusToString :: Books -> Borrowers -> String
-statusToString bks brs = "\n" ++
-  "--- Status Report of Test Library ---\n" ++
-  "\n" ++
-  libraryToString bks brs ++
-  "\n" ++
-  unlines (map bookToString bks) ++ "\n" ++
-  unlines (map borrowerToString brs) ++ "\n" ++
-  "--- End of Status Report ---" ++
+statusToString bks brs = "\n" `mappend`
+  "--- Status Report of Test Library ---\n" `mappend`
+  "\n" `mappend`
+  libraryToString bks brs `mappend`
+  "\n" `mappend`
+  unlines (map bookToString bks) `mappend`
+  "\n" `mappend`
+  unlines (map borrowerToString brs) `mappend`
+--  fmap unlines (borrowerToString brs) `mappend`
+  "\n" `mappend`
+  "--- End of Status Report ---" `mappend`
   "\n"
+
+--vv = unlines (map borrowerToString brs)
