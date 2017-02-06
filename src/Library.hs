@@ -102,9 +102,11 @@ booksToJsonString bks =
   BS.unpack (BL.toStrict $ A.encode bks)
 
 libraryToString :: Books -> Borrowers -> String
-libraryToString bks brs = "Test Library: " ++
-  show (length bks) ++ " books; " ++
-  show (length brs) ++ " borrowers."
+libraryToString bks brs = "Test Library: " `mappend`
+  show (length bks) `mappend`
+  " books; " `mappend`
+  show (length brs) `mappend`
+  " borrowers."
 
 statusToString :: Books -> Borrowers -> String
 statusToString bks brs = "\n" ++
