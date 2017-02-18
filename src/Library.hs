@@ -100,21 +100,21 @@ booksToJsonString bks =
   BS.unpack (BL.toStrict $ A.encode bks)
 
 libraryToString :: Books -> Borrowers -> String
-libraryToString bks brs = "Test Library: " `mappend`
-  show (length bks) `mappend`
-  " books; " `mappend`
-  show (length brs) `mappend`
+libraryToString bks brs = "Test Library: " ++
+  show (length bks) ++
+  " books; " ++
+  show (length brs) ++
   " borrowers."
 
 statusToString :: Books -> Borrowers -> String
-statusToString bks brs = "\n" `mappend`
-  "--- Status Report of Test Library ---\n" `mappend`
-  "\n" `mappend`
-  libraryToString bks brs `mappend`
-  "\n" `mappend`
-  unlines (fmap bookToString bks) `mappend`
-  "\n" `mappend`
-  unlines (fmap borrowerToString brs) `mappend`
-  "\n" `mappend`
-  "--- End of Status Report ---" `mappend`
+statusToString bks brs = "\n" ++
+  "--- Status Report of Test Library ---\n" ++
+  "\n" ++
+  libraryToString bks brs ++
+  "\n" ++
+  unlines (fmap bookToString bks) ++
+  "\n" ++
+  unlines (fmap borrowerToString brs) ++
+  "\n" ++
+  "--- End of Status Report ---" ++
   "\n"

@@ -42,14 +42,14 @@ setBorrower mbr bk = bk {borrower = mbr}
 availableString :: Book -> String
 availableString bk
   | isNothing br = "Available"
-  | otherwise = "Checked out to " `mappend`
+  | otherwise = "Checked out to " ++
       getName (fromJust br)
   where
     br = getBorrower bk
 
 bookToString :: Book -> String
-bookToString bk = getTitle bk `mappend`
-  " by " `mappend`
-  getAuthor bk `mappend`
-  "; " `mappend`
+bookToString bk = getTitle bk ++
+  " by " ++
+  getAuthor bk ++
+  "; " ++
   availableString bk
