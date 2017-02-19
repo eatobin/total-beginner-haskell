@@ -1,3 +1,5 @@
+{-# OPTIONS -Wall #-}
+
 module Library_Test where
 
 -- br = Borrower

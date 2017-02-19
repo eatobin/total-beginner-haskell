@@ -1,3 +1,5 @@
+{-# OPTIONS -Wall #-}
+
 module Main where
 
 -- brsb = (brs, Bool)

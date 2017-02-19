@@ -1,3 +1,5 @@
+{-# OPTIONS -Wall #-}
+
 module Borrower_Test where
 
 import           Borrower

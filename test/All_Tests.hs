@@ -1,3 +1,5 @@
+{-# OPTIONS -Wall #-}
+
 module All_Tests where
 
 import           Book_Test
