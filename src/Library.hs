@@ -114,9 +114,9 @@ statusToString bks brs = "\n" ++
   "\n" ++
   libraryToString bks brs ++
   "\n" ++
-  unlines (fmap bookToString bks) ++
+  unlines (map bookToString bks) ++
   "\n" ++
-  unlines (fmap borrowerToString brs) ++
+  unlines (map borrowerToString brs) ++
   "\n" ++
   "--- End of Status Report ---" ++
   "\n"
