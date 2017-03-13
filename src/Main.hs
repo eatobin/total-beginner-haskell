@@ -5,16 +5,12 @@ module Main where
 -- brsb = (brs, Bool)
 -- bksb = (bks, Bool)
 
---import           All_Tests
 import           Book
---import           Book_Test
 import           Borrower
---import           Borrower_Test
 import           Control.Concurrent.STM
 import           Control.Exception
 import qualified Data.ByteString.Char8  as BS
 import           Library
---import           Library_Test
 import           System.Directory
 
 main :: IO ()
