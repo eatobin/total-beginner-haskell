@@ -46,3 +46,30 @@ main = hspec $ do
     it "testMakeBookSomeone" $
       makeBook "Title1" "Author1" (Just (Borrower "Borrower1" 1))
         `shouldBe` bk1
+
+    it "testGetTitle" $
+      getTitle bk1 `shouldBe` "Title1"
+
+    it "testGetAuthor" $
+      getAuthor bk2 `shouldBe` "Author2"
+
+    it "testGetBorrowerNothing" $
+      getBorrower bk2 `shouldBe` Nothing
+
+    it "testGetBorrowerSomeone" $
+      getBorrower bk1 `shouldBe` Just Borrower { name = "Borrower1", maxBooks = 1 }
+
+    it "testSetBorrowerSomeone" $
+      setBorrower (Just Borrower { name = "BorrowerNew", maxBooks = 111 }) bk2
+        `shouldBe` Book {title = "Title2", author = "Author2",
+           borrower = Just Borrower {name = "BorrowerNew", maxBooks = 111}}
+
+    it "testSetBorrowerNothing" $
+      setBorrower Nothing bk1 `shouldBe`
+        Book {title = "Title1", author = "Author1", borrower = Nothing}
+
+    it "testBookToStringSomeone" $
+      bookToString bk1 `shouldBe` "Title1 by Author1; Checked out to Borrower1"
+
+    it "testBookToStringNothing" $
+      bookToString bk2 `shouldBe` "Title2 by Author2; Available"
