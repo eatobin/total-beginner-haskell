@@ -2,10 +2,23 @@ import Test.Hspec
 
 import           Borrower
 import           Book
+import Library
 
 br1 :: Borrower
 br1 = Borrower { name = "Borrower1"
                , maxBooks = 1 }
+
+br2 :: Borrower
+br2 = Borrower { name = "Borrower2"
+              , maxBooks = 2 }
+br3 :: Borrower
+br3 = Borrower { name = "Borrower3"
+              , maxBooks = 3 }
+
+brs1 :: [Borrower]
+brs1 = [br1, br2]
+brs2 :: [Borrower]
+brs2 = [br3, br1, br2]
 
 bk1 :: Book
 bk1 = Book { title = "Title1"
@@ -16,6 +29,31 @@ bk2 :: Book
 bk2 = Book { title = "Title2"
            , author = "Author2"
            , borrower = Nothing }
+
+bk3 :: Book
+bk3 = Book { title = "Title3"
+          , author = "Author3"
+          , borrower = Just br3 }
+bk4 :: Book
+bk4 = Book { title = "Title4"
+          , author = "Author4"
+          , borrower = Just br3 }
+
+bks1 :: [Book]
+bks1 = [bk1, bk2]
+bks2 :: [Book]
+bks2 = [bk3, bk1, bk2]
+bks3 :: [Book]
+bks3 = [bk1, bk2, bk3, bk4]
+bks5 :: [Book]
+bks5 = [bk3, bk1, bk2]
+
+jsonStringBorrowersBad :: String
+jsonStringBorrowersBad = "[{\"name\"\"Borrower1\",\"maxBooks\":1},{\"name\":\"Borrower2\",\"maxBooks\":2}]"
+jsonStringBorrowers :: String
+jsonStringBorrowers = "[{\"name\":\"Borrower1\",\"maxBooks\":1},{\"name\":\"Borrower2\",\"maxBooks\":2}]"
+jsonStringBooks :: String
+jsonStringBooks = "[{\"borrower\":{\"name\":\"Borrower1\",\"maxBooks\":1},\"author\":\"Author1\",\"title\":\"Title1\"},{\"borrower\":null,\"author\":\"Author2\",\"title\":\"Title2\"}]"
 
 main :: IO ()
 main = hspec $ do
@@ -73,3 +111,10 @@ main = hspec $ do
 
     it "testBookToStringNothing" $
       bookToString bk2 `shouldBe` "Title2 by Author2; Available"
+
+  describe "Library tests" $ do
+    it "testAddBorrowerPass" $
+      addItem br3 brs1 `shouldBe` brs2
+
+    it "testAddBorrowerFail" $
+      addItem br2 brs2 `shouldBe` brs2

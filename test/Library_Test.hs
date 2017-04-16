@@ -27,8 +27,6 @@ brs1 :: [Borrower]
 brs1 = [br1, br2]
 brs2 :: [Borrower]
 brs2 = [br3, br1, br2]
-brs3 :: [Borrower]
-brs3 = [br3, br1, br2]
 
 -- bk1 = Book { title = "Title1"
 --            , author = "Author1"
@@ -51,8 +49,6 @@ bks2 :: [Book]
 bks2 = [bk3, bk1, bk2]
 bks3 :: [Book]
 bks3 = [bk1, bk2, bk3, bk4]
-bks4 :: [Book]
-bks4 = [bk1, bk2, bk3, bk4]
 bks5 :: [Book]
 bks5 = [bk3, bk1, bk2]
 
@@ -70,7 +66,7 @@ testAddBorrowerPass = (~=?)
 
 testAddBorrowerFail :: Test
 testAddBorrowerFail = (~=?)
-  brs3
+  brs2
   (addItem br2 brs2)
 
 testAddBookPass :: Test
@@ -80,7 +76,7 @@ testAddBookPass = (~=?)
 
 testAddBookFail :: Test
 testAddBookFail = (~=?)
-  bks4
+  bks3
   (addItem bk3 bks3)
 
 testRemoveBookPass :: Test
