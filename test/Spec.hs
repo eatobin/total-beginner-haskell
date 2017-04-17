@@ -1,8 +1,8 @@
-import Test.Hspec
+import           Test.Hspec
 
-import           Borrower
 import           Book
-import Library
+import           Borrower
+import           Library
 
 br1 :: Borrower
 br1 = Borrower { name = "Borrower1"
