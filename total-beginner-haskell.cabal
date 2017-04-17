@@ -38,6 +38,7 @@ test-suite total-beginner-haskell-test
   main-is:             Spec.hs
   other-modules:       Borrower
                      , Book
+                     , Library
   build-depends:       base >= 4.7 && < 5
                      , hspec
                      , QuickCheck
