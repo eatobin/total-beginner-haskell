@@ -118,3 +118,9 @@ main = hspec $ do
 
     it "testAddBorrowerFail" $
       addItem br2 brs2 `shouldBe` brs2
+
+    it "testAddBookPass" $
+      addItem bk3 bks1 `shouldBe` bks2
+
+    it "testAddBookFail" $
+      addItem bk3 bks3 `shouldBe` bks3
