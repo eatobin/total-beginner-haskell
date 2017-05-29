@@ -124,3 +124,9 @@ main = hspec $ do
 
     it "testAddBookFail" $
       addItem bk3 bks3 `shouldBe` bks3
+
+    it "testRemoveBookPass" $
+      removeBook bk3 bks2 `shouldBe` bks1
+
+    it "testRemoveBookFail" $
+      removeBook bk4 bks2 `shouldBe` bks5
