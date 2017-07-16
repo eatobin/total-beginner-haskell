@@ -130,3 +130,6 @@ main = hspec $ do
 
     it "testRemoveBookFail" $
       removeBook bk4 bks2 `shouldBe` bks5
+
+    it "testFindBookPass" $
+      findItem "Title4" bks3 getTitle `shouldBe` Just bk4

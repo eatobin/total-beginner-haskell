@@ -41,7 +41,6 @@ test-suite total-beginner-haskell-test
                      , Library
   build-depends:       base >= 4.7 && < 5
                      , hspec
-                     , QuickCheck
                      , aeson
                      , bytestring
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
