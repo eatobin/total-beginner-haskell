@@ -142,3 +142,12 @@ main = hspec $ do
 
     it "testFindBorrowerFail" $
       findItem "Borrower3" brs1 getName `shouldBe` Nothing
+
+    it "testGetBooksForBorrower0books" $
+      getBooksForBorrower br2 bks2 `shouldBe` []
+
+    it "testGetBooksForBorrower1book" $
+      getBooksForBorrower br1 bks2 `shouldBe` [bk1]
+
+    it "testGetBooksForBorrower2books" $
+      getBooksForBorrower br3 bks3 `shouldBe` [bk3, bk4]
