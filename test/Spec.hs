@@ -167,3 +167,22 @@ main = hspec $ do
     it "testCheckOutFailOverLimit" $
       checkOut "Borrower1" "Title2" brs2 bks1 `shouldBe` [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
                                                          , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+
+    it "testCheckOutPass" $
+      checkOut "Borrower3" "Title2" brs2 bks3 `shouldBe` [ Book {title = "Title2", author = "Author2", borrower = Just Borrower {name = "Borrower3", maxBooks = 3}}
+                                                         , Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+                                                         , Book {title = "Title3", author = "Author3", borrower = Just Borrower {name = "Borrower3", maxBooks = 3}}
+                                                         , Book {title = "Title4", author = "Author4", borrower = Just Borrower {name = "Borrower3", maxBooks = 3}} ]
+
+
+    it "testCheckInPass" $
+      checkIn "Title1" bks1 `shouldBe` [ Book {title = "Title1", author = "Author1", borrower = Nothing}
+                                       , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+
+    it "testCheckInFailCheckedIn" $
+      checkIn "Title2" bks1 `shouldBe` [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+                                       , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+
+    it "testCheckInFailBadBook" $
+      checkIn "NoTitle" bks1 `shouldBe` [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+                                      , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
