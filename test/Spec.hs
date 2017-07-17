@@ -133,3 +133,12 @@ main = hspec $ do
 
     it "testFindBookPass" $
       findItem "Title4" bks3 getTitle `shouldBe` Just bk4
+
+    it "testFindBookFail" $
+      findItem "Title4" bks2 getTitle `shouldBe` Nothing
+
+    it "testFindBorrowerPass" $
+      findItem "Borrower3" brs2 getName `shouldBe` Just br3
+
+    it "testFindBorrowerFail" $
+      findItem "Borrower3" brs1 getName `shouldBe` Nothing
