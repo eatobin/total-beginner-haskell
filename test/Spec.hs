@@ -151,3 +151,19 @@ main = hspec $ do
 
     it "testGetBooksForBorrower2books" $
       getBooksForBorrower br3 bks3 `shouldBe` [bk3, bk4]
+
+    it "testCheckOutFailCheckedOut" $
+      checkOut "Borrower3" "Title1" brs2 bks1 `shouldBe` [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+                                                         , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+
+    it "testCheckOutFailBadBook" $
+      checkOut "Borrower3" "NoTitle" brs2 bks1 `shouldBe` [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+                                                          , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+
+    it "testCheckOutFailBadBorrower" $
+      checkOut "NoName" "Title1" brs2 bks1 `shouldBe` [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+                                                      , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+
+    it "testCheckOutFailOverLimit" $
+      checkOut "Borrower1" "Title2" brs2 bks1 `shouldBe` [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
+                                                         , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
