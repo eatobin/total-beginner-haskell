@@ -198,3 +198,12 @@ main = hspec $ do
 
     it "testBorrowersToJsonString" $
       borrowersToJsonString brs1 `shouldBe` jsonStringBorrowers
+
+    it "testBooksToJsonString" $
+      booksToJsonString bks1 `shouldBe` jsonStringBooks
+
+    it "testLibraryToString" $
+      libraryToString bks1 brs2 `shouldBe` "Test Library: 2 books; 3 borrowers."
+
+    it "testStatusToString" $
+      statusToString bks2 brs2 `shouldBe` "\n--- Status Report of Test Library ---\n\nTest Library: 3 books; 3 borrowers.\nTitle3 by Author3; Checked out to Borrower3\nTitle1 by Author1; Checked out to Borrower1\nTitle2 by Author2; Available\n\nBorrower3 (3 books)\nBorrower1 (1 books)\nBorrower2 (2 books)\n\n--- End of Status Report ---\n"
