@@ -186,3 +186,15 @@ main = hspec $ do
     it "testCheckInFailBadBook" $
       checkIn "NoTitle" bks1 `shouldBe` [ Book {title = "Title1", author = "Author1", borrower = Just Borrower {name = "Borrower1", maxBooks = 1}}
                                       , Book {title = "Title2", author = "Author2", borrower = Nothing} ]
+
+    it "testJsonStringToBorrowersFail" $
+      jsonStringToBorrowers (Right jsonStringBorrowersBad) `shouldBe` Left "JSON parse error."
+
+    it "testJsonStringToBorrowersPass" $
+      jsonStringToBorrowers (Right jsonStringBorrowers) `shouldBe` Right brs1
+
+    it "testJsonStringToBooks" $
+      jsonStringToBooks (Right jsonStringBooks) `shouldBe` Right bks1
+
+    it "testBorrowersToJsonString" $
+      borrowersToJsonString brs1 `shouldBe` jsonStringBorrowers
