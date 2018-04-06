@@ -6,7 +6,7 @@ module Borrower where
 
 import           Data.Aeson
 
--- br = Borrower
+-- br = BorrowerX
 
 type Name = String
 type MaxBooks = Int
