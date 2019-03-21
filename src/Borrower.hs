@@ -17,32 +17,27 @@ data Borrower = Borrower
   } deriving (Show, Eq)
 
 instance FromJSON Borrower where
-  parseJSON (Object v) =
-    Borrower <$> v .: "name"
-             <*> v .: "maxBooks"
-  parseJSON _ = error "Can't parse Borrower from JSON"
+  parseJSON (Object v) = Borrower <$> v .: "name" <*> v .: "maxBooks"
+  parseJSON _          = error "Can't parse Borrower from JSON"
 
 instance ToJSON Borrower where
-  toJSON (Borrower name maxBooks) = object ["name" .= name, "maxBooks" .= maxBooks]
+  toJSON (Borrower name maxBooks) =
+    object ["name" .= name, "maxBooks" .= maxBooks]
 
 makeBorrower :: Name -> MaxBooks -> Borrower
 makeBorrower = Borrower
 
 getName :: Borrower -> Name
-getName Borrower {name} = name
+getName Borrower { name } = name
 
 setName :: Name -> Borrower -> Borrower
-setName n br = br {name = n}
+setName n br = br { name = n }
 
 getMaxBooks :: Borrower -> MaxBooks
-getMaxBooks Borrower {maxBooks} = maxBooks
+getMaxBooks Borrower { maxBooks } = maxBooks
 
 setMaxBooks :: MaxBooks -> Borrower -> Borrower
-setMaxBooks m br = br {maxBooks = m}
+setMaxBooks m br = br { maxBooks = m }
 
 borrowerToString :: Borrower -> String
-borrowerToString br =
-  getName br ++
-  " (" ++
-  show (getMaxBooks br) ++
-  " books)"
+borrowerToString br = getName br ++ " (" ++ show (getMaxBooks br) ++ " books)"

@@ -29,28 +29,22 @@ makeBook :: Title -> Author -> Maybe Borrower -> Book
 makeBook = Book
 
 getTitle :: Book -> Title
-getTitle Book {title} = title
+getTitle Book { title } = title
 
 getAuthor :: Book -> Author
-getAuthor Book {author} = author
+getAuthor Book { author } = author
 
 getBorrower :: Book -> Maybe Borrower
-getBorrower Book {borrower} = borrower
+getBorrower Book { borrower } = borrower
 
 setBorrower :: Maybe Borrower -> Book -> Book
-setBorrower mbr bk = bk {borrower = mbr}
+setBorrower mbr bk = bk { borrower = mbr }
 
 availableString :: Book -> String
-availableString bk
-  | isNothing br = "Available"
-  | otherwise = "Checked out to " ++
-      getName (fromJust br)
-  where
-    br = getBorrower bk
+availableString bk | isNothing br = "Available"
+                   | otherwise    = "Checked out to " ++ getName (fromJust br)
+  where br = getBorrower bk
 
 bookToString :: Book -> String
-bookToString bk = getTitle bk ++
-  " by " ++
-  getAuthor bk ++
-  "; " ++
-  availableString bk
+bookToString bk =
+  getTitle bk ++ " by " ++ getAuthor bk ++ "; " ++ availableString bk
