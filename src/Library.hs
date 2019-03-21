@@ -78,8 +78,8 @@ jsonStringToBorrowers s = case s of
 jsonStringToBooks :: Either ErrorString JsonString -> Either ErrorString Books
 jsonStringToBooks s = case s of
   Right r -> do
-    let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Books
-    case brs of
+    let bks = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Books
+    case bks of
       Right c -> Right c
       Left  _ -> Left "JSON parse error."
   Left l -> Left l
