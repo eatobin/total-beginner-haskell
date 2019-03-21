@@ -9,18 +9,22 @@ import           Book
 import           Borrower
 import           Control.Concurrent.STM
 import           Control.Exception
-import qualified Data.ByteString.Char8  as BS
+import qualified Data.ByteString.Char8         as BS
 import           Library
 import           System.Directory
 
 main :: IO ()
 main = do
   tvBorrowers <- atomically (newTVar [])
-  tvBooks <- atomically (newTVar [])
+  tvBooks     <- atomically (newTVar [])
   atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "Jim" 3))
   atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "Sue" 3))
-  atomically $ modifyTVar tvBooks (addItem (makeBook "War And Peace" "Tolstoy" Nothing))
-  atomically $ modifyTVar tvBooks (addItem (makeBook "Great Expectations" "Dickens" Nothing))
+  atomically $ modifyTVar
+    tvBooks
+    (addItem (makeBook "War And Peace" "Tolstoy" Nothing))
+  atomically $ modifyTVar
+    tvBooks
+    (addItem (makeBook "Great Expectations" "Dickens" Nothing))
   putStrLn "\nJust created new library"
   printStatus tvBooks tvBorrowers
 
@@ -33,15 +37,19 @@ main = do
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   putStrLn "...and check out Great Expectations to Jim"
   borrowers1 <- readTVarIO tvBorrowers
-  atomically $ modifyTVar tvBooks (checkOut "Jim" "Great Expectations" borrowers1)
+  atomically
+    $ modifyTVar tvBooks (checkOut "Jim" "Great Expectations" borrowers1)
   printStatus tvBooks tvBorrowers
 
   putStrLn "Add Eric and The Cat In The Hat"
   atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "Eric" 1))
-  atomically $ modifyTVar tvBooks (addItem (makeBook "The Cat In The Hat" "Dr. Seuss" Nothing))
+  atomically $ modifyTVar
+    tvBooks
+    (addItem (makeBook "The Cat In The Hat" "Dr. Seuss" Nothing))
   putStrLn "Check Out Dr. Seuss to Eric"
   borrowers2 <- readTVarIO tvBorrowers
-  atomically $ modifyTVar tvBooks (checkOut "Eric" "The Cat In The Hat" borrowers2)
+  atomically
+    $ modifyTVar tvBooks (checkOut "Eric" "The Cat In The Hat" borrowers2)
   printStatus tvBooks tvBorrowers
 
   putStrLn "Now let's do some BAD stuff..."
@@ -51,18 +59,23 @@ main = do
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
 
-  putStrLn "Add a book that already exists (makeBook 'War And Peace' 'Tolstoy' Nothing):"
-  atomically $ modifyTVar tvBooks (addItem (makeBook "War And Peace" "Tolstoy" Nothing))
+  putStrLn
+    "Add a book that already exists (makeBook 'War And Peace' 'Tolstoy' Nothing):"
+  atomically $ modifyTVar
+    tvBooks
+    (addItem (makeBook "War And Peace" "Tolstoy" Nothing))
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
 
-  putStrLn "Check out a valid book to an invalid person (checkOut 'JoJo' 'War And Peace' borrowers):"
+  putStrLn
+    "Check out a valid book to an invalid person (checkOut 'JoJo' 'War And Peace' borrowers):"
   borrowers3 <- readTVarIO tvBorrowers
   atomically $ modifyTVar tvBooks (checkOut "JoJo" "War And Peace" borrowers3)
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
 
-  putStrLn "Check out an invalid book to an valid person (checkOut 'Sue' 'Not A Book' borrowers):"
+  putStrLn
+    "Check out an invalid book to an valid person (checkOut 'Sue' 'Not A Book' borrowers):"
   borrowers4 <- readTVarIO tvBorrowers
   atomically $ modifyTVar tvBooks (checkOut "Sue" "Not A Book" borrowers4)
   printStatus tvBooks tvBorrowers
@@ -72,9 +85,11 @@ main = do
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   printStatus tvBooks tvBorrowers
 
-  putStrLn "Okay... let's finish with some persistence. First clear the whole library:"
+  putStrLn
+    "Okay... let's finish with some persistence. First clear the whole library:"
   newEmptyV tvBooks tvBorrowers
-  putStrLn "Lets read in a new library from \"borrowers-before.json\" and \"books-before.json\":"
+  putStrLn
+    "Lets read in a new library from \"borrowers-before.json\" and \"books-before.json\":"
   newV tvBooks tvBorrowers jsonBorrowersFileBefore jsonBooksFile
   putStrLn "Add... a new borrower:"
   atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "BorrowerNew" 300))
@@ -88,17 +103,20 @@ main = do
   putStrLn "Clear the whole library again:"
   newEmptyV tvBooks tvBorrowers
 
-  putStrLn "Then read in the revised library from \"borrowers-after.json\" and \"books-before.json\":"
+  putStrLn
+    "Then read in the revised library from \"borrowers-after.json\" and \"books-before.json\":"
   newV tvBooks tvBorrowers jsonBorrowersFileAfter jsonBooksFile
 
   putStrLn "Last... delete the file \"borrowers-after.json\""
   removeFile jsonBorrowersFileAfter
   newEmptyV tvBooks tvBorrowers
 
-  putStrLn "Then try to make a library using the deleted \"borrowers-after.json\":"
+  putStrLn
+    "Then try to make a library using the deleted \"borrowers-after.json\":"
   newV tvBooks tvBorrowers jsonBorrowersFileAfter jsonBorrowersFileAfter
 
-  putStrLn "And if we read in a file with mal-formed json content... like \"bad-borrowers.json\":"
+  putStrLn
+    "And if we read in a file with mal-formed json content... like \"bad-borrowers.json\":"
   newV tvBooks tvBorrowers jsonBorrowersFileBad jsonBorrowersFileAfter
 
   putStrLn "Or how about reading in an empty file... \"empty.json\":"
@@ -130,27 +148,23 @@ newV tvbks tvbrs brsfl bksfl = do
       ebks = jsonStringToBooks jsonBksStr
   case ebrs of
     Right r -> atomically $ writeTVar tvbrs r
-    Left l  -> putStrLn l
+    Left  l -> putStrLn l
   case ebks of
     Right r -> atomically $ writeTVar tvbks r
-    Left l  -> putStrLn l
+    Left  l -> putStrLn l
   printStatus tvbks tvbrs
 
 readFileIntoJsonString :: FilePath -> IO (Either ErrorString JsonString)
-readFileIntoJsonString f =
-  do
-    result <- try (BS.readFile f) :: IO (Either SomeException BS.ByteString)
-    case result of
-      Right r -> do
-                   let s = BS.unpack r
-                   return (Right s)
-      Left _ -> return (Left "File read error.")
+readFileIntoJsonString f = do
+  result <- try (BS.readFile f) :: IO (Either SomeException BS.ByteString)
+  case result of
+    Right r -> do
+      let s = BS.unpack r
+      return (Right s)
+    Left _ -> return (Left "File read error.")
 
 writeFileFromJsonString :: String -> FilePath -> IO ()
-writeFileFromJsonString s f =
-  BS.writeFile f bs
-    where
-      bs = BS.pack s
+writeFileFromJsonString s f = BS.writeFile f bs where bs = BS.pack s
 
 newEmptyV :: TVar Books -> TVar Borrowers -> IO ()
 newEmptyV tvbks tvbrs = do
