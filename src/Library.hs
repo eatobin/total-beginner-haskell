@@ -9,9 +9,9 @@ module Library where
 
 import           Book
 import           Borrower
-import           Data.Aeson            as A
-import qualified Data.ByteString.Char8 as BS
-import qualified Data.ByteString.Lazy  as BL
+import           Data.Aeson                    as A
+import qualified Data.ByteString.Char8         as BS
+import qualified Data.ByteString.Lazy          as BL
 import           Data.Maybe
 
 type Borrowers = [Borrower]
@@ -20,26 +20,17 @@ type JsonString = String
 type ErrorString = String
 
 addItem :: (Eq a) => a -> [a] -> [a]
-addItem x xs =
-  if x `elem` xs
-    then xs
-    else x:xs
+addItem x xs = if x `elem` xs then xs else x : xs
 
 removeBook :: Book -> Books -> Books
-removeBook bk bks =
-  if bk `elem` bks
-    then filter (/= bk) bks
-    else bks
+removeBook bk = filter (/= bk)
 
 findItem :: String -> [a] -> (a -> String) -> Maybe a
-findItem tgt xs f =
-  if null result
-    then Nothing
-    else Just (head result)
-      where result = [ x | x <- xs, f x == tgt ]
+findItem tgt xs f = if null result then Nothing else Just (head result)
+  where result = [ x | x <- xs, f x == tgt ]
 
 getBooksForBorrower :: Borrower -> Books -> [Book]
-getBooksForBorrower br bks = [bk | bk <- bks, getBorrower bk == Just br]
+getBooksForBorrower br bks = [ bk | bk <- bks, getBorrower bk == Just br ]
 
 numBooksOut :: Borrower -> Books -> Int
 numBooksOut br bksb = length (getBooksForBorrower br bksb)
@@ -55,68 +46,68 @@ bookOut bk = isJust (getBorrower bk)
 
 checkOut :: Name -> Title -> Borrowers -> Books -> Books
 checkOut n t brs bks =
-  if isJust mbk && isJust mbr &&
-      notMaxedOut (fromJust mbr) bks && bookNotOut (fromJust mbk)
+  if isJust mbk && isJust mbr && notMaxedOut (fromJust mbr) bks && bookNotOut
+       (fromJust mbk)
     then addItem newBook fewerBooks
     else bks
-      where mbk = findItem t bks getTitle
-            mbr = findItem n brs getName
-            newBook = setBorrower mbr (fromJust mbk)
-            fewerBooks = removeBook (fromJust mbk) bks
+ where
+  mbk        = findItem t bks getTitle
+  mbr        = findItem n brs getName
+  newBook    = setBorrower mbr (fromJust mbk)
+  fewerBooks = removeBook (fromJust mbk) bks
 
 checkIn :: Title -> Books -> Books
-checkIn t bks =
-  if isJust mbk && bookOut (fromJust mbk)
-    then addItem newBook fewerBooks
-    else bks
-      where mbk = findItem t bks getTitle
-            newBook = setBorrower Nothing (fromJust mbk)
-            fewerBooks = removeBook (fromJust mbk) bks
+checkIn t bks = if isJust mbk && bookOut (fromJust mbk)
+  then addItem newBook fewerBooks
+  else bks
+ where
+  mbk        = findItem t bks getTitle
+  newBook    = setBorrower Nothing (fromJust mbk)
+  fewerBooks = removeBook (fromJust mbk) bks
 
-jsonStringToBorrowers :: Either ErrorString JsonString -> Either ErrorString Borrowers
-jsonStringToBorrowers s =
-  case s of
-    Right r -> do
-                 let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Borrowers
-                 case brs of
-                   Right c -> Right c
-                   Left _  -> Left "JSON parse error."
-    Left l -> Left l
+jsonStringToBorrowers
+  :: Either ErrorString JsonString -> Either ErrorString Borrowers
+jsonStringToBorrowers s = case s of
+  Right r -> do
+    let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Borrowers
+    case brs of
+      Right c -> Right c
+      Left  _ -> Left "JSON parse error."
+  Left l -> Left l
 
 jsonStringToBooks :: Either ErrorString JsonString -> Either ErrorString Books
-jsonStringToBooks s =
-  case s of
-    Right r -> do
-                 let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Books
-                 case brs of
-                   Right c -> Right c
-                   Left _  -> Left "JSON parse error."
-    Left l -> Left l
+jsonStringToBooks s = case s of
+  Right r -> do
+    let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Books
+    case brs of
+      Right c -> Right c
+      Left  _ -> Left "JSON parse error."
+  Left l -> Left l
 
 borrowersToJsonString :: Borrowers -> JsonString
-borrowersToJsonString brs =
-  BS.unpack (BL.toStrict $ A.encode brs)
+borrowersToJsonString brs = BS.unpack (BL.toStrict $ A.encode brs)
 
 booksToJsonString :: Books -> JsonString
-booksToJsonString bks =
-  BS.unpack (BL.toStrict $ A.encode bks)
+booksToJsonString bks = BS.unpack (BL.toStrict $ A.encode bks)
 
 libraryToString :: Books -> Borrowers -> String
-libraryToString bks brs = "Test Library: " ++
-  show (length bks) ++
-  " books; " ++
-  show (length brs) ++
-  " borrowers."
+libraryToString bks brs =
+  "Test Library: "
+    ++ show (length bks)
+    ++ " books; "
+    ++ show (length brs)
+    ++ " borrowers."
 
 statusToString :: Books -> Borrowers -> String
-statusToString bks brs = "\n" ++
-  "--- Status Report of Test Library ---\n" ++
-  "\n" ++
-  libraryToString bks brs ++
-  "\n" ++
-  unlines (map bookToString bks) ++
-  "\n" ++
-  unlines (map borrowerToString brs) ++
-  "\n" ++
-  "--- End of Status Report ---" ++
+statusToString bks brs =
   "\n"
+    ++ "--- Status Report of Test Library ---\n"
+    ++ "\n"
+    ++ libraryToString bks brs
+    ++ "\n"
+    ++ unlines (map bookToString bks)
+    ++ "\n"
+    ++ unlines (map borrowerToString brs)
+    ++ "\n"
+    ++ "--- End of Status Report ---"
+    ++ "\n"
