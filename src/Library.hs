@@ -68,21 +68,22 @@ checkIn t bks = if isJust mbk && bookOut (fromJust mbk)
 jsonStringToBorrowers
   :: Either ErrorString JsonString -> Either ErrorString Borrowers
 jsonStringToBorrowers s = case s of
-  Right r -> do
-    let brs = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Borrowers
-    case brs of
-      Right c -> Right c
-      Left  _ -> Left "JSON parse error."
-  Left l -> Left l
+  Right js -> do
+    let ebrs =
+          A.eitherDecodeStrict (BS.pack js) :: Either ErrorString Borrowers
+    case ebrs of
+      Right brs -> Right brs
+      Left  _   -> Left "JSON parse error."
+  Left es -> Left es
 
 jsonStringToBooks :: Either ErrorString JsonString -> Either ErrorString Books
 jsonStringToBooks s = case s of
-  Right r -> do
-    let bks = A.eitherDecodeStrict (BS.pack r) :: Either ErrorString Books
-    case bks of
-      Right c -> Right c
-      Left  _ -> Left "JSON parse error."
-  Left l -> Left l
+  Right js -> do
+    let ebks = A.eitherDecodeStrict (BS.pack js) :: Either ErrorString Books
+    case ebks of
+      Right bks -> Right bks
+      Left  _   -> Left "JSON parse error."
+  Left es -> Left es
 
 borrowersToJsonString :: Borrowers -> JsonString
 borrowersToJsonString brs = BS.unpack (BL.toStrict $ A.encode brs)
