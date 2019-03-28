@@ -28,7 +28,7 @@ testBorrowerToString = (~=?) "Borrower1 (1 books)" (borrowerToString br1)
 
 borrowerTests :: Test
 borrowerTests = TestList
-  [ testMakeBorrower
+  [ testBorrower
   , testGetName
   , testSetName
   , testGetMaxBooks
