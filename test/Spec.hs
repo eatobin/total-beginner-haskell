@@ -8,9 +8,9 @@ br1 :: Borrower
 br1 = Borrower { name = "Borrower1", maxBooks = 1 }
 
 br2 :: Borrower
-br2 = Borrower { name = "Borrower2", maxBooks = 2 }
+br2 = Borrower "Borrower2" 2
 br3 :: Borrower
-br3 = Borrower { name = "Borrower3", maxBooks = 3 }
+br3 = Borrower "Borrower3" 3
 
 brs1 :: [Borrower]
 brs1 = [br1, br2]
@@ -50,7 +50,7 @@ jsonStringBooks =
 main :: IO ()
 main = hspec $ do
   describe "Borrower tests" $ do
-    it "testMakeBorrower" $ makeBorrower "Borrower1" 1 `shouldBe` br1
+    it "testBorrower" $ Borrower "Borrower1" 1 `shouldBe` br1
 
     it "testGetName" $ getName br1 `shouldBe` "Borrower1"
 

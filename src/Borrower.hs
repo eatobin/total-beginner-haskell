@@ -24,9 +24,6 @@ instance ToJSON Borrower where
   toJSON (Borrower name maxBooks) =
     object ["name" .= name, "maxBooks" .= maxBooks]
 
-makeBorrower :: Name -> MaxBooks -> Borrower
-makeBorrower = Borrower
-
 getName :: Borrower -> Name
 getName Borrower { name } = name
 
