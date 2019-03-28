@@ -21,12 +21,12 @@ bk1 :: Book
 bk1 = Book { title = "Title1", author = "Author1", borrower = Just br1 }
 
 bk2 :: Book
-bk2 = Book { title = "Title2", author = "Author2", borrower = Nothing }
+bk2 = Book "Title2" "Author2" Nothing
 
 bk3 :: Book
-bk3 = Book { title = "Title3", author = "Author3", borrower = Just br3 }
+bk3 = Book "Title3" "Author3" (Just br3)
 bk4 :: Book
-bk4 = Book { title = "Title4", author = "Author4", borrower = Just br3 }
+bk4 = Book "Title4" "Author4" (Just br3)
 
 bks1 :: [Book]
 bks1 = [bk1, bk2]
@@ -68,12 +68,10 @@ main = hspec $ do
       `shouldBe` "Borrower1 (1 books)"
 
   describe "Book tests" $ do
-    it "testMakeBookNothing"
-      $          makeBook "Title2" "Author2" Nothing
-      `shouldBe` bk2
+    it "testBookNothing" $ Book "Title2" "Author2" Nothing `shouldBe` bk2
 
-    it "testMakeBookSomeone"
-      $          makeBook "Title1" "Author1" (Just (Borrower "Borrower1" 1))
+    it "testBookSomeone"
+      $          Book "Title1" "Author1" (Just (Borrower "Borrower1" 1))
       `shouldBe` bk1
 
     it "testGetTitle" $ getTitle bk1 `shouldBe` "Title1"
@@ -88,7 +86,7 @@ main = hspec $ do
       }
 
     it "testSetBorrowerSomeone"
-      $ setBorrower (Just Borrower { name = "BorrowerNew", maxBooks = 111 }) bk2
+      $          setBorrower (Just (Borrower "BorrowerNew" 111)) bk2
       `shouldBe` Book
                    { title    = "Title2"
                    , author   = "Author2"
