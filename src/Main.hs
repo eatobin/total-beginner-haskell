@@ -17,14 +17,13 @@ main :: IO ()
 main = do
   tvBorrowers <- atomically (newTVar [])
   tvBooks     <- atomically (newTVar [])
-  atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "Jim" 3))
-  atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "Sue" 3))
+  atomically $ modifyTVar tvBorrowers (addItem (Borrower "Jim" 3))
+  atomically $ modifyTVar tvBorrowers (addItem (Borrower "Sue" 3))
+  atomically
+    $ modifyTVar tvBooks (addItem (Book "War And Peace" "Tolstoy" Nothing))
   atomically $ modifyTVar
     tvBooks
-    (addItem (makeBook "War And Peace" "Tolstoy" Nothing))
-  atomically $ modifyTVar
-    tvBooks
-    (addItem (makeBook "Great Expectations" "Dickens" Nothing))
+    (addItem (Book "Great Expectations" "Dickens" Nothing))
   putStrLn "\nJust created new library"
   printStatus tvBooks tvBorrowers
 
@@ -42,10 +41,10 @@ main = do
   printStatus tvBooks tvBorrowers
 
   putStrLn "Add Eric and The Cat In The Hat"
-  atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "Eric" 1))
+  atomically $ modifyTVar tvBorrowers (addItem (Borrower "Eric" 1))
   atomically $ modifyTVar
     tvBooks
-    (addItem (makeBook "The Cat In The Hat" "Dr. Seuss" Nothing))
+    (addItem (Book "The Cat In The Hat" "Dr. Seuss" Nothing))
   putStrLn "Check Out Dr. Seuss to Eric"
   borrowers2 <- readTVarIO tvBorrowers
   atomically
@@ -54,16 +53,15 @@ main = do
 
   putStrLn "Now let's do some BAD stuff..."
 
-  putStrLn "Add a borrower that already exists (makeBorrower 'Jim' 3):"
-  atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "Jim" 3))
+  putStrLn "Add a borrower that already exists (Borrower 'Jim' 3):"
+  atomically $ modifyTVar tvBorrowers (addItem (Borrower "Jim" 3))
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
 
   putStrLn
-    "Add a book that already exists (makeBook 'War And Peace' 'Tolstoy' Nothing):"
-  atomically $ modifyTVar
-    tvBooks
-    (addItem (makeBook "War And Peace" "Tolstoy" Nothing))
+    "Add a book that already exists (Book 'War And Peace' 'Tolstoy' Nothing):"
+  atomically
+    $ modifyTVar tvBooks (addItem (Book "War And Peace" "Tolstoy" Nothing))
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
 
@@ -92,7 +90,7 @@ main = do
     "Lets read in a new library from \"borrowers-before.json\" and \"books-before.json\":"
   newV tvBooks tvBorrowers jsonBorrowersFileBefore jsonBooksFile
   putStrLn "Add... a new borrower:"
-  atomically $ modifyTVar tvBorrowers (addItem (makeBorrower "BorrowerNew" 300))
+  atomically $ modifyTVar tvBorrowers (addItem (Borrower "BorrowerNew" 300))
   printStatus tvBooks tvBorrowers
 
   putStrLn "Save the revised borrowers to \"borrowers-after.json\""
