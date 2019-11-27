@@ -1,1 +1,2 @@
-ghcid --command="stack repl"
+stack build --copy-compiler-tool ghcid
+stack exec -- ghcid
