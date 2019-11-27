@@ -1,6 +1,8 @@
+Correct way to run ghcid
+
 Build/install:
-stack build --copy-compiler-tool ghcid
-stack exec -- which ghcid
+[eric@linux-x2vq total-beginner-haskell](master)$ stack build --copy-compiler-tool ghcid
+[eric@linux-x2vq total-beginner-haskell](master)$ stack exec -- which ghcid
 
 Run:
-stack exec -- ghcid -c "stack ghci total-beginner-haskell"
+[eric@linux-x2vq total-beginner-haskell](master)$ stack exec -- ghcid -c "stack ghci total-beginner-haskell"
