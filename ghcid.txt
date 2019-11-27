@@ -1,5 +1,6 @@
-$ stack build --copy-compiler-tool ghc-mod hoogle weeder
-$ stack exec -- which ghc-mod
-
+Build/install:
 stack build --copy-compiler-tool ghcid
-stack exec -- ghcid
+stack exec -- which ghcid
+
+Run:
+stack exec -- ghcid -c "stack ghci total-beginner-haskell"
