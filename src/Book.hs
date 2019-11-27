@@ -1,46 +1,50 @@
 {-# OPTIONS -Wall #-}
-{-# LANGUAGE DeriveGeneric  #-}
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE NamedFieldPuns #-}
 
 module Book where
 
-import           Borrower
-import           Data.Aeson
-import           Data.Maybe
-import           GHC.Generics
+import Borrower
+import Data.Aeson
+import Data.Maybe
+import GHC.Generics
 
 -- br = Borrower
 -- bk = Book
-
 type Title = String
+
 type Author = String
 
-data Book = Book
-  { title    :: Title
-  , author   :: Author
-  , borrower :: Maybe Borrower
-  } deriving (Show, Eq, Generic)
+data Book =
+  Book
+    { title :: Title
+    , author :: Author
+    , borrower :: Maybe Borrower
+    }
+  deriving (Show, Eq, Generic)
 
 instance FromJSON Book
 
 instance ToJSON Book
 
 getTitle :: Book -> Title
-getTitle Book { title } = title
+getTitle Book {title} = title
 
 getAuthor :: Book -> Author
-getAuthor Book { author } = author
+getAuthor Book {author} = author
 
 getBorrower :: Book -> Maybe Borrower
-getBorrower Book { borrower } = borrower
+getBorrower Book {borrower} = borrower
 
 setBorrower :: Maybe Borrower -> Book -> Book
-setBorrower mbr bk = bk { borrower = mbr }
+setBorrower mbr bk = bk {borrower = mbr}
 
 availableString :: Book -> String
-availableString bk | isNothing br = "Available"
-                   | otherwise    = "Checked out to " ++ getName (fromJust br)
-  where br = getBorrower bk
+availableString bk
+  | isNothing br = "Available"
+  | otherwise = "Checked out to " ++ getName (fromJust br)
+  where
+    br = getBorrower bk
 
 bookToString :: Book -> String
 bookToString bk =
