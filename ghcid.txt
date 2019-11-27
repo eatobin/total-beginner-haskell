@@ -1,2 +1,5 @@
+$ stack build --copy-compiler-tool ghc-mod hoogle weeder
+$ stack exec -- which ghc-mod
+
 stack build --copy-compiler-tool ghcid
 stack exec -- ghcid
