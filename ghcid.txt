@@ -6,3 +6,6 @@ Build/install:
 
 Run:
 [eric@linux-x2vq total-beginner-haskell](master)$ stack exec -- ghcid -c "stack ghci total-beginner-haskell"
+
+Install hindent:
+[eric@linux-x2vq total-beginner-haskell](master)$ stack build --copy-compiler-tool hindent
