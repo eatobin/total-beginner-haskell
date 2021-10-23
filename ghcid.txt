@@ -9,3 +9,5 @@ Run:
 
 Install hindent:
 [eric@linux-x2vq total-beginner-haskell](master)$ stack build --copy-compiler-tool hindent
+
+echo 'example = case x of Just p -> foo bar' | stack exec -- hindent; echo
