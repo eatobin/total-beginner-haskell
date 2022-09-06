@@ -1,3 +1,5 @@
+-- [eric@linux-epth total-beginner-haskell](master)$ stack ghci --ghci-options -W
+
 module Scratch where
 
 import           Data.Char (digitToInt, isDigit)
