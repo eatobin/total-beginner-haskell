@@ -1,29 +1,28 @@
-{-# OPTIONS -Wall #-}
-
-module Main where
+module Main (main) where
 
 -- brsb = (brs, Bool)
 -- bksb = (bks, Bool)
 
-import           Book
-import           Borrower
-import           Control.Concurrent.STM
-import           Control.Exception
-import qualified Data.ByteString.Char8         as BS
-import           Library
-import           System.Directory
+import Book
+import Borrower
+import Control.Concurrent.STM
+import Control.Exception
+import qualified Data.ByteString.Char8 as BS
+import Library
+import System.Directory
 
 main :: IO ()
 main = do
   tvBorrowers <- atomically (newTVar [])
-  tvBooks     <- atomically (newTVar [])
+  tvBooks <- atomically (newTVar [])
   atomically $ modifyTVar tvBorrowers (addItem (Borrower "Jim" 3))
   atomically $ modifyTVar tvBorrowers (addItem (Borrower "Sue" 3))
-  atomically
-    $ modifyTVar tvBooks (addItem (Book "War And Peace" "Tolstoy" Nothing))
-  atomically $ modifyTVar
-    tvBooks
-    (addItem (Book "Great Expectations" "Dickens" Nothing))
+  atomically $
+    modifyTVar tvBooks (addItem (Book "War And Peace" "Tolstoy" Nothing))
+  atomically $
+    modifyTVar
+      tvBooks
+      (addItem (Book "Great Expectations" "Dickens" Nothing))
   putStrLn "\nJust created new library"
   printStatus tvBooks tvBorrowers
 
@@ -36,19 +35,20 @@ main = do
   atomically $ modifyTVar tvBooks (checkIn "War And Peace")
   putStrLn "...and check out Great Expectations to Jim"
   borrowers1 <- readTVarIO tvBorrowers
-  atomically
-    $ modifyTVar tvBooks (checkOut "Jim" "Great Expectations" borrowers1)
+  atomically $
+    modifyTVar tvBooks (checkOut "Jim" "Great Expectations" borrowers1)
   printStatus tvBooks tvBorrowers
 
   putStrLn "Add Eric and The Cat In The Hat"
   atomically $ modifyTVar tvBorrowers (addItem (Borrower "Eric" 1))
-  atomically $ modifyTVar
-    tvBooks
-    (addItem (Book "The Cat In The Hat" "Dr. Seuss" Nothing))
+  atomically $
+    modifyTVar
+      tvBooks
+      (addItem (Book "The Cat In The Hat" "Dr. Seuss" Nothing))
   putStrLn "Check Out Dr. Seuss to Eric"
   borrowers2 <- readTVarIO tvBorrowers
-  atomically
-    $ modifyTVar tvBooks (checkOut "Eric" "The Cat In The Hat" borrowers2)
+  atomically $
+    modifyTVar tvBooks (checkOut "Eric" "The Cat In The Hat" borrowers2)
   printStatus tvBooks tvBorrowers
 
   putStrLn "Now let's do some BAD stuff..."
@@ -60,8 +60,8 @@ main = do
 
   putStrLn
     "Add a book that already exists (Book 'War And Peace' 'Tolstoy' Nothing):"
-  atomically
-    $ modifyTVar tvBooks (addItem (Book "War And Peace" "Tolstoy" Nothing))
+  atomically $
+    modifyTVar tvBooks (addItem (Book "War And Peace" "Tolstoy" Nothing))
   printStatus tvBooks tvBorrowers
   resetV tvBooks tvBorrowers
 
@@ -146,10 +146,10 @@ newV tvbks tvbrs brsfl bksfl = do
       ebks = jsonStringToBooks jsonBksStr
   case ebrs of
     Right r -> atomically $ writeTVar tvbrs r
-    Left  l -> putStrLn l
+    Left l -> putStrLn l
   case ebks of
     Right r -> atomically $ writeTVar tvbks r
-    Left  l -> putStrLn l
+    Left l -> putStrLn l
   printStatus tvbks tvbrs
 
 readFileIntoJsonString :: FilePath -> IO (Either ErrorString JsonString)

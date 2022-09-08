@@ -1,0 +1,67 @@
+name: total-beginner-haskell
+version: 0.1.0.0
+github: "eatobin/total-beginner-haskell"
+license: BSD3
+author: "Eric Tobin"
+maintainer: "eatobin@gmail.com"
+copyright: "None"
+
+extra-source-files:
+  - README.md
+  - CHANGELOG.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            None
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description: Please see the README on GitHub at <https://github.com/eatobin/total-beginner-haskell#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+  - aeson
+  - bytestring
+  - stm
+  - directory
+  - hspec
+
+ghc-options:
+  - -Wall
+  - -Wcompat
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wmissing-export-lists
+  - -Wmissing-home-modules
+  - -Wpartial-fields
+  - -Wredundant-constraints
+
+library:
+  source-dirs: src
+
+executables:
+  total-beginner-haskell-exe:
+    main: Main.hs
+    source-dirs: app
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - total-beginner-haskell
+    when:
+      - condition: false
+        other-modules: Paths_total_beginner_haskell  # your package name here
+
+tests:
+  total-beginner-haskell-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - total-beginner-haskell

@@ -1,0 +1,1 @@
+stack --resolver lts-18.28 new total-beginner-haskell

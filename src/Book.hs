@@ -1,8 +1,7 @@
-{-# OPTIONS -Wall #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE NamedFieldPuns #-}
 
-module Book where
+module Book (Book (..), Title, Author, getTitle, getAuthor, getBorrower, setBorrower, bookToString) where
 
 import Borrower
 import Data.Aeson
@@ -11,16 +10,16 @@ import GHC.Generics
 
 -- br = Borrower
 -- bk = Book
+
 type Title = String
 
 type Author = String
 
-data Book =
-  Book
-    { title :: Title
-    , author :: Author
-    , borrower :: Maybe Borrower
-    }
+data Book = Book
+  { title :: Title,
+    author :: Author,
+    borrower :: Maybe Borrower
+  }
   deriving (Show, Eq, Generic)
 
 instance FromJSON Book

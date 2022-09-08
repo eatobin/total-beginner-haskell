@@ -1,51 +1,76 @@
-name:                total-beginner-haskell
-version:             0.1.0.0
-synopsis:            Simple project template from stack
-description:         Please see README.md
-homepage:            http://github.com/eatobin/total-beginner-haskell#readme
-license:             BSD3
-license-file:        LICENSE
-author:              Eric Tobin
-maintainer:          eatobin@gmail.com
-copyright:           None
-category:            None
-build-type:          Simple
-cabal-version:       >=1.10
+cabal-version: 1.12
 
-executable total-beginner-haskell
-  hs-source-dirs:      src
-                     , test
-  main-is:             Main.hs
-  other-modules:       Borrower
-                     , Borrower_Test
-                     , Book
-                     , Book_Test
-                     , Library
-                     , Library_Test
-                     , All_Tests
-  default-language:    Haskell2010
-  build-depends:       base >= 4.7 && < 5
-                     , HUnit
-                     , stm
-                     , bytestring
-                     , directory
-                     , aeson
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
 
-test-suite total-beginner-haskell-test
-  type:                exitcode-stdio-1.0
-  hs-source-dirs:      src
-                     , test
-  main-is:             Spec.hs
-  other-modules:       Borrower
-                     , Book
-                     , Library
-  build-depends:       base >= 4.7 && < 5
-                     , hspec
-                     , aeson
-                     , bytestring
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
-  default-language:    Haskell2010
+name:           total-beginner-haskell
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/eatobin/total-beginner-haskell#readme>
+homepage:       https://github.com/eatobin/total-beginner-haskell#readme
+bug-reports:    https://github.com/eatobin/total-beginner-haskell/issues
+author:         Eric Tobin
+maintainer:     eatobin@gmail.com
+copyright:      None
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
 
 source-repository head
-  type:     git
+  type: git
   location: https://github.com/eatobin/total-beginner-haskell
+
+library
+  exposed-modules:
+      Book
+      Borrower
+      Library
+  other-modules:
+      Paths_total_beginner_haskell
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , directory
+    , hspec
+    , stm
+  default-language: Haskell2010
+
+executable total-beginner-haskell-exe
+  main-is: Main.hs
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , directory
+    , hspec
+    , stm
+    , total-beginner-haskell
+  default-language: Haskell2010
+
+test-suite total-beginner-haskell-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_total_beginner_haskell
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , directory
+    , hspec
+    , stm
+    , total-beginner-haskell
+  default-language: Haskell2010
