@@ -20,12 +20,12 @@ extra-source-files:
 description: Please see the README on GitHub at <https://github.com/eatobin/total-beginner-haskell#readme>
 
 dependencies:
-  - base >= 4.7 && < 5
   - aeson
+  - base >= 4.7 && < 5
   - bytestring
-  - stm
   - directory
   - hspec
+  - stm
 
 ghc-options:
   - -Wall
