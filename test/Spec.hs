@@ -1,11 +1,13 @@
--- λ> :load test/Spec.hs src/Borrower.hs src/Book.hs src/Library.hs
--- [1 of 4] Compiling Borrower         ( src/Borrower.hs, interpreted )
--- [2 of 4] Compiling Book             ( src/Book.hs, interpreted )
--- [3 of 4] Compiling Library          ( src/Library.hs, interpreted )
--- [4 of 4] Compiling Main             ( test/Spec.hs, interpreted )
--- Ok, four modules loaded.
--- *Main
--- λ>
+--λ> :load test/Spec.hs src/Borrower.hs src/Book.hs src/Library.hs
+--[1 of 4] Compiling Borrower         ( src/Borrower.hs, interpreted )
+--[2 of 4] Compiling Book             ( src/Book.hs, interpreted )
+--[3 of 4] Compiling Library          ( src/Library.hs, interpreted )
+--[4 of 4] Compiling Main             ( test/Spec.hs, interpreted )
+--Ok, four modules loaded.
+--λ> bk1
+--Book {title = "Title1", author = "Author1", borrower = Just (Borrower {name = "Borrower1", maxBooks = 1})}
+
+--λ>
 
 import Book
 import Borrower
