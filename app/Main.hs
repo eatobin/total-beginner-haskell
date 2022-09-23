@@ -171,16 +171,16 @@ newEmptyV tvbks tvbrs = do
   printStatus tvbks tvbrs
 
 jsonBorrowersFileBefore :: FilePath
-jsonBorrowersFileBefore = "borrowers-before.json"
+jsonBorrowersFileBefore = "resources/borrowers-before.json"
 
 jsonBorrowersFileAfter :: FilePath
-jsonBorrowersFileAfter = "borrowers-after.json"
+jsonBorrowersFileAfter = "resources/borrowers-after.json"
 
 jsonBooksFile :: FilePath
-jsonBooksFile = "books-before.json"
+jsonBooksFile = "resources/books-before.json"
 
 jsonBorrowersFileBad :: FilePath
-jsonBorrowersFileBad = "bad-borrowers.json"
+jsonBorrowersFileBad = "resources/bad-borrowers.json"
 
 emptyFile :: FilePath
-emptyFile = "empty.json"
+emptyFile = "resources/empty.json"
