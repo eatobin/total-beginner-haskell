@@ -11,8 +11,8 @@ type Name = String
 type MaxBooks = Int
 
 data Borrower = Borrower
-  { name :: !Name,
-    maxBooks :: !MaxBooks
+  { name :: Name,
+    maxBooks :: MaxBooks
   }
   deriving (Show, Eq)
 

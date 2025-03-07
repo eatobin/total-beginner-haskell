@@ -16,9 +16,9 @@ type Title = String
 type Author = String
 
 data Book = Book
-  { title :: !Title,
-    author :: !Author,
-    borrower :: !(Maybe Borrower)
+  { title :: Title,
+    author :: Author,
+    borrower :: Maybe Borrower
   }
   deriving (Show, Eq, Generic)
 
