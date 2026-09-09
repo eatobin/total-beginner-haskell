@@ -3,10 +3,10 @@
 
 module Book (Book (..), Title, Author, getTitle, getAuthor, getBorrower, setBorrower, bookToString) where
 
-import Borrower
-import Data.Aeson
-import Data.Maybe
-import GHC.Generics
+import Borrower (Borrower, getName)
+import Data.Aeson (FromJSON, ToJSON)
+import Data.Maybe (fromJust, isNothing)
+import GHC.Generics (Generic)
 
 -- br = Borrower
 -- bk = Book

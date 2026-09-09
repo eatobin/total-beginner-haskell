@@ -6,11 +6,24 @@ module Library (Borrowers, Books, JsonString, ErrorString, addItem, removeBook, 
 -- bks = [bk]
 
 import Book
+  ( Book,
+    Title,
+    bookToString,
+    getBorrower,
+    getTitle,
+    setBorrower,
+  )
 import Borrower
-import Data.Aeson as A
+  ( Borrower,
+    Name,
+    borrowerToString,
+    getMaxBooks,
+    getName,
+  )
+import Data.Aeson as A (eitherDecodeStrict, encode)
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy as BL
-import Data.Maybe
+import Data.Maybe (fromJust, isJust, isNothing)
 
 type Borrowers = [Borrower]
 
@@ -48,7 +61,9 @@ bookOut bk = isJust (getBorrower bk)
 
 checkOut :: Name -> Title -> Borrowers -> Books -> Books
 checkOut n t brs bks =
-  if isJust mbk && isJust mbr && notMaxedOut (fromJust mbr) bks
+  if isJust mbk
+    && isJust mbr
+    && notMaxedOut (fromJust mbr) bks
     && bookNotOut
       (fromJust mbk)
     then addItem newBook fewerBooks

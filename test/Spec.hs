@@ -10,9 +10,36 @@
 -- λ>
 
 import Book
+  ( Book (..),
+    bookToString,
+    getAuthor,
+    getBorrower,
+    getTitle,
+    setBorrower,
+  )
 import Borrower
+  ( Borrower (..),
+    borrowerToString,
+    getMaxBooks,
+    getName,
+    setMaxBooks,
+    setName,
+  )
 import Library
-import Test.Hspec
+  ( addItem,
+    booksToJsonString,
+    borrowersToJsonString,
+    checkIn,
+    checkOut,
+    findItem,
+    getBooksForBorrower,
+    jsonStringToBooks,
+    jsonStringToBorrowers,
+    libraryToString,
+    removeBook,
+    statusToString,
+  )
+import Test.Hspec (describe, hspec, it, shouldBe)
 
 br1 :: Borrower
 br1 = Borrower {name = "Borrower1", maxBooks = 1}

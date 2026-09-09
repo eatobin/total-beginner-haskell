@@ -4,6 +4,13 @@
 module Borrower (Borrower (..), Name, MaxBooks, getName, setName, getMaxBooks, setMaxBooks, borrowerToString) where
 
 import Data.Aeson
+  ( FromJSON (parseJSON),
+    KeyValue ((.=)),
+    ToJSON (toJSON),
+    Value (Object),
+    object,
+    (.:),
+  )
 
 -- br = Borrower
 type Name = String
